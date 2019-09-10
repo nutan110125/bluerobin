@@ -1,0 +1,204 @@
+{% extends template_name %} {% load static %} {% block content %}
+<div class="topBanner">
+  <div class="topBanner-content d-flex align-items-center w-100" style="min-height: 50vh">
+    <div class="w-100">
+      <h1>Singularly fabulous work without boundaries</h1>
+      <p>Connecting 2 million+ professionals with remote and freelance jobs using artificial
+        intelligence.</p>
+      {% if not request.user.id %}
+      <button type="button" class="btn bg-gray-animate btn-large max-WT-300 mt40" data-toggle="modal" data-target="#signup_option">GET
+        STARTED NOW</button>
+      {% endif %}
+    </div>
+  </div>
+</div>
+<!-- main Start -->
+<main class="main-container">
+  <section class="get_start_section_top text-center">
+    <div class="container">
+      <div class="sec_head">
+        {% if blank %}
+        <h3>Sorry, No Result found for {{request.GET.skill}} </h3>
+        {% else %}
+        <h3>Hire and Apply for {{request.GET.skill}} Job </h3>
+
+        {% endif %}
+      </div>
+      <!----------------------------- Search Filter ------------------------------->
+      <!-- <div class="top_filter_box">
+        <form action="">
+           <div class="search_box max-WT-300">
+              <input type="text" class="form-control" placeholder="Search Job" name="qf" id='search' />
+              <button class="search_btn" type="submit">
+                 <i class="fas fa-search"></i>
+              </button>
+           </div>
+
+
+           <div class="filter-select">
+              <label>Sort</label>
+              <div class="select_inline">
+                 <select class="form-control select_style2" onchange="this.form.submit()" name="dqf" id="datefilter">
+                    <option value="">Any Date</option>
+                    <option value="today">Today</option>
+                    <option value="yesterday">Yesterday</option>
+                    <option value="week">Last Week</option>
+                    <option value="month">Last Month</option>
+                 </select>
+              </div>
+           </div>
+          
+        </form>
+     </div>
+     {% if request.GET.qf %}
+     <script>
+        $("#search").val("{{request.GET.qf}}")
+     </script> {% endif %} {% if request.GET.dqf %}
+     <script>
+        $("#datefilter").val("{{request.GET.dqf}}")
+     </script> {% endif %}  -->
+
+      <!------------------------------ End Filter -------------------------------->
+      {% if blank %}
+      {% else %}
+      <div class="row">
+        {% if job_seeker %}
+        <h3 style="padding: 10px 15px;">Hire for {{request.GET.skill}} Job </h3>
+        {% for seeker in job_seeker %}
+        <div class="col-md-12">
+          <div class="get_started_box d-flex align-items-start">
+            <div class="getstartIcon mr-2">
+              {% if seeker.user.avatar %}
+              <img src="{{seeker.user.avatar.url}}" alt="Icon" /> {% else %}
+              <img src="{% static 'images/avatar.png' %}" alt="Icon" />
+              {% endif %}
+            </div>
+            <div class="text-left">
+              <h4>{{seeker.user.first_name}}</h4>
+              {% for skill in seeker.tools_and_language.all %}
+              <span style="color: #7adb4c">{{skill.name}}
+                {% if forloop.last %}. {% else %}, {% endif %}</span>
+              {% endfor %}
+              <div class="title_area" data-maxlength="200">
+                <p>{{seeker.professional_title}}
+                </p>
+              </div>
+              <div class="info_area" data-maxlength="200">
+                <p>{{seeker.overview}}
+                </p>
+              </div>
+              <a href="{% url 'analyticsmaven:top-skills-action'%}" class="btn btn-green max-WT-200">HIRE
+                NOW</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% if jobs %}
+        <h3 style="padding: 10px 15px;">Apply on {{request.GET.skill}} Job </h3>
+        {% for job in jobs %}
+        <div class="col-md-12">
+          <div class="get_started_box d-flex align-items-start">
+            <span class="getstartIcon mr-2">
+              {% if job.company_name.user.avatar %}
+              <img src="{{job.company_name.user.avatar.url}}" alt="Icon" />
+              {% else %}
+              <img src="{% static 'images/avatar.png' %}" alt="Icon" />
+              {% endif %}
+            </span>
+            <div class="text-left">
+              <h4>{{job.company_name.user.first_name}}</h4>
+              {% for skill in job.company_name.industry.all %}
+              <span style="color: #7adb4c">{{skill.name}}
+                {% if forloop.last %}. {% else %}, {% endif %}</span>
+              {% endfor %}
+              <div class="title_area" data-maxlength="200">
+                <p>{{job.job_name}}
+                </p>
+              </div>
+              <div class="info_area" data-maxlength="200">
+                <p>{{job.description}}
+                </p>
+              </div>
+              <a href="{% url 'analyticsmaven:top-skills-action'%}" class="btn btn-green max-WT-200">Apply
+                on this Job</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </section>
+  <!-- How It Works Start -->
+  <section class="how_its_works text-center">
+    <div class="how_its_works-content d-flex align-items-center w-100">
+      <div class="custom-container">
+        <div class="sec_head mb40">
+          <h3 class="white">How it works?</h3>
+          <p class="white">We dedicate ourselves to awesome work with someone perfect for
+            your team.</p>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-lg-3 arrow-icon">
+            <div class="works-box">
+              <span class="works-icon">
+                <img src="{% static 'images/works-icon1.png' %}" alt="Icon" />
+              </span>
+              <h4>Search</h4>
+              <p>Post a job to tell us about your project. We’ll quickly
+                match you with the right freelancers.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3 arrow-icon">
+            <div class="works-box">
+              <span class="works-icon">
+                <img src="{% static 'images/works-icon2.png' %}" alt="Icon" />
+              </span>
+              <h4>Hire</h4>
+              <p>Browse profiles, reviews, and proposals then interview top
+                candidates. Hire a favorite and begin your
+                project.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3 arrow-icon">
+            <div class="works-box">
+              <span class="works-icon">
+                <img src="{% static 'images/works-icon3.png' %}" alt="Icon" />
+              </span>
+              <h4>Work</h4>
+              <p>Use the AnalyticsMavens platform to chat, share files, and
+                collaborate from your desktop or on the go.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="works-box">
+              <span class="works-icon">
+                <img src="{% static 'images/works-icon4.png' %}" alt="Icon" />
+              </span>
+              <h4>Pay</h4>
+              <p>Invoicing and payments happen through AnalyticsMavens. With
+                AnalyticsMavens Protection, only pay for
+                work you authorize.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- How It Works End -->
+  <script>
+    $(".info_area p").text(function (index, currentText) {
+      var maxLength = $(this).parent().attr('data-maxlength');
+      console.log(maxLength)
+      if (currentText.length >= maxLength) {
+        return currentText.substr(0, maxLength) + "...";
+      } else {
+        return currentText
+      }
+    });
+  </script> {% endblock %}

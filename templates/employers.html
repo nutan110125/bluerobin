@@ -1,0 +1,589 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,width=device-width,user-scalable=no">
+      <meta name="apple-mobile-web-app-capable" content="yes">
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <title>Analytics Mavens</title>
+      <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+      <link href="{% static 'fonts/stylesheet.css' %}" rel="stylesheet">
+      <link href="{% static 'css/slick.css' %}" rel="stylesheet">
+      <link href="{% static 'css/slick-theme.css' %}" rel="stylesheet">
+      <link href="{% static 'css/style.css' %}" rel="stylesheet">
+      <link href="{% static 'css/mobile.css' %}" rel="stylesheet">
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+      <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+   </head>
+   <body class="logged">
+      <header class="d-flex landing_header header_fixed_menu align-items-center">
+         <div class="logo ">
+            <a href="{% url 'analyticsmaven:home' %}">
+            <img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+            <img class="hide_large" src="{% static 'images/logo-mob.png' %}" alt="Logo" />
+            </a>
+         </div>
+         <div class="button-box ml-auto ">
+            <div class="menu-box">
+               <ul class="">
+                  <!-- <li>
+                     <div class="dropdownStyle1">
+                     <div class="dropdownSearchToggle">
+                     <button type="button" class="btn toggleSearchBtn"><i class="fa fa-search"></i></button>
+                     <button type="button" class="btn toggleCaretBtn"><i class="fa fa-caret-down"></i></button>
+                     <input class="form-control" value="Looking for a job"/>
+                     </div>
+                     <div class="dropdownStyleMenu">
+                     <a class="dropdown-item" href="javascript:void(0);">Looking for a job</a>
+                     <a class="dropdown-item" href="javascript:void(0);">Employeers</a>
+                     </div>
+                     </div>
+                     </li> -->
+                  <li>
+                     <div class="global-dropdown">
+                        <div class="dropdown">
+                           <form action="{% url 'analyticsmaven:looking-for-job' %}">
+                              <button type="submit" class="btn btn-transparent resgister_option" >
+                           </form>
+                           Looking for a job
+                           </button>
+                        </div>
+                     </div>
+                  </li>
+                  <li>
+                     <div class="global-dropdown">
+                        <div class="dropdown">
+                           <form action="{% url 'analyticsmaven:employers' %}">
+                              <button type="submit" class="btn btn-transparent resgister_option" >
+                              Analytics Professionals
+                              </button>
+                           </form>
+                        </div>
+                     </div>
+                  </li>
+                  <li class="signup_list">
+                     <a href="#signup_option" class="btn bg-gray-animate btn-large signbtn" data-toggle="modal" data-target="#login_modal">SIGN IN</a>
+                     <a href="#signup_option" class="btn bg-gray-animate btn-large signbtn" data-toggle="modal" data-target="#signup_option">SIGN UP</a>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </header>
+      <!-- Header End -->
+      <script src="{% static 'js/validate.js' %}"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <main class="main-container">
+         <!-- ontainer-1280 Start -->
+         <center>
+            <h1>Looking for a Professional</h1>
+         </center>
+         <div class="container-1280">
+            <h3>Analytics Professionals</h3>
+            {% if professional %}
+            <ul class="job_list posted-job-block posted_job_list">
+               {% for user in professional %}
+               <li class="job-view">
+                  <div class="job_list_block">
+                     <div class="list_upper border0 p0">
+                        <div class="flex-block flexBoxOne">
+                           {% if user.user.avatar %}
+                           <img style="width: 70px; height: 70px; border-radius: 50%;" src="{{user.user.avatar.url}}">
+                           {% else %}
+                           <img style="width: 70px; height: 70px; border-radius: 50%;" src="{% static 'images/avatar.png' %}" /> {% endif %}
+                           <div style="padding-left:2%;">
+                              <a href="#login_modal" data-toggle="modal" data-target="#login_modal">{{user.first_name}} 
+                              {{user.last_name}}</a>
+                              <div>
+                                 <p> {% for skills in user.area.all %}
+                                    {{skills.name}},
+                                    {% endfor %}
+                                 </p>
+                                 <p> {{user.professional_title}}</p>
+                                 <p>  {{user.overview}}</p>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </li>
+               {% endfor %}
+         </div>
+         </ul>
+         {% if professional.has_next %}
+         <div class="pagination_block">
+            <ul class="pagination">
+               <li class="page-item">
+                  {% if professional.has_previous %}
+                  <a class="page-link" href="?page={{ professional.previous_page_number }}">
+                  <i class="fas fa-angle-double-left"></i>
+                  </a>
+                  {% endif %}
+               </li>
+               {% for num in professional.paginator.page_range %} {% if professional.number == num %}
+               <li class="page-item  active">
+                  <a class="page-link" href="?page={{num}}">{{num}} </a>
+               </li>
+               {% else %}
+               <li class="page-item">
+                  <a class="page-link" href="?page={{num}}">{{num}} </a>
+               </li>
+               {% endif %} {% endfor %}
+               <li class="page-item">
+                  {% if professional.has_next %}
+                  <a class="page-link" href="?page={{ professional.next_page_number }}">
+                  <i class="fas fa-angle-double-right"></i>
+                  </a>
+                  {% endif %}
+               </li>
+            </ul>
+         </div>
+         {% endif %} {% else %}
+         <!-- Tab 2 Start -->
+         <div class="no-active-jobs">No Jobs</div>
+         <!-- Tab 2 End -->
+         {% endif %}
+         </div>
+      </main>
+      {% include 'browse_top_skills.html' %}
+      <footer class="footer-inner">
+         <div class="container-fluid">
+            <div class="row">
+               <div class="col-lg-2">
+                  <a href="{% url 'analyticsmaven:home' %}" class="footer_logo">
+                  <img src="{% static 'images/logo.png' %}" alt="Logo" />
+                  </a>
+               </div>
+               <div class="col-lg-8">
+                  <div class="footer-content">
+                     <div class="footer-text">
+                        <ul class="footmenu">
+                           <li>
+                              <a href="{% url 'analyticsmaven:aboutus' %}">About Us</a>
+                           </li>
+                           <li>
+                              <a href="javascript:void(0);">Press</a>
+                           </li>
+                           <li>
+                              <a href="{% url 'analyticsmaven:faq' %}">FAQ</a>
+                           </li>
+                           <li>
+                              <a href="{% url 'analyticsmaven:career' %}">Careers</a>
+                           </li>
+                           <li>
+                              <a href="{% url 'analyticsmaven:contactus' %}">Contact Us</a>
+                           </li>
+                           <li>
+                              <a href="javascript:void(0);">Blog</a>
+                           </li>
+                           <li>
+                              <a href="{% url 'analyticsmaven:terms' %}">Terms & Conditions</a>
+                           </li>
+                           <li>
+                              <a href="{% url 'analyticsmaven:privacypolicy' %}">Privacy Policy</a>
+                           </li>
+                        </ul>
+                        <p class="copyright" id="copyright"></p>
+                            <script>
+                            var date = new Date()
+                            $("#copyright").text("© "+date.getFullYear()+" - All Rights Reserved")
+                            </script>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-lg-2">
+                  <ul class="socialList">
+                     <li>
+                        <a href="javascript:void(0);">
+                        <i class="fab fa-facebook-f"></i>
+                        </a>
+                     </li>
+                     <li>
+                        <a href="javascript:void(0);">
+                        <i class="fab fa-twitter"></i>
+                        </a>
+                     </li>
+                     <li>
+                        <a href="javascript:void(0);">
+                        <i class="fab fa-google-plus-g"></i>
+                        </a>
+                     </li>
+                     <li>
+                        <a href="javascript:void(0);">
+                        <i class="fab fa-instagram"></i>
+                        </a>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </footer>
+      <!-- Modal Start-->
+      <!-- Modal Start-->
+      <div class="modal fade global-modal reset-modal" id="login_modal">
+         <div class="modal-dialog max-WT-600">
+            <div class="form-box">
+               <form class="register_form" method="POST" action="{% url 'analyticsmaven:login' %}">
+                  {% csrf_token %}
+                  <div class="modal-content">
+                     <div class="modal-header ">
+                        <!-- <h4 class="modal-title text-center">Sign In</h4> -->
+                        <span class="modal_logo">
+                        <img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+                        <img class="hide_large" src="{% static 'images/logo-mob.png' %}" alt="Logo" />
+                        </span>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     </div>
+                     <div class="modal-body">
+                        <div class="modal_box_title">
+                           Sign In
+                        </div>
+                        <div class="row align-items-center modal_flax_height">
+                           <div class="col">
+                              <div class="center-box max-WT-450">
+                                 <center>
+                                    {% if success %}
+                                    <h6 style="color:green"> {{success}}</h6>
+                                    {% endif %}
+                                 </center>
+                                 {% if message %}
+                                 <h6 style="color:red"> {{message}}</h6>
+                                 {% endif %}
+                                 <div class="form-group">
+                                    <input class="form-control" placeholder="Enter your Email ID*" required="" type="email" name="email" />
+                                 </div>
+                                 <div class="form-group">
+                                    <input class="form-control" placeholder="Enter your password*" required="" type="password" name="password" />
+                                    <br> {% if login_failed_message %}
+                                    <h6 style="color:red"> {{login_failed_message}}</h6>
+                                    {% endif %}
+                                 </div>
+                                 <div class="form-group">
+                                    <div class="row">
+                                       <div class="col-6">
+                                          <div class="checkbox checkbox-custom font14">
+                                             <label>
+                                             <span class="checkbox-check top2">
+                                             <input type="checkbox" value="">
+                                             <span class="cr">
+                                             <i class="cr-icon fa fa-check"></i>
+                                             </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">Remember Me</span>
+                                             </label>
+                                          </div>
+                                       </div>
+                                       <div class="col-6">
+                                          <div class="forgot-links">
+                                             <a class="text-underline" href="#forgot_password" data-toggle="modal" data-target="#forgot_password" data-dismiss="modal">Forgot Password?</a>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="action-btn mb0">
+                                    <button type="submit" class="btn btn-green btn-block mb15">SUBMIT</button>
+                                 </div>
+                                 <div class="text-center divider">
+                                    <span>or</span>
+                                 </div>
+                                 {% include "social.html" with content="SIGN IN" %}
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+      <!-- Modal End -->
+      <!-- Forgot Password Modal Start-->
+      <div class="modal fade global-modal reset-modal" id="forgot_password">
+         <div class="modal-dialog max-WT-600">
+            <form class="forgot_pwd_form" method="POST" action="{% url 'analyticsmaven:forgotpassworduser' %}">
+               {% csrf_token %}
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <span class="modal_logo">
+                     <img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+                     <img class="hide_large" src="{% static 'images/logo-mob.png' %}" alt="Logo" />
+                     </span>
+                     <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  <div class="modal-body">
+                     <div class="modal_box_title">
+                        Forgot Password?
+                     </div>
+                     <div class="row align-items-center ">
+                        <div class="col">
+                           <div class="center-box max-WT-450">
+                              <div class="box-title mb20">
+                                 <p>Please enter your registered email address so that we can send you a resent link on your account
+                                 </p>
+                              </div>
+                              <div class="form-group">
+                                 <input class="form-control" placeholder="Enter your Email ID*" required="" type="email" name="email" />
+                                 <br> {% if error %}
+                                 <h6 style='color:red'>{{error}}</h6>
+                                 {% endif %}
+                              </div>
+                              <div class="action-btn mb0">
+                                 <!-- <button type="submit" class="btn btn-green btn-block mb15" data-toggle="modal" data-target="#forgot_password_error_modal"
+                                    data-dismiss="modal">SUBMIT</button> -->
+                                 <button type="submit" class="btn btn-green btn-block mb15">Submit</button>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+      <!--Forgot Password Modal End -->
+      <!-- Forgot Password Modal Start-->
+      <div class="modal fade global-modal reset-modal" id="forgot_password_success">
+         <div class="modal-dialog max-WT-600">
+            <div class="modal-content">
+               <div class="modal-header ">
+                  <!-- <h4 class="modal-title text-center">Sign In</h4> -->
+                  <span class="modal_logo">
+                  <img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+                  <img class="hide_large" src="{% static 'images/logo-mob.png' %}" alt="Logo" />
+                  </span>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+               </div>
+               <div class="modal-body">
+                  <div class="modal_box_title">
+                     Forgot Password?
+                  </div>
+                  <div class="row align-items-center ">
+                     <div class="col">
+                        <div class="center-box max-WT-450">
+                           <div class="box-title mb30">
+                              <p>We have sent you a reset link on your registered email.</p>
+                           </div>
+                           <div class="action-btn mb0 text-center">
+                              <button type="button" class="btn btn-green  max-WT-200 mb15" data-dismiss="modal">OK</button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!--Forgot Password  Modal End -->
+      <!-- Modal Start-->
+      <div class="modal fade global-modal reset-modal" id="signup_option">
+         <div class="modal-dialog max-WT-600">
+            <form class="pin_code_form">
+               <div class="modal-content">
+                  <div class="modal-header ">
+                     <span class="modal_logo">
+                     <img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+                     <img class="hide_large" src="{% static 'images/logo-mob.png' %}" alt="Logo" />
+                     </span>
+                     <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  <div class="modal-body">
+                     <div class="modal_box_title">
+                        Sign Up
+                     </div>
+                     <div class="row align-items-center ">
+                        <div class="col-6">
+                           <a class="resgister_option" data-toggle="modal" data-target="#employee_register_modal" data-dismiss="modal">
+                              <figure class="choose-img">
+                                 <img src="{% static 'images/employee-option.png' %}" alt="Icon" />
+                              </figure>
+                              <span>Employer</span>
+                           </a>
+                        </div>
+                        <div class="col-6 bdr-left">
+                           <a class="resgister_option" data-toggle="modal" data-target="#employee_register_modal" data-dismiss="modal">
+                              <figure class="choose-img">
+                                 <img src="{% static 'images/jobseeker-option.png' %}" alt="Icon" />
+                              </figure>
+                              <span>Analytics Professional</span>
+                           </a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+      <!-- Modal End -->
+      <!-- Modal Start-->
+      <div class="modal fade global-modal reset-modal" id="employee_register_modal">
+         <div class="modal-dialog max-WT-600">
+            <div class="form-box">
+               <form class="register_form" action=" {% url 'analyticsmaven:registration' %}" method="POST" onsubmit=" return validateemail()
+                  ">
+                  {% csrf_token %}
+                  <div class="modal-content">
+                     <div class="modal-header ">
+                        <span class="modal_logo">
+                        <img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+                        <img class="hide_large" src="{% static 'images/logo-mob.png' %}" alt="Logo" />
+                        </span>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     </div>
+                     <div class="modal-body">
+                        <div class="modal_box_title">
+                           Sign Up
+                        </div>
+                        <div class="row align-items-center modal_flax_height">
+                           <div class="col">
+                              <div class="center-box max-WT-450">
+                                 <div class="form-group">
+                                    <input type="hidden" id="user_type" name="user_type">
+                                    <input class="form-control" placeholder="Enter your Email ID*" required="" type="email" name="email" id="email" onkeyup="return validateemail()"
+                                       />
+                                    <div id="email_error"></div>
+                                 </div>
+                                 <div class="action-btn mb0">
+                                    <button type="submit" class="btn btn-green btn-block mb15">SUBMIT</button>
+                                 </div>
+                                 <div class="text-center divider">
+                                    <span>or</span>
+                                 </div>
+                                 {% include "social.html" with content="SIGN UP" %}
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+      <!-- Modal End -->
+      <!-- Modal Start-->
+      <div class="modal fade global-modal reset-modal" id="employee_register_error_modal">
+      <div class="modal-dialog max-WT-600">
+      <div class="form-box">
+         <form class="register_form">
+            <div class="modal-content">
+               <div class="modal-header ">
+         </form>
+         </div>
+         </div>
+      </div>
+      <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+      <script src="{% static 'js/popper.min.js' %}"></script>
+      <script src="{% static 'js/bootstrap.min.js' %}"></script>
+      <script src="{% static 'js/slick.min.js' %}"></script>
+      <script src="{% static 'js/validate.js' %}"></script>
+      <script>
+         // <!-- Slider 1 Start -->
+         
+         $('.innovative_companies_slider').slick({
+            dots: false,
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            arrows: true,
+            responsive: [
+               {
+                  breakpoint: 1200,
+                  settings: {
+                     slidesToShow: 3,
+                     slidesToScroll: 1
+                  }
+               },
+               {
+                  breakpoint: 991,
+                  settings: {
+                     slidesToShow: 3,
+                     slidesToScroll: 1
+                  }
+               },
+               {
+                  breakpoint: 768,
+                  settings: {
+                     slidesToShow: 3,
+                     slidesToScroll: 1
+                  }
+               },
+               {
+                  breakpoint: 576,
+                  settings: {
+                     slidesToShow: 1,
+                     slidesToScroll: 1
+                  }
+               },
+            ]
+         });
+         // <!-- Slider 1 Start End-->
+         // <!-- Slider 2 Start -->
+         $('.companies_slider').slick({
+            dots: false,
+            slidesToShow: 5,
+            slidesToScroll: 1,
+            arrows: true,
+            responsive: [
+               {
+                  breakpoint: 1200,
+                  settings: {
+                     slidesToShow: 4,
+                     slidesToScroll: 1
+                  }
+               },
+               {
+                  breakpoint: 991,
+                  settings: {
+                     slidesToShow: 3,
+                     slidesToScroll: 1
+                  }
+               },
+               {
+                  breakpoint: 768,
+                  settings: {
+                     slidesToShow: 3,
+                     slidesToScroll: 1
+                  }
+               },
+               {
+                  breakpoint: 576,
+                  settings: {
+                     slidesToShow: 1,
+                     slidesToScroll: 1
+                  }
+               },
+            ]
+         });
+         // <!-- Slider 2 Start End-->
+      </script>
+      <script src="{% static 'js/common.js' %}"></script>
+      <script src="{% static 'js/jquery.nicescroll.min.js' %}"></script>
+      <script>
+         $(".resgister_option").click(function () {
+            if ($(this).find('span').text() == "Employer" || $(this).text().trim() == "Employers") {
+               console.log("Employer")
+               $("#user_type").val("Company")
+               $(".linkdin").attr('href', "/oauth/login/linkedin-oauth2?user_type=" + $("#user_type").val())
+               $(".googleplus").attr('href', "/oauth/login/google-oauth2?user_type=" + $("#user_type").val())
+               $(".facebook").attr('href', "/oauth/login/facebook?user_type=" + $("#user_type").val())
+            } else {
+               console.log("Job Seeker")
+               $("#user_type").val("Job Seeker")
+               $(".linkdin").attr('href', "/oauth/login/linkedin-oauth2?user_type=" + $("#user_type").val())
+               $(".googleplus").attr('href', "/oauth/login/google-oauth2?user_type=" + $("#user_type").val())
+               $(".facebook").attr('href', "/oauth/login/facebook?user_type=" + $("#user_type").val())
+            }
+         })
+      </script> {% ifequal type 'login' %}
+      <script>
+         $('#login_modal').modal('show')
+      </script> {% endifequal %} {% ifequal type 'incorrect_email' %}
+      <script>
+         $('#forgot_password').modal('show')
+      </script> {% endifequal %} {% ifequal type 'linksentsuccess' %}
+      <script>
+         $('#forgot_password_success').modal('show')
+      </script> {% endifequal %}
+   </body>
+</html>

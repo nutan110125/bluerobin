@@ -1,0 +1,111 @@
+{% extends 'dashboardheader.html' %} {% load static %} {% block content %}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<main class="main-container">
+    <!-- ontainer-1280 Start -->
+    <div class="container-1280">
+        <!-- Sidebar-content-box Start -->
+        <div class="sidebar-content-box clearfix">
+            <!--Aside Start -->
+            <aside class="sidebar">
+                <span class="back_btn">
+                    <i class="fas fa-chevron-left"></i>
+                </span>
+                <!-- aside-box Start -->
+                {% include 'asidebox.html' %}
+                <!-- aside-box End -->
+            </aside>
+            <!--Aside End -->
+            <!-- Right Content Box-->
+            <div class="right_content_box mb60">
+                <!-- step block start -->
+                <div class="steps-block">
+                    <ul class="steps">
+                        <li class="active">
+                            <a href="{% url 'analyticsmaven:company-registration' user.uuid %} ">Step 1/2</a>
+                        </li>
+                        <li class="active">
+                            <a href="{% url 'analyticsmaven:industry-type' user.uuid %}">Step 2/2</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- step block end -->
+                <!-- first step block start -->
+                <div class="second-step">
+                    <h2 class="profile-heading">Select Type of industry</h2>
+                    <form class="step-form" onsubmit="return validateskill()" method="POST" action="{% url 'analyticsmaven:industry-type' user.uuid %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <ul class="skills_full_box">
+                                {% for industrys in industries %}
+                                {% if industrys in user.company.industry.all %}
+                                <li id='{{industrys.id}}' value='{{industrys.id}}' class="select-subSkill active">
+                                    <span class="skills_tag">
+                                        <input type="checkbox" id='industry_{{industrys.id}}' name="industry" value='{{industrys.id}}' /> {{industrys.name}}</span>
+                                </li>
+                                <script>
+                                    $("#industry_{{industrys.id}}").attr("checked", "checked")
+                                 </script>
+                                {% else %}
+                                <li id='{{industrys.id}}' value='{{industrys.id}}' class="select-subSkill">
+                                    <span class="skills_tag">
+                                        <input type="checkbox"  id='industry_{{industrys.id}}' name="industry" value='{{industrys.id}}' /> {{industrys.name}}</span>
+                                </li>
+                                {% endif %}
+                                {% endfor %}
+                                <li id='0' value='0' class="select-subSkill-industry">
+                                    <span class="skills_tag">
+                                        <input type="checkbox" name="industry" id="custom-industry" style="border: none;background: none;" />
+                                        <strong id='industry-text'>Others</strong>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-design">
+                                <input type="checkbox" name="option" required="required">
+                                <span></span>I accept the
+                                <a class="underline" href="{% url 'analyticsmaven:terms' %}">terms and conditions</a>
+                            </label>
+                        </div>
+                        <div class="form-group form-btn text-center">
+                            <button type="submit" class="btn btn-green max-WT-200">SUBMIT</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- first step block end -->
+            </div>
+            <!-- Right Content Box End -->
+        </div>
+        <!-- Sidebar-content-box End -->
+    </div>
+    <!-- container-1280 End -->
+</main>
+<!-- main End -->
+<script>
+    $(".select-subSkill").on('click', function () {
+        if ($(this).hasClass('active')) {
+            $(this).removeClass("active");
+        } else {
+            $(this).addClass("active");
+        }
+    });
+    $(".select-subSkill-industry").on('click', function () {
+        if ($(this).hasClass('active')) {
+            $(this).removeClass("active");
+            return
+        } else {
+            $(this).addClass("active");
+            $(this).find("input[name=industry]").attr('type', 'text')
+            $("#industry-text").text("")
+        }
+    })
+    $("#custom-industry").on('blur', function () {
+        if ($(this).val() && $(this).attr('type') == 'text') {
+            $("#industry-text").text($(this).val())
+        } else {
+            $("#industry-text").text("Others")
+        }
+        $(this).attr('type', 'checkbox')
+    })
+</script> {% endblock %}

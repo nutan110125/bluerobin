@@ -1,0 +1,146 @@
+{% extends 'dashboardheader.html' %} {% load static %} {% block content %}
+<!-- main Start -->
+<main class="main-container">
+    <!-- ontainer-1280 Start -->
+    <div class="container-1280">
+        <!-- Sidebar-content-box Start -->
+        <div class="sidebar-content-box clearfix">
+            {% include 'dashboard-aside.html' %}
+            <!-- Right Content Box-->
+            <div class="right_content_box profile_content">
+                <div class="complete-profile">
+                    <div class="flex-block">
+                        <div class="flex1 profile_skills_info">
+                            <h2 class="profile-heading">Hello {{request.user.first_name}} {{request.user.last_name}}! Please complete your profile</h2>
+                            <p>
+                                <strong>Your preference are:</strong>
+                            </p>
+                            <div class="preference_box">
+                                <strong>Area</strong>
+                                <ul class="preference_list clearfix">
+                                    {% for area in request.user.job_seeker.area.all %}
+                                    <li>
+                                        <span class="skills_tag">{{area}}</span>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="preference_box">
+                                <strong>Industry</strong>
+                                <ul class="preference_list clearfix">
+                                    {% for industry in request.user.job_seeker.industry.all %}
+                                    <li>
+                                        <span class="skills_tag">{{industry}}</span>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="preference_box">
+                                <strong>Tools & Language</strong>
+                                <ul class="preference_list clearfix">
+                                    {% for tools in request.user.job_seeker.tools_and_language.all %}
+                                    <li>
+                                        <span class="skills_tag">{{tools}}</span>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="skills-head">
+                                <strong>Experience Level:</strong> Expert</div>
+                            <div class="skills-head">
+                                <strong>Professional Title:</strong> {{request.user.job_seeker.professional_title}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="set_hourly_rate add_location">
+                    <h2 class="profile-heading">Add availability and location</h2>
+                    <div class="skills-head skill_p">
+                        <strong> How many hours do you have available for work each week?:</strong>
+                        <ul class="skills_tag_list d-inline-block">
+
+                            <li>
+                                <span class="skills_tag gray_tag">4-8 Hrs</span>
+
+                            </li>
+                            <li>
+                                <span class="skills_tag gray_tag">8-16 Hrs</span>
+                            </li>
+                            <li>
+                                <span class="skills_tag gray_tag">16-30 Hrs</span>
+                            </li>
+                            <li>
+                                <span class="skills_tag gray_tag">30-48 Hrs</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <form class="form_block maxWidthFull">
+                        <div class="preference_box">
+                            <strong>Country:</strong>
+                            <ul class="preference_list clearfix">
+                                <li>
+                                    <span class="skills_tag gray_tag">Canada</span>
+                                </li>
+                                <li>
+                                    <span class="skills_tag gray_tag">USA</span>
+                                </li>
+                                <li>
+                                    <span class="skills_tag gray_tag">India</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="preference_box">
+                            <strong>Time Zone:</strong>
+                            <ul class="preference_list clearfix">
+                                <li>
+                                    <span class="skills_tag gray_tag">Pacific Time</span>
+                                </li>
+                                <li>
+                                    <span class="skills_tag gray_tag">Mountain Standard Time</span>
+                                </li>
+                                <li>
+                                    <span class="skills_tag gray_tag">Center Time</span>
+                                </li>
+                                <li>
+                                    <span class="skills_tag gray_tag">Eastern Time</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="form-group">
+                            <div class="preference_box max-WT-400">
+                                <strong>Postal Code:</strong>
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="preference_box max-WT-400">
+                                <strong>City:</strong>
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group mb0">
+                            <div class="preference_box max-WT-400">
+                                <strong>Phone No.:</strong>
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="grey-btn-block">
+                            <button type="button" onclick="window.location='/set-hourly-rate'" class="btn btn-green max-WT-200">SAVE AND NEXT</button>
+
+
+
+
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Right Content Box end-->
+        </div>
+        <!-- Sidebar-content-box End -->
+    </div>
+    <!-- container-1280 End -->
+    <!-- main End -->
+    {% include 'refer.html' %} 
+</main>
+<!-- main End -->
+{% endblock %}

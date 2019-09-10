@@ -1,0 +1,56 @@
+[
+    {
+        "model": "analyticsmaven.language",
+        "pk": 26,
+        "fields": {
+            "language": "English",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.language",
+        "pk": 27,
+        "fields": {
+            "language": "Hindi",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.language",
+        "pk": 28,
+        "fields": {
+            "language": "French",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.language",
+        "pk": 29,
+        "fields": {
+            "language": "German",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.language",
+        "pk": 30,
+        "fields": {
+            "language": "Spanish",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.language",
+        "pk": 31,
+        "fields": {
+            "language": "Others",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    }
+]

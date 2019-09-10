@@ -1,0 +1,85 @@
+{% extends 'dashboardheader.html' %} {% load static %} {% block content %}
+<script src="{% static 'js/validate.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<main class="main-container">
+    <!-- ontainer-1280 Start -->
+    <div class="container-1280">
+        <!-- Sidebar-content-box Start -->
+        <div class="sidebar-content-box clearfix">
+            <!--Aside Start -->
+            <aside class="sidebar">
+                <span class="back_btn">
+                    <i class="fas fa-chevron-left"></i>
+                </span>
+                {% include 'asidebox.html' %}
+            </aside>
+            <!--Aside End -->
+            <!-- Right Content Box-->
+            <div class="right_content_box mb60">
+                <!-- step block start -->
+                <div class="steps-block">
+                    <ul class="steps">
+                        <li class="active">
+                            <a href="{% url 'analyticsmaven:registration-details' user.uuid %}">Step 1/3</a>
+                        </li>
+                        <li>
+                            <a>Step 2/3</a>
+                        </li>
+                        <li>
+                            <a>Step 3/3</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- step block end -->
+                <!-- first step block start -->
+                <div class="first-step">
+                    <h2 class="profile-heading">Take your first step towards brighter future!</h2>
+                    <form class="step-form" onsubmit="return validatestep1form()" method="POST" action="{% url 'analyticsmaven:registration-details' user.uuid %}">
+                        {% csrf_token %}
+                        <div class="form-group validate-style1">
+                            <input type="text" id="first_name" name="first_name" onkeyup="return validatefirstname()" class="form-control" placeholder="First Name*"
+                                maxlength="40" required="true" value="{{form.first_name.value}}" /> {% if form.errors.first_name %}
+                            <span class="error">Please enter your first name</span>
+                            {% endif %}
+                            <div id="firstname_error"></div>
+                        </div>
+                        <div class="form-group validate-style1">
+                            <input type="text" id="last_name" name="last_name" onkeyup="return validatelastname()" class="form-control" required="true"
+                                placeholder="Last Name*" maxlength="40" value="{{form.last_name.value}}" /> {% if form.errors.last_name %}
+                            <span class="error">Please enter your last name</span>
+                            {% endif %}
+                            <div id="lastname_error"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="new_password" name="password" onkeyup="return validatepass()" class="form-control" required="true"
+                                placeholder="Create Password*" minlength="8" maxlength="16" />
+                            <div id="newpassword_error"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="confirm_password" onkeyup="return confirmPassword()" name="confirm_password" class="form-control"
+                                required="true" placeholder="Confirm Password*" minlength="8" maxlength="16" />
+                            <div id="confirmpassword_error"></div>
+                        </div>
+                        <div class="form-group form-btn">
+                            <button type="submit" class="btn btn-gray btn-block" onsubmit="return validatestep1form()">CONTINUE</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- first step block end -->
+                <!-- Right Content Box End -->
+            </div>
+            <!-- Sidebar-content-box End -->
+        </div>
+        <!-- container-1280 End -->
+
+
+</main>
+{% if user.first_name %}
+<script>
+    $("#first_name").val("{{user.first_name}}")
+</script> {% endif %} {% if user.last_name %}
+<script>
+    $("#last_name").val("{{user.last_name}}")
+</script> {% endif %}
+<!-- main End -->
+{% endblock %}

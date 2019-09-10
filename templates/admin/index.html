@@ -1,0 +1,59 @@
+{% extends "admin/index.html"%} {% load i18n %} {% block extrahead %} {{ block.super }}
+<style type="text/css">
+    .chart_title {
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .app-list {
+        column-count: 1;
+        padding: 0;
+    }
+
+    .chart_title {
+        /* font-weight: bold;
+            font-size: 100px;*/
+    }
+</style>
+{% endblock %} {% block content %} {% if user.is_superuser %}
+<div id="content-main" style="width: 100%; padding: 15px .75rem;">
+    <div class="row" style="padding:5px;">
+        <a href="analyticsmaven/jobmanagement/" class="col s6" style="padding-top:2px;">
+            <div style="padding:25px 5px;background: #01579b;border-radius: 5px">
+                <div style="color: white;text-align: center;font-size: 18px;">Total Jobs </div>
+                <div style="color: white;text-align: center;font-size: 18px;">{{count_total_jobs}}</div>
+                <br>
+            </div>
+        </a>
+        <a href="analyticsmaven/company/" class="col s6" style="padding-top:2px;">
+            <div style="padding:26px 5px;background: #01579b;border-radius: 5px">
+                <div style="color: white;text-align: center;font-size: 18px;">Total Employer</div>
+                <div style="color: white;text-align: center;font-size: 18px;">{{count_company}}</div>
+                <br>
+            </div>
+        </a>
+        <a href="analyticsmaven/jobmanagement/" class="col s6" style="padding-top:2px;">
+            <div style="padding:26px 5px;background: #01579b;border-radius: 5px">
+                <div style="color: white;text-align: center;font-size: 18px;">Total Active Jobs </div>
+                <div style="color: white;text-align: center;font-size: 18px;">{{count_active_jobs}}</div>
+                <br>
+            </div>
+        </a>
+        <a href="analyticsmaven/jobseeker/" class="col s6" style="padding-top:4px;">
+            <div style="padding:26px 5px;background: #01579b;border-radius: 5px">
+                <div style="color: white;text-align: center;font-size: 18px;">Total Job Seekers </div>
+                <div style="color: white;text-align: center;font-size: 18px;">
+                    {{count_jobseekers}}</div>
+                <br>
+            </div>
+        </a>
+    </div>
+    <div  class="chart_title row" style="width: 100%;padding: 5px;">
+        <div id="articles" style="width:100%;height:auto;">
+            {{ figure|safe }}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

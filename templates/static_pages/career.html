@@ -1,0 +1,147 @@
+{% extends template_name %} {% load static %} {% block content %}
+<script src="{% static 'js/validate.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<div class="InnertopBanner" style="background-image:url({% static 'images/inner-banner-bg.png' %});">
+    <div class="InnertopBanner-content d-flex align-items-center w-100 text-center">
+        <div class="w-100">
+            <div class="container">
+                <h1>Singularly fabulous work without boundaries</h1>
+                <p>Connecting 2 million+ professionals with remote and freelance jobs using artificial intelligence.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- main Start -->
+<main class="main-container">
+    <section class="static-content-section">
+        <div class="container">
+            <div class="sec_head mb20">
+                <h3>Careers</h3>
+                <h6 style="color:green">{% if message %} {{message}} </h6>
+                {% endif %}</h6>
+            </div>
+            <h5 class="head5">Want to be part of something big? Join our team!</h5>
+            <div class="emailus">You can email us at career@analyticsmavens.com</div>
+            <!-- form-box start -->
+            <div class="form-box career_box">
+                <form method="POST" action="{% url 'analyticsmaven:career' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="First Name*" name="first_name" id="first_name" onkeyup="return validatefirstname()"
+                                    required="required" maxlength="40" value="{{form.first_name.value}}">
+                                <div id="firstname_error"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Last Name*" name="last_name" id="last_name" required="required" onkeyup="return validatelastname()"
+                                    maxlength="40" value="{{form.last_name.value}}" />
+                                <div id="lastname_error"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <select name="profession" class="form-control select-style1" required="required">
+                                    <option value="">Select Profession</option>
+                                    {% for p in profession_list %}
+                                    <option value="{{p.id}}">{{p.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="email" class="form-control" placeholder="Email*" name="email" id="email" onkeyup="return validateemail()" required="required"
+                                    value="{{form.email.value}}" />
+                                <div id="email_error"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Phone*" name="mobile_number" maxlength="16" required="required" value="{{form.mobile_number.value}}"
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="browse-btn">
+                                    <input id="resume" value="upload" name="resume" type="file" required="required" onchange="return validateresumeupload()"
+                                    />
+                                    <span class="filename">
+                                        <div id="fileuploadmessage">Upload your resume</div>
+                                    </span>
+                                    <i class="fas fa-paperclip"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <textarea class="form-control" placeholder="Message" name="message" id="message" required="required"></textarea>
+                            </div>
+                            {% if form.message.value %}
+                            <script>
+                                $("#message").val("{{form.message.value}}")
+                            </script> {% endif %}
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn btn-green max-WT-200">SUBMIT</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- form-box End -->
+        </div>
+    </section>
+    <!-- Thanks Modal Start-->
+    <div class="modal fade global-modal reset-modal" id="thanks">
+        <div class="modal-dialog max-WT-600">
+            <div class="modal-content">
+                <div class="modal-header ">
+                    <!-- <h4 class="modal-title text-center">Sign In</h4> -->
+                    <span class="modal_logo">
+                        <img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+                        <img class="hide_large" src="{% static 'images/logo-mob.png' %}" alt="Logo" />
+                    </span>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal_box_title">
+                        Thanks
+                    </div>
+                    <div class="row align-items-center ">
+                        <div class="col">
+                            <div class="center-box max-WT-450">
+                                <div class="box-title mb30">
+                                    <p>Thanks for connecting with us. We will update you soon regarding your request.</p>
+                                </div>
+                                <div class="action-btn mb0 text-center">
+                                    <button type="button" class="btn btn-green  max-WT-200 mb15" data-dismiss="modal">OK</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Thanks Modal End -->
+
+</main>
+<!-- main End -->
+{% if popup %}
+<script>
+    $(document).ready(function () {
+        $("#thanks").modal('show')
+    })
+</script> {% endif %}
+<script>
+    $(document).ready(function () {
+        $('#thanks').on('hidden.bs.modal', function () {
+            window.location = '/dashboard'
+        })
+    })
+</script>{% endblock %}

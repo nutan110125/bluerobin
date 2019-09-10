@@ -1,0 +1,21 @@
+<section class="makers_section text-center ">
+    <div class="makers_banner d-flex align-items-center w-100 ">
+        <div class="container ">
+            <div class="sec_head mb20 ">
+                <h3>The good makers of the power of the network effect</h3>
+                <p>Machines are awesome, but sometimes, there’s nothing better than an old-fashioned friendly referall.
+                    Now you
+                    can earn by referring jobs to friends.</p>
+            </div>
+            <div class="makers-form-box ">
+                <form action="{% url 'analyticsmaven:refer-friend' %}" method="POST">
+                        {% csrf_token %}
+                    <input type="email" id="email" class="form-control" maxlength="80" placeholder="Please enter your friend's email id"
+                        name='email' required onkeyup="return validateemail();">
+                    <span style="float:left;" id="email_error"></span>
+                    <button type="submit" class="btn bg-green max-WT-200 ">SEND</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

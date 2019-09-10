@@ -1,0 +1,76 @@
+{% extends 'dashboardheader.html' %} {% load static %} {% block content %}
+<script src="{% static 'js/validate.js' %}"></script>
+
+<main class="main-container">
+    <!-- ontainer-1280 Start -->
+    <div class="container-1280">
+        <!-- Sidebar-content-box Start -->
+        <div class="sidebar-content-box clearfix">
+            <!--Aside Start -->
+            <aside class="sidebar">
+                <span class="back_btn">
+                    <i class="fas fa-chevron-left"></i>
+                </span>
+                <!-- aside-box Start -->
+                {% include 'asidebox.html' %}
+                <!-- aside-box End -->
+            </aside>
+            <!--Aside End -->
+            <!-- Right Content Box-->
+            <div class="right_content_box mb60">
+                <!-- step block start -->
+                <div class="steps-block">
+                    <ul class="steps">
+                        <li class="active">
+                            <a href="{% url 'analyticsmaven:company-registration' user.uuid %} ">Step 1/2</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'analyticsmaven:industry-type' user.uuid %}">Step 2/2</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- step block end -->
+                <!-- first step block start -->
+                <div class="first-step">
+                    <h2 class="profile-heading">Take you first step towards brighter future!</h2>
+                    <form class="step-form" onsubmit="return validatestep1form()" method="POST" action="{% url 'analyticsmaven:company-registration' user.uuid %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Company Name/Employee Name*" name="first_name"
+                                required="true" id="company_name" onkeyup="return validatecompanyname()" maxlength="40" />
+                            <div id="firstname_error"></div>
+                        </div>
+                        {% if request.user.id %}
+                        {% else %}
+                        <div class="form-group">
+                            <input type="password" id="new_password" name="password" onkeyup="return validatepass()"
+                                class="form-control" required placeholder="Create Password*" minlength="8"
+                                maxlength="16" />
+                            <div id="newpassword_error"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" placeholder="Confirm Password*" name="confirm_password"
+                                id="confirm_password" onkeyup="return confirmPassword()" required minlength="8"
+                                maxlength="16" />
+                        </div>
+                        {% endif %}
+                        <div id="confirmpassword_error"></div>
+                        <div class="form-group form-btn text-center">
+                            <button type="submit" class="btn btn-green max-WT-200">CONTINUE</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- first step block end -->
+            </div>
+            <!-- Right Content Box End -->
+        </div>
+        <!-- Sidebar-content-box End -->
+    </div>
+    <!-- container-1280 End -->
+</main>
+<!-- main End -->
+{% if user.first_name %}
+<script>
+    $("#company_name").val('{{user.first_name}}')
+</script>
+{% endif %} {% endblock %}

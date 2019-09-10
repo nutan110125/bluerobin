@@ -1,0 +1,29 @@
+{% extends template_name %} {% load static %} {% block content %}
+
+<div class="InnertopBanner" style="background-image:url({{terms.banner.url}});">
+    <div class="InnertopBanner-content d-flex align-items-center w-100 text-center">
+        <div class="w-100">
+            <div class="container">
+                <h1>{{terms.banner_heading}}</h1>
+                <p>{{terms.banner_content}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- main Start -->
+<main class="main-container">
+    <section class="static-content-section">
+        <div class="container">
+            <div class="sec_head mb20">
+                <h3>Terms and Conditions</h3>
+            </div>
+            {{terms.content}} 
+
+        </div>
+    </section>
+
+
+
+</main>
+<!-- main End -->
+{% endblock %}

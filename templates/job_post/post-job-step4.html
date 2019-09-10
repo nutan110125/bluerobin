@@ -1,0 +1,213 @@
+{% extends 'dashboardheader.html' %} {% load static %} {% block content %}
+<main class="main-container">
+   <!-- ontainer-1280 Start -->
+   <div class="container-1280">
+      <!-- Sidebar-content-box Start -->
+      <div class="sidebar-content-box clearfix">
+         <!--Aside Start -->
+         <aside class="sidebar">
+            <span class="back_btn">
+               <i class="fas fa-chevron-left"></i>
+            </span>
+            <!-- aside-box Start -->
+            {% include 'dashboard-aside.html' %}
+            <!-- aside-box End -->
+         </aside>
+         <!--Aside End -->
+         <!-- Right Content Box-->
+         <div class="right_content_box mb60">
+            <!-- step block start -->
+            <div class="steps-block">
+               <ul class="steps">
+                  <li class="active">
+                     <a href="{% url 'analyticsmaven:edit-job-post' job.uuid  %}">Step 1/4</a>
+                  </li>
+                  <li class="active">
+                     <a href="{% url 'analyticsmaven:job-post-step-2' job.uuid %}">Step 2/4</a>
+                  </li>
+                  <li class="active">
+                     <a href="{% url 'analyticsmaven:job-post-step-3' job.uuid %}">Step 3/4</a>
+                  </li>
+                  <li class="active">
+                     <a href="{% url 'analyticsmaven:job-post-step-4' job.uuid %}">Step 4/4</a>
+                  </li>
+               </ul>
+            </div>
+            <!-- step block end -->
+            <!-- first step block start -->
+            <div class="step_content_box">
+               <form class="step-form employee-step-form" method="POST" action="{% url 'analyticsmaven:job-post-step-4' job.uuid %}">
+                  {% csrf_token %}
+                  <div class="form-group">
+                     <label>How would you like to play?</label>
+                     <div class="radio-box">
+                        <label class="redio-design d-inline-block">
+                           <input type="radio" name="payment" value="Pay by Hour" {% ifequal job.payment "Pay by Hour" %} checked {% endifequal %}>
+                           <span></span>Pay by Hour
+                        </label>
+                        <label class="redio-design d-inline-block">
+                           <input type="radio" name="payment" value="Pay by Fixed Price" {% ifequal job.payment "Pay by Fixed Price" %} checked {% endifequal%}
+                              required>
+                           <span></span>Pay a Fixed Price
+                        </label>
+                     </div>
+                  </div>
+
+                  <div class="form-group">
+                     <label>Desired Salary</label>
+                     <ul class="skills_full_box skills_full_box_auto">
+                        <li class="tag_hour">
+                           <span class="skills_tag">$10/HR
+                              <input type="radio" name="credit" value="$10/HR">
+                           </span>
+                        </li>
+                        <li class="tag_hour">
+                           <span class="skills_tag">$20/HR
+                              <input type="radio" name="credit" value="$20/HR">
+                           </span>
+                        </li>
+                        <li class="tag_hour">
+                           <span class="skills_tag">$30/HR
+                              <input type="radio" name="credit" value="$30/HR">
+                           </span>
+                        </li>
+                        {% if job.credit and job.credit != '$10/HR' and job.credit != '$20/HR' and job.credit != '$30/HR' %}
+                        <li class="tag_hour">
+                            <span class="skills_tag">{{job.credit}}
+                                <input type="radio" name="credit" value="{{job.credit}}">
+                            </span>
+                        </li>
+                        {% endif %}
+                        <li id='0' value='0' class="select_tag_hour">
+                           <span class="skills_tag"><strong id="credit-text">Others</strong>
+                              <input type="radio" name="credit" id="custom-credit" placeholder='Please enter salary' style="border: none;background: none;">
+                           </span>
+                        </li>
+                     </ul>
+                  </div>
+
+                  <div class="form-group">
+                     <label>How long do you expect the job to be?</label>
+                     <div class="radio-box radio-box3">
+                        <label class="redio-design">
+                           <input type="radio" name="duration" required value="0-3" {% ifequal job.duration "0-3" %} checked {% endifequal %}>
+                           <span></span>0-3 Months
+                        </label>
+                        <label class="redio-design">
+                           <input type="radio" name="duration" value="3-6" {% ifequal job.duration "3-6" %} checked {% endifequal %}>
+                           <span></span>3-6 Months
+                        </label>
+                        <label class="redio-design">
+                           <input type="radio" name="duration" value="6-12" {% ifequal job.duration "6-12" %} checked {% endifequal %}>
+                           <span></span>6-12 Months
+                        </label>
+                        <label class="redio-design">
+                           <input type="radio" name="duration" value="12+" {% ifequal job.duration "12+" %} checked {% endifequal %}>
+                           <span></span>12+ Months
+                        </label>
+                     </div>
+                  </div>
+
+
+                  <div class="form-group form-btn text-center">
+                     <button type="submit" class="btn btn-green max-WT-200">SUBMIT</button>
+                  </div>
+               </form>
+            </div>
+            <!-- first step block end -->
+         </div>
+         <!-- Right Content Box End -->
+      </div>
+      <!-- Sidebar-content-box End -->
+   </div>
+   <!-- Thanks Modal Start-->
+  <div class="modal fade global-modal reset-modal" id="thanks">
+    <div class="modal-dialog max-WT-600">
+      <div class="modal-content">
+        <div class="modal-header ">
+          <!-- <h4 class="modal-title text-center">Sign In</h4> -->
+          <span class="modal_logo">
+            <img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+            <img class="hide_large" src="{% static 'images/logo-mob.png' %}" alt="Logo" />
+          </span>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="modal_box_title">
+            Complete
+          </div>
+          <div class="row align-items-center ">
+            <div class="col">
+              <div class="center-box max-WT-450">
+                <div class="box-title mb30">
+                  <p>Thanks for posting your Job.</p>
+                </div>
+                <div class="action-btn mb0 text-center">
+                  <button type="button" class="btn btn-green  max-WT-200 mb15" data-dismiss="modal">OK</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Thanks Modal End -->
+   <!-- container-1280 End -->
+   {% include 'refer.html' %} 
+</main>
+<!-- main End -->
+{% if popup %}
+<script>
+  $(document).ready(function () {
+    $("#thanks").modal('show')
+  })
+</script> {% endif %}
+<script>
+  $(document).ready(function () {
+    $('#thanks').on('hidden.bs.modal', function () {
+      window.location = '/dashboard'
+    })
+  })
+</script>
+
+<script>
+        $(".tag_hour").on('click', function () {
+            $(".tag_hour").removeClass("active")
+            $(".select_tag_hour").removeClass("active")
+            if ($(this).hasClass('active')) {
+                $(this).removeClass("active");
+            } else {
+                $(this).addClass("active");
+            }
+        })
+        $(".select_tag_hour").on('click', function () {
+            $(".tag_hour").removeClass("active")
+            if ($(this).hasClass('active')) {
+                $(this).removeClass("active");
+                return
+            } else {
+                $(this).addClass("active");
+                $(this).find("input[name=credit]").attr('type', 'number')
+                $("#credit-text").text("")
+            }
+        })
+        $("#custom-credit").on('blur', function () {
+            if ($(this).val() && $(this).attr('type') == 'number') {
+                $("#credit-text").text("$"+$(this).val()+"/HR")
+            } else {
+                $("#credit-text").text("Others")
+                $(".select_tag_hour").removeClass("active")
+            }
+            $(this).attr('type', 'radio')
+            $(this).val($("#credit-text").text())
+        })
+    
+    </script>
+
+
+{% if job.credit %}
+<script>
+   $("input[name='credit'][value='{{ job.credit }}']").prop('checked', true)
+   $("input[name='credit'][value='{{ job.credit }}']").parent().parent().addClass("active")
+</script> {% endif %}{% endblock %}

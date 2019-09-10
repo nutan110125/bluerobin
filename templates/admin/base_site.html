@@ -1,0 +1,48 @@
+{% extends "admin/base_site.html" %}
+{% block extrastyle %}
+
+<style type="text/css">
+    .app-list {
+        column-count: 1 !important;
+    }
+
+    .page-title {
+        cursor: default
+    }
+
+    @media only screen and (max-width: 993px) {
+        .content {
+            flex-direction: row;
+        }
+
+        .left-panel {
+            order: 2;
+        }
+
+        .right-panel {
+            display: block;
+            order: 1;
+            margin-bottom: 2rem;
+        }
+
+        .brand-logo {
+            font-weight: 100;
+            font-size: 1.5rem !important;
+        }
+
+        .page-title {
+            cursor: default
+        }
+    }
+</style>
+{% endblock %}
+{% block userphoto %}
+{% if request.user.is_superuser %}
+<a href="#"><img src="/static/images/logo.png" style="max-height: 50px; max-width: 100%;"></a>
+<script>
+    $(document).ready(function () {
+        $(".page-title").attr("href", "#");
+    });
+</script>
+{% endif %}
+{% endblock %}

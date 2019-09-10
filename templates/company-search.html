@@ -1,0 +1,279 @@
+{% extends 'dashboardheader.html' %} {% load static %} {% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<main class="main-container">
+	<!-- ontainer-1280 Start -->
+	<div class="container-1280">
+		<!-- Sidebar-content-box Start -->
+		<div class="sidebar-content-box clearfix">
+			<!--Aside Start -->
+			<aside class="sidebar">
+				<span class="back_btn">
+					<i class="fas fa-chevron-left"></i>
+				</span>
+				{% include 'dashboard-aside.html' %}
+				<!-- aside-box End -->
+			</aside>
+			<!--Aside End -->
+			<!-- Right Content Box-->
+			<div class="right_content_box mb60" style="padding: 30px 30px !important">
+				<center>
+					<h3>Search Results</h3>
+				</center>
+				<div class='row job-applicant'>
+					{% include 'left-filter.html' %}
+					<div class="col-sm-10">
+						<div class="row mt25 newest">
+							<!-- Col Start -->
+							{% if job_seeker %} {% for employee in job_seeker %}
+							<div class="col-lg-4 col-md-6">
+								<div class="matched_box">
+									<span class="match_user_img">
+										{% if employee.avatar %}
+										<img src="{{employee.avatar}}" alt="Logo"> {% else %}
+										<img src="{% static 'images/user-img.png' %}" alt="Logo"> {% endif %}
+									</span>
+									<h2 class="match_user_name" style=" word-break: break-all;
+									max-height: 15px;
+									overflow: hidden;">{{employee.first_name}}
+										{{employee.last_name}}</h2>
+									<p class="experties">{{employee.job_seeker.professional_title}}</p>
+									<label class="skill_label">Tools/Skills:</label>
+									<div style="max-height: 55px;min-height:55px;overflow: hidden;">
+										{% for tool in employee.user_skill.all %} {% if tool.skill in employee.job_seeker.tools_and_language.all%}
+										<div class="skills_rating_box">
+											<label>{{tool.skill.name}}</label>
+											<div class="skills_rating">
+												<ul class="show_rating_list">
+													{% for i in "12345" %}
+													<li>
+														{% if tool.rate >= i %}
+														<i class="rated fas fa-star"></i>
+														{% else %}
+														<i class="fas fa-star"></i>
+														{% endif %}
+													</li>
+													{% endfor %}
+												</ul>
+											</div>
+										</div>
+										{% endif %} {% endfor %}
+									</div>
+									<div class="matched_action_btn">
+										<a class="btn btn-gray btn-block view-btn" id="{{employee.id}}">View</a>
+									</div>
+								</div>
+							</div>
+							{% endfor %} {% else %}
+							<div class="no-active-jobs" style="width: 100%">No Search Results</div>
+							{% endif %}
+							<!-- Col End -->
+						</div>
+						<div class="pagination_block mt0" id="job_seeker">
+							<ul class="pagination">
+								<li class="page-item">
+									{% if job_seeker.has_previous %}
+									<a class="page-link" href="?content={{request.GET.content|default:''}}&page={{ job_seeker.previous_page_number }}">
+										<i class="fas fa-angle-double-left"></i>
+									</a>
+									{% endif %}
+								</li>
+								{% for num in job_seeker.paginator.page_range %} {% if job_seeker.number == num %}
+								<li class="page-item  active">
+									<a class="page-link" href="?content={{request.GET.content|default:''}}&page={{ num }}">{{num}} </a>
+								</li>
+								{% else %}
+								<li class="page-item">
+									<a class="page-link" href="?content={{request.GET.content|default:''}}&page={{ num }}">{{num}} </a>
+								</li>
+								{% endif %} {% endfor %}
+								<li class="page-item">
+									{% if job_seeker.has_next %}
+									<a class="page-link" href="?content={{request.GET.content|default:''}}&page={{ job_seeker.next_page_number }}">
+										<i class="fas fa-angle-double-right"></i>
+									</a>
+									{% endif %}
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				{% for employee in job_seeker %}
+				<div class="view-jobseeker" style="display: none" id='employee_{{employee.id}}'>
+					<div class="content-box">
+						<div class="profile-view d-flex align-items-center">
+							<div class="userimg">
+								{% if employee.avatar %}
+								<img id="signup-image" src="{{employee.avatar}}" alt="user pic" /> {% else %}
+								<img id="signup-image" src="{% static 'images/avatar.png' %}" alt="user pic" /> {% endif %}
+							</div>
+							<div class="about-user">
+								<h4>{{employee.first_name}} {{employee.last_name}}
+								</h4>
+								<p>{{employee.job_seeker.professional_title}}</p>
+								<p>{{employee.job_seeker.country.name}}</p>
+								<p>{{employee.job_seeker.language}}</p>
+								<p>{{employee.job_seeker.location}}</p>
+							</div>
+						</div>
+					</div>
+					<div class="content-box">
+						<label class="pro-detail">Education -</label>
+						<div class="detail-cover">
+							<ul class="skills_tag_list d-inline-block">
+								{% for education in employee.job_seeker.job_seeker_education.all %}
+								<li>
+									<span class="skills_tag">{{education.degree}}
+										<br>from
+										<br>{{education.school}}
+										<br>Passing Year- {{education.to_year}}</span>
+								</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+					<div class="area-interest">
+						<label class="pro-detail paddL0">Average Rating:</label>
+						<ul class="show_rating_list">
+							<li>
+								<i class="rated fas fa-star"></i>
+							</li>
+							<li>
+								<i class="rated fas fa-star"></i>
+							</li>
+							<li>
+								<i class="rated fas fa-star"></i>
+							</li>
+							<li>
+								<i class="rated fas fa-star"></i>
+							</li>
+							<li>
+								<i class="rated fas fa-star"></i>
+							</li>
+						</ul>
+					</div>
+					<div class="content-box">
+						<label class="pro-detail">Area - </label>
+						<div class="detail-cover">
+							<ul class="skills_tag_list d-inline-block">
+								{% for area in employee.job_seeker.area.all %}
+								<li>
+									<span class="skills_tag">{{area}} </span>
+								</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+					<div class="content-box">
+						<label class="pro-detail">Industry - </label>
+						<div class="detail-cover">
+							<ul class="skills_tag_list d-inline-block">
+								{% for industry in employee.job_seeker.industry.all %}
+								<li>
+									<span class="skills_tag">{{industry}}</span>
+								</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+					<div class="content-box">
+						<label class="pro-detail">Tools & Language - </label>
+						<div class="detail-cover">
+								<ul class="skills_tag_list d-inline-block">
+										{% for skill in employee.user_skill.all %}
+										{% if skill.skill in employee.job_seeker.tools_and_language.all%}
+										<li>
+										  <span class="skills_tag">{{skill.skill.name}}
+											<ul class="show_rating_list d-inherit-block">
+											  {% for i in "12345"%}
+											  <li>
+												{% if skill.rate >= i %}
+												<i class="rated fas fa-star"></i>
+												{% else %}
+												<i class="fas fa-star"></i>
+												{% endif %}
+											  </li>
+											  {% endfor %}
+											</ul>
+										  </span>
+										</li>
+										{% endif %} {% endfor %}
+									  </ul>
+						</div>
+					</div>
+					<div class="area-interest mt10">
+						<label class="pro-detail paddL0">Working Experience : 10 Years</label>
+					</div>
+					<div class="area-interest mt10">
+						<label class="pro-detail pR20 paddL0">Timezone -</label>
+						<ul class="skills_tag_list d-inline-block">
+							<li>
+								<span class="skills_tag">Pacific Time</span>
+							</li>
+						</ul>
+					</div>
+					<div class="content-box">
+						<label class="pro-detail">Employer History - </label>
+						<div class="detail-cover">
+							{% for employment in employee.job_seeker.job_seeker_employment.all%}
+							<div class="company_name_box">
+								<span class="company_logo">
+									<img src="{% static 'images/company-icon.png' %}" alt="Company Logo">
+								</span>
+								<div class="company_info  emp-history">
+									<h5>{{employment.title}}</h5>
+									<p>
+										<b>{{employment.company}}</b>
+									</p>
+									{% if employment.currently %}
+									<p>{{employment.get_from_month_display}}, {{employment.from_year}} to Currently
+									</p>
+									{% else %}
+									<p>{{employment.get_from_month_display}}, {{employment.from_year}} to {{employment.get_to_month_display}},
+										{{employment.to_year}}
+									</p>
+									{% endif %}
+									<p>{{employment.location}}</p>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+					</div>
+					<div class="content-box">
+						<label class="pro-detail">Languages Known - </label>
+						<div class="detail-cover">
+							<ul class="skills_tag_list d-inline-block">
+								{% for language in employee.job_seeker.language_known.all %}
+								<li>
+									<span class="skills_tag">{{language}}</span>
+								</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+					<div class="matched_action_btn" style="margin-top: 10px ">
+						<a class="btn btn-gray btn-block applicant-back-btn" id="{{employee.id}}">Back</a>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+		<!-- Right Content Box End -->
+	</div>
+	<!-- Sidebar-content-box End -->
+	</div>
+	<!-- container-1280 End -->
+	<script>
+		$(".view-btn").on('click', function () {
+			$("#employee_" + $(this).attr('id')).show()
+			$(".job-applicant").hide()
+		})
+
+		$(".applicant-back-btn").on('click', function () {
+			$("#employee_" + $(this).attr('id')).hide()
+			$(".job-applicant").show()
+		})
+	</script> {% if content %}
+	<script>
+		$("#company-search").val("{{content}}")
+	</script> {% endif %}{% endblock %}

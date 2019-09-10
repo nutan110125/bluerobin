@@ -1,0 +1,825 @@
+{% extends 'dashboardheader.html' %} {% load static %} {% load filters %}{% block content %}
+<script src="{% static 'js/validate.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $('.hide1').css('display', 'none');
+  });
+</script>
+<!-- main Start -->
+<main class="main-container">
+  <!-- ontainer-1280 Start -->
+  <div class="container-1280">
+    <!-- Sidebar-content-box Start -->
+    <div class="sidebar-content-box clearfix">
+      <!--Aside Start -->
+      {% include "dashboard-aside.html" %}
+      <!--Aside End -->
+      <!-- Right Content Box-->
+      <div class="right_content_box profile_content">
+        <div class="complete-profile">
+          <div class="flex-block">
+            <div class="flex1 profile_skills_info">
+              <h2 class="profile-heading">Hello {{request.user.first_name}} {{request.user.last_name}}
+                {% if request.user.job_seeker.profile_completion < 100 %}! Please complete your profile{% endif %}</h2>
+              <p>
+                <strong>Your preference are:</strong>
+              </p>
+              <div class="preference_box">
+                <strong>Area</strong>
+                <ul class="preference_list clearfix">
+                  {% for area in request.user.job_seeker.area.all %}
+                  <li>
+                    <span class="skills_tag">{{area}}</span>
+                  </li>
+                  {% endfor %}
+                  <a href="{% url 'analyticsmaven:user-skills' request.user.uuid %}">
+                    <i class="fas fa-edit" style="padding: 5px;vertical-align: middle;font-size:12px"></i>
+                  </a>
+                </ul>
+
+              </div>
+              <div class="preference_box">
+                <strong>Industry</strong>
+                <ul class="preference_list clearfix">
+                  {% for industry in request.user.job_seeker.industry.all %}
+                  <li>
+                    <span class="skills_tag">{{industry}}</span>
+                  </li>
+                  {% endfor %}
+                  <a href="{% url 'analyticsmaven:user-skills' request.user.uuid %}">
+                    <i class="fas fa-edit" style="padding: 5px;vertical-align: middle;font-size:12px"></i>
+                  </a>
+                </ul>
+              </div>
+              <div class="preference_box">
+                <strong>Tools & Language</strong>
+                <ul class="preference_list clearfix">
+                  {% for tools in request.user.job_seeker.tools_and_language.all %}
+                  <li>
+                    <span class="skills_tag">{{tools}}</span>
+                  </li>
+                  {% endfor %}
+                  <a href="{% url 'analyticsmaven:user-skills' request.user.uuid %}">
+                    <i class="fas fa-edit" style="padding: 5px;vertical-align: middle;font-size:12px"></i>
+                  </a>
+                </ul>
+              </div>
+              <div class="skills-head">
+                <strong>Experience Level:</strong> {{request.user.job_seeker.experience_level}}
+                <a href="{% url 'analyticsmaven:user-details' request.user.uuid %}">
+                  <i class="fas fa-edit" style="padding: 5px;vertical-align: middle;font-size:12px"></i>
+                </a>
+              </div>
+              <div class="skills-head">
+                <strong>Professional Title:</strong> {{request.user.job_seeker.professional_title}}
+                <a href="{% url 'analyticsmaven:user-details' request.user.uuid %}">
+                  <i class="fas fa-edit" style="padding: 5px;vertical-align: middle;font-size:12px"></i>
+                </a>
+              </div>
+
+              <div class="skills-head">
+                <strong>Professional Overview:</strong> {{request.user.job_seeker.overview}}
+                <a href="{% url 'analyticsmaven:user-details' request.user.uuid %}">
+                  <i class="fas fa-edit" style="padding: 5px;vertical-align: middle;font-size:12px"></i>
+                </a>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+        {% ifequal section 'personal-details' %}
+        <form method="POST" action="{% url 'analyticsmaven:personal-details' %}">
+          {% csrf_token %}
+          <div class="set_hourly_rate personal_details">
+            <h2 class="profile-heading">Personal Details</h2>
+            <div class="skills-head">
+              <strong>Education</strong> &nbsp;
+              <a href="#employeeEducationModal" data-toggle="modal" data-terget="#employeeEducationModal">
+                <i class="fas fa-plus-circle"></i>
+              </a>
+              <div>
+                {% for education in request.user.job_seeker.job_seeker_education.all %}
+                <div class="row education-row">
+                  <div class="col-sm-1">
+                    <i class="fas fa-university"></i>
+                  </div>
+                  <div class="col-sm-10 education-detail">
+                    <h5>{{education.school}}</h5>
+                    <div class="education-lbl">
+                      {{education.degree}}, {{education.field_of_study}} {% if education.grade %} with CGPA/Grades : {{education.grade}} {% endif%}
+                    </div>
+                    <div class="education-lbl">
+                      {{education.from_year}} - {{education.to_year}}
+                    </div>
+                    <div class="education-lbl">
+                      {{education.activities_socities}}
+                    </div>
+                    <div class="education-lbl">
+                      {{education.description}}
+                    </div>
+                  </div>
+                  <div class="col-sm-1">
+                    <a style="position:absolute;right:4px;top:3px;z-index:9;" href="{% url 'analyticsmaven:delete-education' education.id  %}">
+                      <i class="far fa-trash-alt" style="float: right;padding: 5px;color: red;font-size: 14px"></i>
+                    </a>
+                  </div>
+
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="skills-head">
+              <strong>Employment History</strong> &nbsp;
+              <a href="#employeeHistoryModal" data-toggle="modal" data-terget="#employeeHistoryModal">
+                <i class="fas fa-plus-circle"></i>
+              </a>
+              <div>
+                {% for employment in request.user.job_seeker.job_seeker_employment.all %}
+                <div class="row education-row">
+                  <div class="col-sm-1">
+                    <i class="fas fa-briefcase"></i>
+                  </div>
+                  <div class="col-sm-10 education-detail">
+                    <h5>{{employment.title}}</h5>
+                    <div class="education-lbl">
+                      {{employment.company}}
+                    </div>
+                    <div class="education-lbl">
+                      {{employment.get_from_month_display}}, {{employment.from_year}} - {% if employment.currently%} Present {% else %} {{employment.get_to_month_display}},
+                      {{employment.to_year}} {% endif %}
+                    </div>
+                    <div class="education-lbl">
+                      {{employment.location}}
+                    </div>
+                    <div class="education-lbl">
+                      {{employment.description}}
+                    </div>
+                  </div>
+                  <div class="col-sm-1">
+                    <a style="position:absolute;right:4px;top:3px;z-index:9;" href="{% url 'analyticsmaven:delete-employment' employment.id  %}">
+                      <i class="far fa-trash-alt" style="float: right;padding: 5px;color: red;font-size: 14px"></i>
+                    </a>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="skills-head skill_p" id="languagediv">
+              <strong>Language Known</strong>
+              <ul class="skills_tag_list d-inline-block">
+                {% for language in languages %} {% if language in request.user.job_seeker.language_known.all%}
+                <li class="select-subSkill active" id='{{language.id}}'>
+                  <span class="skills_tag">
+                    <input type="checkbox" id="language_{{language.id}}" name="language" value='{{language.id}}' />{{language}}
+                    <script>
+                      $("#language_{{language.id}}").attr("checked", "checked")
+                    </script>
+                  </span>
+                </li>
+                {% else %}
+                <li class="select-subSkill" id='{{language.id}}'>
+                  <span class="skills_tag">
+                    <input type="checkbox" id="language_{{language.id}}" name="language" value='{{language.id}}' />{{language}}</span>
+                </li>
+                {% endif %} {% endfor %}
+                <li class="select-subSkill-language" id='0' value='0'>
+                  <span class="skills_tag">
+                    <input type="checkbox" name="language" id="custom_language" placeholder='Please enter Language' style="border: none;background: none;"
+                    />
+                    <strong id="language-text">Others</strong>
+                  </span>
+                </li>
+              </ul>
+            </div>
+            <div class="language_rating" id="language_rating">
+              {% for language in languages %} {% if language in request.user.job_seeker.language_known.all%}
+              <div class="flex-block align-center rating-star" id="star_{{language.id}}">
+                <div class="flex1 skill_p">
+                  <div class="skills_tag">{{language}}</div>
+                </div>
+                <div class="flex1 star_flex">
+                  <ul class="show_rating_list">
+                    {% for i in "12345"%} {% if request.user.user_language.all|language_rate:language.id >= i %}
+                    <li id='{{language.id}}' value='{{forloop.counter}}' class="select-star rated">
+                      <i class="fas fa-star"></i>
+                    </li>
+                    {% else %}
+                    <li id='{{language.id}}' value='{{forloop.counter}}' class="select-star">
+                      <i class="fas fa-star"></i>
+                    </li>
+                    {% endif %} {% endfor %}
+                  </ul>
+                </div>
+                <div class="flex1">
+                  <span class="skills_option" id="{{language.id}}_rate">{{request.user.user_language.all|rating_status:language.id}}</span>
+                </div>
+              </div>
+              {% else %}
+              <div class="flex-block align-center rating-star" id="star_{{language.id}}" style="display: none">
+                <div class="flex1 skill_p">
+                  <div class="skills_tag">{{language}}</div>
+                </div>
+                <div class="flex1 star_flex">
+                  <ul class="show_rating_list">
+                    {% for i in "12345"%}
+                    <li id='{{language.id}}' value='{{forloop.counter}}' class="select-star">
+                      <i class="fas fa-star"></i>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                <div class="flex1">
+                  <span class="skills_option" id="{{language.id}}_rate"></span>
+                </div>
+              </div>
+              {% endif %} {% endfor %}
+            </div>
+            <div class="grey-btn-block">
+              {% if message %}
+              <div class="errors" style="color: red">{{message}}</div>
+              {% endif %}
+              <button type="submit" class="btn bg-green max-WT-200 mb15">Save And Next</button>
+            </div>
+        </form>
+        {% endifequal %} {% ifequal section 'set-location' %}
+        <form class="form_block maxWidthFull" method="POST" action="{% url 'analyticsmaven:set-location' %}" onsubmit="return set_location()">
+          {% csrf_token %}
+          <div class="set_hourly_rate add_location">
+            <h2 class="profile-heading">Add availability and location</h2>
+            <div class="skills-head skill_p">
+              <strong> How many hours do you have available for work each week?:</strong>
+              <ul class="skills_tag_list d-inline-block">
+                {% for h in hours %}
+                <li class="skill_tag_rate">
+                  <span class="skills_tag gray_tag">
+                    <input type="radio" name='week_availability' value="{{h.id}}" />{{h.name}} Hrs</span>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+            <div class="form-group">
+              <div class="preference_box max-WT-400">
+                <strong>Phone No.:</strong>
+                <input type="text" class="form-control" id="mobile" name="phone_no" onkeyup="return isValidmobile()" maxlength="20" required="true"
+                /> {% if request.user.job_seeker.phone_no %}
+                <script>
+                  $("#mobile").val("{{request.user.job_seeker.phone_no}}")
+                </script> {% endif %}
+                <span id="mobile_error"></span>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="preference_box max-WT-400">
+                <strong>City:</strong>
+                <input type="text" id="city" class="form-control" name="city" onkeyup="return validatecity()" required="true" maxlength="40"
+                /> {% if request.user.job_seeker.city %}
+                <script>
+                  $("#city").val("{{request.user.job_seeker.city}}")
+                </script> {% endif %}
+                <span id="cityname_error"></span>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="preference_box max-WT-400">
+                <strong>Postal/Zip Code:</strong>
+                <input type="text" class="form-control" id="postal_code" name="postal_code" onkeyup="return validate_postal_code()" maxlength="10"
+                  required="true" /> {% if request.user.job_seeker.postal_code %}
+                <script>
+                  $("#postal_code").val("{{request.user.job_seeker.postal_code}}")
+                </script> {% endif %}
+                <span id="postal_error"></span>
+              </div>
+
+            </div>
+            <div class="preference_box">
+              <strong>Country:</strong>
+              <ul class="preference_list clearfix">
+                {% for coun in country %}
+                <li class="skill_tag_country">
+                  <span class="skills_tag gray_tag">
+                    <input type="radio" name='country' value="{{coun.id}}" />{{coun.name}}</span>
+                </li>
+                {% endfor %}
+                <li class="skill_tag">
+                  <span class="skills_tag gray_tag">
+                    <input type="radio" name='country' id="custom_country_input" style="border: none;background: none;" place="Enter your Country"
+                    />
+                    <span id="country_text">Others</span>
+                  </span>
+                </li>
+              </ul>
+            </div>
+            <div class="preference_box">
+              <strong>Time Zone:</strong>
+              <ul class="preference_list clearfix">
+                {% for time in timezone %}
+                <li class="skill_tag_timezone">
+                  <span class="skills_tag gray_tag">
+                    <input type="radio" name='timezone' value="{{time.id}}" />{{time.name}}</span>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+            <div class="grey-btn-block">
+              <button type="submit" class="btn btn-green max-WT-200">SAVE AND NEXT</button>
+            </div>
+          </div>
+        </form>
+        {% endifequal %} {% ifequal section 'hourly-rate' %}
+        <form class="form_block" method="POST" action="{% url 'analyticsmaven:set-hourly-rate' %}">
+          {% csrf_token %}
+          <div class="set_hourly_rate">
+            <h2 class="profile-heading">Set your hourly rate</h2>
+            <div class="form-group row">
+              <label class="col-lg-4 col-form-label">Hourly Rate:</label>
+              <div class="col-lg-8">
+                <div class="input-group" style="width: 25%">
+                  <span class="input-group-addon">$</span>
+                  <input type="number" id="hourly_rate" name="hourly_rate" value="{{request.user.job_seeker.hourly_rate|floatformat:2}}" class="form-control"
+                    placeholder="0.00" maxlength="8" min="0" />
+                  <span class="input-group-addon">/Hr</span>
+                </div>
+                <div style="color: red;" id="validation_error"></div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="example-text-input" class="col-lg-4 col-form-label">Analytics Mavens Fees:</label>
+              <div class="col-lg-8">
+                <div class="input-group">
+                  <input type="hidden" name="analytics_percentage" id='analytics_percentage' value={{analytics_rate.fees}}>
+                  <input type="hidden" name="analytics_rate" id='analytics_rate'>
+                  <label class="input-group-addon col-form-label" id="analyticsmaven_rate">$0.00/Hr</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="example-text-input" class="col-lg-4 col-form-label ">You will be paid:</label>
+              <div class="col-lg-8">
+                <div class="input-group">
+                  <input type="hidden" id="paid_rate" name="paid_rate" placeholder="0.00" />
+                  <label class="input-group-addon" id="user_rate" class="col-form-label">$0.00/Hr</label>
+                </div>
+              </div>
+            </div>
+            <div class="grey-btn-block ">
+              <button type="submit " class="btn bg-green max-WT-200 mb15 ">SAVE AND NEXT</button>
+            </div>
+          </div>
+        </form>
+        {% endifequal %}
+        </div>
+        <!-- Right Content Box end-->
+      </div>
+      <!-- Sidebar-content-box End -->
+    </div>
+    <!-- container-1280 End -->
+    {% include 'refer.html' %} 
+    <!-- main End -->
+    <!-- Modal complete your profile Start-->
+    <div class="modal fade global-modal" id="employeeEducationModal">
+      <div class="modal-dialog max-WT-600">
+        <form method="POST" action="{% url 'analyticsmaven:education' %}" onsubmit="return validate_education_details()">
+          {% csrf_token %}
+          <div class="modal-content">
+            <div class="modal-header ">
+              <!-- <h4 class="modal-title text-center">Sign In</h4> -->
+              <span class="modal_logo">
+                <img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+                <img class="hide_large" src="{% static 'images/logo-mob.png' %}" alt="Logo" />
+              </span>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body text-center paddTB15">
+              <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+              <div class="modal_box_title mb15">
+                Add Education Details
+              </div>
+              <div class="field_group text-left">
+                <input type="hidden" name='seeker' value="{{request.user.job_seeker.id}}" />
+                <div class="form-group">
+                  <label class="control-label">School</label>
+                  <input type="text" class="form-control" placeholder="Ex: Boston University" id="school" name="school" value="{{form.school.value}}"
+                    required onkeyup="return validateschoolname()" maxlength="100" />
+                  <div id="schoolname_error"></div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Degree</label>
+                  <input type="text" class="form-control" placeholder="Ex: Bachelor’s" name="degree" id="degree" value="{{form.degree.value}}"
+                    maxlength="100" required onkeyup="return validatedegree()" />
+                  <div id="degreename_error"></div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Field of study</label>
+                  <input type="text" class="form-control" placeholder="Ex: Business" name="field_of_study" id="field_of_study" value="{{form.field_of_study.value}}"
+                    maxlength="100" required onkeyup="return validatefield()" />
+                  <div id="field_error"></div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Grade</label>
+                  <input type="text" class="form-control" placeholder="Ex: Business" name="grade" value="{{form.grade.value}}" maxlength="100"
+                    id="grade" onkeyup="return validategrade()" />
+                  <div id="grade_error"></div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Activities and societies</label>
+                  <textarea class="form-control" placeholder="" name="activities_socities" id="activities_socities" value="{{form.activities_socities.value}}"
+                    onkeyup="return validate_activities()"></textarea>
+                  <div id="validate_activities_error"></div>
+                  <span class="note_info">Ex: Alpha Phi Omega, Marching Band, Volleyball</span>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="control-label">From Year</label>
+                      <select class="form-control" name="from_year" id="from_year" value="{{form.from_year.value}}" required onchange="return validate_year()">
+                        <option value="">Select from year</option>
+                        {% for year in year_list %}
+                        <option value="{{year}}">{{year}}</option>
+                        {% endfor %}
+                      </select>
+                      <div style='color:red' id="errors"></div>
+
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="control-label">To Year (or expected)</label>
+                      <select class="form-control" name="to_year" id="to_year" value="{{form.to_year.value}}" onchange="return validate_year()"
+                        required>
+                        <option value="">Select to year</option>
+                        {% for year in year_list %}
+                        <option value="{{year}}">{{year}}</option>
+                        {% endfor %}
+                      </select>
+                      <div id="year_error"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Description</label>
+                  <textarea class="form-control" placeholder="" name="description" value="{{form.description.value}}" id="education_description"
+                    onkeyup="return validate_description()"></textarea>
+                  <div id="description_error"></div>
+                </div>
+              </div>
+              <div class="text-center">
+                <button class="btn btn-green max-WT-200" type="submit">SAVE</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Modal complete your profile End -->
+    <!-- Modal complete your profile Start-->
+    <div class="modal fade global-modal" id="employeeHistoryModal">
+      <div class="modal-dialog max-WT-600">
+        <form onsubmit="return employement()" method="POST" action="{% url 'analyticsmaven:employment' %}">
+          {% csrf_token %}
+          <div class="modal-content">
+            <div class="modal-header ">
+              <!-- <h4 class="modal-title text-center">Sign In</h4> -->
+              <span class="modal_logo">
+                <img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+                <img class="hide_large" src="{% static 'images/logo-mob.png' %}" alt="Logo" />
+              </span>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body text-center paddTB15">
+              <div class="modal_box_title mb15">
+                Add Employment Details
+              </div>
+              <div class="field_group text-left">
+                <input type="hidden" name='seeker' value="{{request.user.job_seeker.id}}" />
+                <div class="form-group">
+                  <label class="control-label">Title </label>
+                  <input type="text" class="form-control" placeholder="Ex: Manager" name='title' value="{{form.title.value}}" onkeyup="return validatetitle()"
+                    id="title" minlength="2" maxlength="100" required="true" />
+                  <div id="title_error"></div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Company </label>
+                  <input type="text" class="form-control" placeholder="Ex: Mobiloitte" name='company' value="{{form.company.value}}" onkeyup="return validatecompanyname()"
+                    id="company_name" minlength="2" maxlength="100" required="true" />
+                  <div id="firstname_error"></div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">City and Country</label>
+                  <input type="text" class="form-control" placeholder="Ex: Toronto, Canada" name='location' value="{{form.location.value}}"
+                    id="location" onkeyup="return validatelocation()" minlength="2" maxlength="100" required="true" />
+                  <div id="locationerror"></div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6" style="padding-right:2px;">
+                    <div class="form-group">
+                      <label class="control-label">From</label>
+                      <div class="row">
+                        <div class="col-sm-6" style="padding-right:2px;">
+                          <select class="form-control" name='from_month' value="{{form.from_month.value}}" id="from_month" onchange="return validate_year_employment()"
+                            required="true">
+                            <option value="">Select Month</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                          </select>
+                          <div id="frommontherror"></div>
+                        </div>
+                        <div class="col-sm-6" style="padding-left:2px;">
+                          <select class="form-control" name='from_year' value="{{form.to_year.value}}" id="from_year1" onchange="return validate_year_employment()"
+                            required="true">
+                            <option value="">Select Year</option>
+                            {% for year in year_list %}
+                            <option value="{{year}}">{{year}}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6" style="padding-left:2px;" id="end_block">
+                    <div class="form-group">
+                      <label class="control-label">To</label>
+                      <div class="row">
+                        <div class="col-sm-6" style="padding-right:2px;">
+                          <select class="form-control" name='to_month' value="{{form.from_month.value}}" id="to_month" onchange="return validate_year_employment()">
+                            <option value="">Select Month</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                          </select>
+                          <div id="montherror"></div>
+                        </div>
+                        <div class="col-sm-6" style="padding-left:2px;">
+                          <select class="form-control" name='to_year' value="{{form.to_year.value}}" onchange="return validate_year_employment()" id="to_year1">
+                            <option value="">Select Year</option>
+                            {% for year in year_list %}
+                            <option value="{{year}}">{{year}}</option>
+                            {% endfor %}
+                          </select>
+                          <div id="errors"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="checkbox checkbox-custom">
+                    <label>
+                      <span class="checkbox-check top2">
+                        <input type="checkbox" name="currently" id="currently">
+                        <span class="cr">
+                          <i class="cr-icon fa fa-check"></i>
+                        </span>
+                      </span>
+                      <span class="checkbox-txt amount_a">I currently work here</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Description</label>
+                  <textarea class="form-control" placeholder="" name='description' value="{{form.description.value}}" maxlength="500" minlength="2"></textarea> </textarea>
+                </div>
+              </div>
+              <div class="text-center">
+                <button class="btn btn-green max-WT-200" type="submit">SAVE</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Modal complete your profile End -->
+    {% if type %} {% ifequal type 'education' %}
+    <script>
+      $(document).ready(function () {
+        $("#employeeEducationModal").modal('show')
+      })
+    </script> {% endifequal %} {% ifequal type 'employment' %}
+    <script>
+      $(document).ready(function () {
+        $("#employeeHistoryModal").modal('show')
+      })
+    </script> {% endifequal %} {% endif %}
+    <!-- Modal End -->
+    <script>
+      $(document).ready(function () {
+        $(".select-subSkill").on('click', function () {
+          if ($(this).hasClass('active')) {
+            $(this).removeClass("active");
+            $("#star_" + $(this).attr('id')).hide();
+          } else {
+            $(this).addClass("active");
+            $("#star_" + $(this).attr('id')).show();
+          }
+        });
+        $("#currently").click(function () {
+          if ($('#currently').is(":checked")) {
+            $('#end_block').hide();
+          } else {
+            $('#end_block').show();
+          }
+        })
+        $(".skill_tag_rate").on('click', function () {
+          $(".skill_tag_rate").removeClass("active")
+          if ($(this).hasClass('active')) {
+            $(this).removeClass("active");
+          } else {
+            $(this).addClass("active");
+          }
+        });
+        $(".skill_tag_country").on('click', function () {
+          $(".skill_tag_country").removeClass("active")
+          $(".skill_tag").removeClass("active")
+          if ($(this).hasClass('active')) {
+            $(this).removeClass("active");
+          } else {
+            $(this).addClass("active");
+          }
+        });
+        $(".skill_tag").on('click', function () {
+          $(".skill_tag_country").removeClass("active")
+          if ($(this).hasClass('active')) {
+            $(this).removeClass("active");
+            $("#custom_country_input").attr('checked', '')
+          } else {
+            $(this).addClass("active");
+            $(this).find("input[name=country]").attr('type', 'text')
+            $(this).find("input[name=country]").focus()
+            $("#country_text").text("")
+            $("#custom_country_input").attr('checked', 'checked')
+          }
+        });
+
+        $("#custom_country_input").on('blur', function () {
+          if ($(this).val() && $(this).attr('type') == 'text') {
+            $("#country_text").text($(this).val())
+          } else {
+            $("#country_text").text("Others")
+          }
+          $(this).attr('type', 'checkbox')
+        })
+
+
+
+
+
+
+
+
+        $(".skill_tag_timezone").on('click', function () {
+          $(".skill_tag_timezone").removeClass("active")
+          if ($(this).hasClass('active')) {
+            $(this).removeClass("active");
+          } else {
+            $(this).addClass("active");
+          }
+        });
+        $("#hourly_rate").change(function () {
+          if ($(this).val()) {
+            rate = $("#analytics_percentage").val()
+            maven_price = (parseInt($(this).val()) * rate) / 100
+            user_price = parseInt($(this).val()) - maven_price
+            $("#analyticsmaven_rate").text("$" + maven_price + "/Hr")
+            $("#analytics_rate").val(maven_price)
+            $("#user_rate").text("$" + user_price + "/Hr")
+            $("#paid_rate").val(user_price)
+          } else {
+            $("#analyticsmaven_rate").text("$0.00/Hr")
+            $("#analytics_rate").val(0.00)
+            $("#user_rate").text("$0.00/Hr")
+            $("#paid_rate").val(0.00)
+          }
+        })
+        $('#hourly_rate').on('input', function () {
+          if ($(this).val()) {
+            rate = $("#analytics_percentage").val()
+            maven_price = (parseInt($(this).val()) * rate) / 100
+            user_price = parseInt($(this).val()) - maven_price
+            $("#analyticsmaven_rate").text("$" + maven_price + "/Hr")
+            $("#analytics_rate").val(maven_price)
+            $("#user_rate").text("$" + user_price + "/Hr")
+            $("#paid_rate").val(user_price)
+          } else {
+            $("#analyticsmaven_rate").text("$0.00/Hr")
+            $("#analytics_rate").val(0.00)
+            $("#user_rate").text("$0.00/Hr")
+            $("#paid_rate").val(0.00)
+          }
+        });
+
+        $(document).on('click', '.select-star', function () {
+          if ($(this).hasClass("rated")) {
+            $(this).removeClass("rated");
+            $(this).nextAll().removeClass("rated");
+          } else {
+            $(this).prevAll().addClass("rated");
+            $(this).addClass("rated");
+          }
+          if ($(this).val() == 1) {
+            $("#" + $(this).attr('id') + "_rate").text('(Elementary)')
+          } else if ($(this).val() == 2) {
+            $("#" + $(this).attr('id') + "_rate").text('(Intermediate)')
+          } else if ($(this).val() == 3) {
+            $("#" + $(this).attr('id') + "_rate").text('(Working proficiency)')
+          } else if ($(this).val() == 4) {
+            $("#" + $(this).attr('id') + "_rate").text('(Advanced)')
+          } else {
+            $("#" + $(this).attr('id') + "_rate").text('(Mother tongue / Fluent)')
+          }
+          $.ajax({
+            url: '/user-language-rate',
+            type: "POST",
+            dataType: 'json',
+            data: {
+              'user': '{{user.id}}',
+              'language': $(this).attr('id'),
+              "rate": $(this).val(),
+              "csrfmiddlewaretoken": '{{ csrf_token }}'
+            },
+            success: function (success) {
+            }
+          });
+        })
+
+        $(".select-subSkill-language").on('click', function () {
+          if ($(this).hasClass('active')) {
+            $(this).removeClass("active");
+            $("#star_0").hide();
+            $("#custom_language").attr('checked', '')
+            return
+          } else {
+            $(this).addClass("active");
+            $(this).find("input[name=language]").attr('type', 'text')
+            $(this).find("input[name=language]").focus()
+            $("#language-text").text("")
+            $("#custom_language").attr('checked', 'checked')
+          }
+        })
+        $("#custom_language").on('blur', function () {
+          if ($(this).val() && $(this).attr('type') == 'text') {
+            $("#language-text").text($(this).val())
+            if ($(".language_rating").find('#star_0').length) {
+              $("#star_0").find(".skills_tag").text($(this).val())
+              $("#star_0").find("li").attr("id", $(this).val())
+              $("#star_0").find("li").removeClass('rated')
+            } else {
+              var rating_block = $('.rating-star:first').clone()
+              rating_block.closest('.rating-star').attr('id', "star_0")
+              rating_block.find(".skills_tag").text($(this).val())
+              rating_block.find("li").attr("id", $(this).val())
+              rating_block.find("li").removeClass('rated')
+              rating_block.find(".skills_option").attr('id', $(this).val() + '_rate')
+              rating_block.find(".skills_option").text('')
+              $(".language_rating").append(rating_block)
+            }
+            $("#star_0").show();
+          } else {
+            $("#language-text").text("Others")
+            $("#star_0").hide();
+          }
+          $(this).attr('type', 'checkbox')
+        })
+
+
+      });
+    </script> {% if request.user.job_seeker.analytics_rate%}
+    <script>
+      $("#analyticsmaven_rate").text("${{request.user.job_seeker.analytics_rate|floatformat:2}}/Hr")
+      $("#analytics_rate").val("{{request.user.job_seeker.analytics_rate}}")
+    </script> {% endif %} {% if request.user.job_seeker.paid_rate%}
+    <script>
+      $("#user_rate").text("${{request.user.job_seeker.paid_rate|floatformat:2}}/Hr")
+      $("#paid_rate").val("{{request.user.job_seeker.paid_rate}}")
+    </script> {% endif %} {% if request.user.job_seeker.week_availability%}
+    <script>
+      $("input[name='week_availability'][value='{{request.user.job_seeker.week_availability.id}}']").prop('checked', true)
+      $("input[name='week_availability'][value='{{request.user.job_seeker.week_availability.id}}']").parent().parent().addClass("active")
+    </script> {% endif %} {% if request.user.job_seeker.country%}
+    <script>
+      $("input[name='country'][value='{{request.user.job_seeker.country.id}}']").prop('checked', true)
+      $("input[name='country'][value='{{request.user.job_seeker.country.id}}']").parent().parent().addClass("active")
+    </script> {% endif %} {% if request.user.job_seeker.timezone%}
+    <script>
+      $("input[name='timezone'][value='{{request.user.job_seeker.timezone.id}}']").prop('checked', true)
+      $("input[name='timezone'][value='{{request.user.job_seeker.timezone.id}}']").parent().parent().addClass("active")
+    </script> {% endif %} {% endblock %}

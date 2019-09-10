@@ -1,0 +1,128 @@
+{% extends 'dashboardheader.html' %} {% load static %} {% load filters %}{% block content %}
+<script src="{% static 'js/validate.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $('.hide1').css('display', 'none');
+  });
+</script>
+<!-- main Start -->
+<main class="main-container">
+  <!-- ontainer-1280 Start -->
+  <div class="container-1280">
+    <!-- Sidebar-content-box Start -->
+    <div class="sidebar-content-box clearfix">
+      <!--Aside Start -->
+      {% include "dashboard-aside.html" %}
+      <!--Aside End -->
+      <!-- Right Content Box-->
+      <div class="right_content_box">
+        <div class="complete-profile" style="border: none">
+          <div class="flex-block">
+            <div class="flex1 profile_skills_info">
+              <div>
+                <h2 class="profile-heading text-center">Profile</h2>
+                <div class="skills_box_set">
+                  <p>Company Name : {{request.user.company.company_name}}</p>
+                </div>
+                <div class="skills_box_set">
+                  <p>Total Posted Jobs : {{request.user.company.company_name_jobmanagement.count}}</p>
+                </div>
+                <div class="skills_box_set">
+                  <p>Skills I am looking for :</p>
+                  <ul class="new_custom_skills_list clearfix">
+                    {% for area in request.user.company.industry.all %}
+                    <li id='{{area.id}}' value='{{area.id}}' class="select-subSkill">
+                      <span class="skills_tag">
+                        <input type="checkbox" id="area_{{area.id}}" name="area" value='{{area.id}}' />{{area.name}}
+                        <script>
+                          $("#area_{{area.id}}").attr("checked", "checked")
+                        </script>
+                      </span>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                
+                <div class="skills_box_set">
+                  {% if request.user.company.language.count %}
+                  <p> Preference Language:</p>
+                  <ul class="new_custom_skills_list clearfix">
+                    {% for language in request.user.company.language.all %}
+                    <li id='{{language.id}}' value='{{language.id}}' class="select-subSkill">
+                      <span class="skills_tag">
+                        <input type="checkbox" id="area_{{area.id}}" name="area" value='{{language.id}}' />{{language.language}}
+                        <script>
+                          $("#language_{{language.id}}").attr("checked", "checked")
+                        </script>
+                      </span>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                  {% endif %}
+                </div>
+                <!-- <p>Posted Jobs :</p>
+                <ul class="job_list posted-job-block posted_job_list">
+                  {% for job in request.user.company.company_name_jobmanagement.all %}
+                  <li class="job-view">
+                    <div class="job_list_block">
+                      <div class="list_upper border0 p0">
+                        <div class="flex-block flexBoxOne">
+                          <div class="flex1">Type of your company:</div>
+                          <div class="flex1 text-left flexBoxBtn">
+                            <div class="flex2"> {{job.job_name|capfirst}}</div>
+                          </div>
+                        </div>
+                        <div class="flex-block flexBoxTwo">
+                          <div class="flex1">Post Job Title:</div>
+                          <div class="flex1 text-left">
+                            <div class="flex2">{{job.description}}</div>
+                          </div>
+                        </div>
+                        <div class="flex-block align-items-center">
+                          <div class="flex1">
+                            <div class="job-icons job_icons2">
+                              <a href="javascript:void(0);">
+                                <i class="fas fa-map-marker"></i>
+                              </a>
+                              {% for country in job.country.all %}
+                              {{country.name|default:''}},
+                              {% endfor %}
+                            </div>
+                          </div>
+                          <div class="flex1">
+                            <div class="job-icons job_icons2">
+                              <a href="javascript:void(0);">
+                                <i class="fas fa-clock"></i>
+                              </a>
+                              {{job.duration}} Month
+                            </div>
+                          </div>
+                          <div class="flex1">{{job.credit}}</div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  {% endfor %}
+                </ul> -->
+                <!-- <div class="grey-btn-block" style="text-align:center;">
+                  <a href="{% url 'analyticsmaven:company-registration' request.user.uuid %}">
+                    <button type="submit" class="btn bg-green max-WT-200 mb15">
+                      Edit
+                    </button>
+                  </a>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Right Content Box end-->
+    </div>
+    <!-- Sidebar-content-box End -->
+  </div>
+  <!-- container-1280 End -->
+  {% include 'refer.html' %} 
+  <!-- main End -->
+  {% endblock %}

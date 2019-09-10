@@ -1,0 +1,442 @@
+{% extends 'dashboardheader.html' %} {% load static %}{% load filters %} {% block content %} {% block script %}
+<script>
+  var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+  var socket = new WebSocket(ws_scheme + '://' + window.location.host + '/messagebox/');
+  socket.onopen = function open() {
+    console.log('WebSockets connection created.');
+  };
+  socket.onmessage = function message(event) {
+    var data = JSON.parse(event.data);
+    if (data.edit && (("{{request.user.id}}" == data.receiver && "{{receiver.id}}" == data.sender) || ("{{request.user.id}}" == data.sender && "{{receiver.id}}" == data.receiver))) {
+      console.log("Edit Message Receive" + JSON.stringify(data))
+      return editMessage(data)
+    } else if ("{{request.user.id}}" == data.receiver && "{{receiver.id}}" == data.sender) {
+      console.log("Message Receive" + JSON.stringify(data))
+      return reply(data)
+    } else if ("{{request.user.id}}" == data.sender && "{{receiver.id}}" == data.receiver) {
+      console.log("Message Send" + JSON.stringify(data))
+      return sent(data)
+    }
+  };
+  if (socket.readyState == WebSocket.OPEN) {
+    socket.onopen();
+  }
+</script> {% endblock script %}
+<script src="{% static 'validate.js' %}"></script>
+<main class="main-container padd0">
+  <section class="chat_Section">
+    <!-- ontainer-1280 Start -->
+    <div class="container-1280">
+      <!-- Chat Box -->
+      <div class="chat_box">
+        <div id="frame" class="chat_frame">
+          <div id="sidepanel" class="chat_left_panel">
+            <span class="chat_open_btn">
+              <i class="fas fa-users"></i>
+            </span>
+            <div class="profile_pic">
+              {% if request.user.avatar %}
+              <img id="signup-image" src="{{request.user.avatar}}" alt="user pic" />
+              {% else %}
+              <img id="signup-image" src="{% static 'images/avatar.png' %}" alt="user pic" />
+              {% endif %}
+            </div>
+            <span class="btn btn-green  radius0 btn-block browseBtn">
+              Change Picture
+              <input class="file-upload_input" type="file" name="avatar" id='avatar' onchange="ValidateFileUpload(this,'{{request.user.uuid}}', '{{request.user.user_type}}' )" />
+            </span>
+            <br>
+            <h6 class="profile_name">
+              {{ request.user.first_name|capfirst}}
+              {% if request.user.last_name %}
+              {{request.user.last_name|capfirst}}
+              {% endif %}
+            </h6>
+            <p class="profile_id">{{request.user.email}}</p>
+            <div class="profile_progress_block">
+              <div class="progress_slider">
+                {% if request.user.job_seeker %}
+                <span style="width:{{request.user.job_seeker.profile_completion}}%;"></span>
+                {% else %}
+                <span style="width:{{request.user.company.profile_completion}}%;"></span>
+                {% endif %}
+              </div>
+              <div class="profile-status">
+                {% if request.user.job_seeker %}
+                <span>{{request.user.job_seeker.profile_completion}}%</span>
+                {% elif request.user.company %}
+                <span>{{request.user.company.profile_completion}}%</span>
+                {% else %}
+                <span>0%</span>
+                {% endif %} Profile Completed
+              </div>
+            </div>
+            <div id="search" class="chat_user_search">
+              <form action=''>
+                <label for="">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </label>
+                <input type="text" class="form-control" id="chatqf" name='chatqf' placeholder="Search" />
+              </form>
+            </div>
+            <div id="contacts" class="chat_user_list">
+              <ul>
+                {% for chat in chat_list %}
+                <li class="contact" id="{{chat.id}}">
+                  <a style="color:black" href="{% url 'analyticsmaven:message' chat.company.uuid chat.jobseeker.uuid chat.job.uuid %}">
+                    {% if chat|unread_count:request.user %}
+                    <span class="badge unread-message-count">{{chat|unread_count:request.user}}</span>
+                    {% endif %}
+                    <!-- wrap Start -->
+                    <div class="wrap avatar_div">
+                      {% ifequal request.user.user_type 'Company' %}
+                      {% if chat.jobseeker.avatar %}
+                      <img src="{{chat.jobseeker.avatar}}" alt="Company Logo" />
+                      {% else %}
+                      <img src="{% static 'images/user-img.png' %}" alt="Company Logo" />
+                      {% endif %}
+                      {% else %}
+                      {% if chat.company.avatar %}
+                      <img src="{{chat.company.avatar}}" alt="Company Logo" />
+                      {% else %}
+                      <img src="{% static 'images/user-img.png' %}" alt="Company Logo" />
+                      {% endif %}
+                      {% endifequal %}
+                      <div class="meta">
+                        {% ifequal request.user.user_type 'Company' %}
+                        <p class="preview">{{chat.job.job_name}}</p>
+                        <p class="preview">{{chat.jobseeker.first_name}}</p>
+                        {% else %}
+                        <p class="name">{{chat.job.job_name}}</p>
+                        <p class="preview">{{chat.company.first_name}}</p>
+                        {% endifequal %}
+                        <p class="preview">{{chat.latest_chat.created_at|current_duration}}</p>
+                      </div>
+                      <div class="dropdown chat_dropdown">
+                        <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+                          aria-expanded="false">
+                          {% ifequal chat.id chatid %}
+                          <i class="fas fa-ellipsis-v" style="color: #7adb4c !important"></i>
+                          {% else %}
+                          <i class="fas fa-ellipsis-v"></i>
+                          {% endifequal %}
+                        </button>
+                        <div class="dropdown-menu">
+                          <a class="dropdown-item delete_project" href="javascript:void(0);">Delete</a>
+                          <a class="dropdown-item remind_project" href="javascript:void(0);">Reminder</a>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- wrap End -->
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+          <div class="chat_content">
+            <!-- message_box Start -->
+            <div class="message_box">
+              <h2>Messages</h2>
+              <div class="project_name clearfix">
+                {% ifequal request.user.user_type "Company" %}
+                <h3>{{chat.jobseeker.first_name}}
+                  <span class="project_time">05:45 PM IST</span>
+                </h3>
+                {% else %}
+                <h3>{{chat.company.first_name}}
+                  <span class="project_time">05:45 PM IST</span>
+                </h3>
+                {% endifequal %}
+                <!-- <div class="msgExpireinfo">Message will be auto deleted after 1 year*</div> -->
+              </div>
+            </div>
+            <!-- message_box End -->
+            <div class="messages">
+              <ul class="clearfix chat-block">
+                {% for chattext in chat_data %}
+                {% ifequal chattext.sender.id request.user.id %}
+                <li class="sent" id='{{chattext.id}}'>
+                  {% else %}
+                <li class="replies" id='{{chattext.id}}'>
+                  {% endifequal %}
+                  <div class="chat-inner-box">
+                    {% if chattext.sender.avatar %}
+                    <img src="{{chattext.sender.avatar}}" alt="User Image" />
+                    {% else %}
+                    <img src="{% static 'images/user-img.png' %}" alt="User Image" />
+                    {% endif %}
+                    <span class="chat_user_name">
+                      {{ chattext.sender.first_name}}</span>
+                    <div class="chat_time">
+                      {% ifequal chattext.sender.id request.user.id %}
+                      {% ifequal chattext.msg_type 'text' %}
+                      <div class="dropdown chat_dropdown">
+                        <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+                          aria-expanded="false">
+                          <i class="fas fa-cog"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                          <a class="dropdown-item edit_msg" id="{{chattext.id}}" href="javascript:void(0);">Edit
+                            Message</a>
+                          <a class="dropdown-item del_msg" href="javascript:void(0);">Delete
+                            Message</a>
+                        </div>
+                      </div>
+                      {% endifequal %}
+                      {% endifequal %}
+                      <strong class='time'>
+                        {{chattext.created_at|date:'g:iA'}}</strong>
+                    </div>
+                    {% ifequal chattext.msg_type 'invitation' %}
+                    {% ifequal chattext.sender.id request.user.id %}
+                    <p class="message-text">Your Invitation has been Sent to
+                      {{chattext.receiver.first_name}}. You have
+                      to wait until {{chattext.receiver.first_name}}
+                      is not accepting your Request</p>
+                    {% else %}
+                    <p class="message-text">
+                      <!-- {{chattext.sender.first_name}} sent you an Invitation.You can contact him
+                          once you accept this Invitation. -->
+                      <p class="message-text">
+                        {% for message in chattext.sender.applied_user.all %}
+                        {{message.reason}}
+                        {% endfor %}</p>
+                      <form method="POST" action="{% url 'analyticsmaven:invitation-accept' chattext.chat.id %}" style="padding: 20px 0px">
+                        {% csrf_token %}
+                        <button type="submit" class="btn bg-white-animate complete-job" style="border-radius: 0px;border: 1px solid #ddd;font-size: 8px">Accept
+                          Invitation</button>
+                      </form>
+                    </p>
+                    {% endifequal %}
+                    {% endifequal %}
+                    {% ifequal chattext.msg_type 'attachment' %}
+                    <div class="attachment" style="margin-top:10px">
+                      {% ifequal chattext.message|attachment 'image' %}
+                      <img src="{{chattext.message}}" style="position:inherit;width: auto">
+                      {% else %}
+                      <iframe src="{{chattext.message}}" width="100%" height="500px"></iframe>
+                      {% endifequal %}
+                    </div>
+                    {% else %}
+                    <p class="message-text">{{chattext.message}} </p>
+                    {% endifequal %}
+                  </div>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+            <script>
+              $(".messages").scrollTop($(".messages")[0].scrollHeight)
+            </script> {% if chat.invitation %}
+            <div class="message-input">
+              <div class="wrap msg_type_box">
+                <textarea class="form-control" placeholder="Write your message..." id='message-field' maxlength="1000"></textarea>
+
+                <span style="width: 21px;height: 37px;" class="fa fa-paperclip attachment browseBtn">
+
+                  <input class="file-upload_input" style="opacity: 0;"  id="attachment" type="file" onchange="ValidateAttachment()">
+
+                </span>
+                <!-- <i class="fa fa-paperclip attachment" aria-hidden="true"></i> -->
+                <button class="submit" id="submit-msg">
+                  <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <!-- Chat Box End -->
+    </div>
+    <!-- container-1280 End -->
+  </section>
+  {% include 'refer.html' %} 
+</main>
+<!-- main End -->
+<script>
+  $(document).ready(function () {
+    edit = null
+    $(".filter").click(function () {
+      $(".filter_dropdown").addClass("show ");
+    });
+    $("#close_filter").click(function () {
+      $(".filter_dropdown").removeClass("show ");
+    });
+    $(".delete_project").click(function () {
+      $(this).closest('li').remove();
+      $.ajax({
+        url: '/delete-chatlist',
+        type: "POST",
+        dataType: 'json',
+        data: {
+          'chatlist': $(this).closest('li').attr('id'),
+          "csrfmiddlewaretoken": '{{ csrf_token }}'
+        },
+        success: function (success) {
+          console.log("Message Chat Deleted Successfully")
+        }
+      });
+    })
+    $(".del_msg").click(function () {
+      $(this).closest('li').remove();
+      $.ajax({
+        url: '/delete-chat-message',
+        type: "POST",
+        dataType: 'json',
+        data: {
+          'message': $(this).closest('li').attr('id'),
+          "csrfmiddlewaretoken": '{{ csrf_token }}'
+        },
+        success: function (success) {
+          console.log("Message Deleted Successfully")
+        }
+      });
+    })
+    $(".edit_msg").click(function () {
+      edit = $(this).attr('id')
+      $("#message-field").val($(this).closest('li').find('.message-text').text().trim());
+    })
+    $("#submit-msg").click(function () {
+      if ($('#message-field').val()) {
+        socket.send(JSON.stringify({
+          sender: "{{request.user.id}}",
+          receiver: "{{receiver.id}}",
+          message: $('#message-field').val(),
+          chat: "{{chat.id}}",
+          edit: edit,
+          type: "text",
+        }));
+        edit = null
+      }
+
+    })
+    sent = function (data) {
+      var sent_block = $('.sent:first').clone()
+      if (!sent_block.length) {
+        return firstSenderMessage(data)
+      }
+      sent_block.closest('li').attr('id', data.id)
+      sent_block.find(".time").text(data.time);
+      if (data.type == "attachment") {
+        sent_block.find(".message-text").text("");
+        if (data.message.includes(".png") || data.message.includes(".jpeg") || data.message.includes(".jpg") || data.message.includes(".gif")) {
+          sent_block.find(".chat-inner-box").append('<div class="attachment" style="margin-top:10px"><img src="' + data.message + '" style="position:inherit;width: auto"></div>')
+        } else {
+          sent_block.find(".chat-inner-box").append('<div class="attachment" style="margin-top:10px"><iframe src="' + data.message + '" width="100%" height="500px"></iframe></div >')
+        }
+      } else {
+        sent_block.find(".message-text").text(data.message);
+      }
+      $(".chat-block").append(sent_block)
+      $("#message-field").val("")
+      $(".messages").scrollTop($(".messages")[0].scrollHeight)
+    }
+    reply = function (data) {
+      var receive_block = $('.replies:first').clone()
+      if (!receive_block.length) {
+        return firstreceiverMessage(data)
+      }
+      receive_block.closest('li').attr('id', data.id)
+      receive_block.find(".time").text(data.time);
+      if (data.type == "attachment") {
+        receive_block.find(".message-text").text("");
+        if (data.message.includes(".png") || data.message.includes(".jpeg") || data.message.includes(".jpg") || data.message.includes(".gif")) {
+          receive_block.find(".chat-inner-box").append('<div class="attachment" style="margin-top:10px"><img src="' + data.message + '" style="position:inherit;width: auto"></div>')
+        } else {
+          receive_block.find(".chat-inner-box").append('<div class="attachment" style="margin-top:10px"><iframe src="' + data.message + '" width="100%" height="500px"></iframe></div >')
+        }
+      } else {
+        receive_block.find(".message-text").text(data.message);
+      }
+      $(".chat-block").append(receive_block)
+      $(".messages").scrollTop($(".messages")[0].scrollHeight)
+    }
+
+    editMessage = function (data) {
+      $(".chat-block").find("#" + data.edit).find(".message-text").text(data.message);
+      $(".chat-block").find("#" + data.edit).find(".time").text(data.time);
+      $("#message-field").val("")
+    }
+
+    firstSenderMessage = function (data) {
+      var block = '<li class="sent" id=' + data.id + '><div class="chat-inner-box"><img src="{{request.user.avatar}}" alt="User Image"/><span class="chat_user_name">{{request.user.first_name}}</span><div class="chat_time"><div class="dropdown chat_dropdown"><button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-cog"></i></button><div class="dropdown-menu"><a class="dropdown-item edit_msg" id="' + data.id + '" href="javascript:void(0);">Edit Message</a><a class="dropdown-item del_msg" href="javascript:void(0);">Delete Message</a></div></div ><strong class="time">' + data.time + '</strong></div><p class="message-text"> ' + data.message + '</p ></div></li>'
+      $(".chat-block").append(block)
+      $("#message-field").val("")
+      $(".edit_msg").click(function () {
+        edit = $(this).attr('id')
+        $("#message-field").val($(this).closest('li').find('.message-text').text().trim());
+      })
+      $(".del_msg").click(function () {
+        $(this).closest('li').remove();
+        $.ajax({
+          url: '/delete-chat-message',
+          type: "POST",
+          dataType: 'json',
+          data: {
+            'message': $(this).closest('li').attr('id'),
+            "csrfmiddlewaretoken": '{{ csrf_token }}'
+          },
+          success: function (success) {
+            console.log("Message Deleted Successfully")
+          }
+        });
+      })
+      $(".messages").scrollTop($(".messages")[0].scrollHeight)
+    }
+
+    firstreceiverMessage = function (data) {
+      var block = '<li class="replies" id=' + data.id + '><div class="chat-inner-box"><img src="{{receiver.avatar}}" alt="User Image"/><span class="chat_user_name">{{receiver.first_name}}</span><div class="chat_time"><strong class="time">' + data.time + '</strong></div><p class="message-text"> ' + data.message + '</p ></div ></li>'
+      $(".chat-block").append(block)
+      $(".messages").scrollTop($(".messages")[0].scrollHeight)
+    }
+  });
+
+  function ValidateAttachment(input) {
+    var fuData = document.getElementById('attachment');
+    var FileUploadPath = fuData.value;
+    if (fuData.files && fuData.files[0]) {
+      $(".loaderdiv").show()
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $.ajax({
+          url: '/chat-attachment',
+          type: "POST",
+          dataType: 'json',
+          data: {
+            attachment: e.target.result,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+          },
+          success: function (success) {
+            console.log("success" + JSON.stringify(success))
+            socket.send(JSON.stringify({
+              sender: "{{request.user.id}}",
+              receiver: "{{receiver.id}}",
+              message: success.url,
+              chat: "{{chat.id}}",
+              edit: edit,
+              type: "attachment",
+            }));
+            $(".loaderdiv").hide()
+          }
+        });
+      }
+
+      reader.readAsDataURL(fuData.files[0]);
+    }
+    else {
+      fuData.value = '';
+      alert("Photo only allows file types of GIF, PNG, JPG, JPEG and BMP. ");
+    }
+  }
+</script> {% if request.GET.chatqf %}
+<script>
+  $("#chatqf").val('{{request.GET.chatqf}}')
+</script> {% endif %} {% if chat.invitation %}
+<script>
+  $("#submit-msg").attr('disabled', false)
+</script>{% else %}
+<script>
+  $("#submit-msg").attr('disabled', true)
+</script> {% endif %}{% endblock %}

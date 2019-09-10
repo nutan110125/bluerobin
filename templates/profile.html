@@ -1,0 +1,73 @@
+{% extends 'dashboardheader.html' %} {% load static %} {% block content %}
+<main class="main-container">
+    <!-- ontainer-1280 Start -->
+    <div class="container-1280">
+        <!-- Sidebar-content-box Start -->
+        <div class="sidebar-content-box clearfix">
+            <!--Aside Start -->
+            {% include "dashboard-aside.html" %}
+            <!--Aside End -->
+            <!-- Right Content Box-->
+            <div class="right_content_box">
+                <div class="profile-view-block">
+                    <h2 class="profile-heading text-center">Profile</h2>
+                    <div class="form-group row">
+                        <label class="custom-label col-lg-4">Area of work:</label>
+                        <div class="col-lg-8">
+                            <div class="viewField">
+                                {% for area in request.user.job_seeker.area.all %}
+                                <span>{{area}}, </span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="custom-label col-lg-4">Skills:</label>
+                        <div class="col-lg-8">
+                            <div class="viewField">
+                                {% for skill in request.user.job_seeker.tools_and_language.all %}
+                                <span>{{skill}}, </span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="custom-label col-lg-4">Preference Language:</label>
+                        <div class="col-lg-8">
+                            <div class="viewField">
+                                {% for language in request.user.job_seeker.language_known.all %}
+                                <span>{{language.language}}, </span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="custom-label col-lg-4">Preference Location:</label>
+                        <div class="col-lg-8">
+                            <div class="viewField">{{request.user.job_seeker.country.name}}</div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb30">
+                        <label class="custom-label col-lg-4">Time Zone:</label>
+                        <div class="col-lg-8">
+                            <div class="viewField">
+                                {% if request.user.job_seeker.timezone %} {{request.user.job_seeker.get_timezone_display}} {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row borderNone mb0">
+                        <div class="col-lg-6 offset-md-4">
+                            <a href="{% url 'analyticsmaven:complete-profile' %}" class="btn btn-green max-WT-200">Edit</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Right Content Box end-->
+        </div>
+        <!-- Sidebar-content-box End -->
+    </div>
+    <!-- container-1280 End -->
+    {% include 'refer.html' %} 
+</main>
+<!-- main End -->
+{% endblock %}

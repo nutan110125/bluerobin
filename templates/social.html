@@ -1,0 +1,27 @@
+{% load static %}
+<div class="login-social mt0 mb15">
+    <a href="{% url 'social:begin' 'linkedin-oauth2' %}" class="socialbox linkdin">
+        <div class="social_icon">
+            <i class="fab fa-linkedin-in"></i>
+        </div>
+        <div class="social-text">
+            <span>{{content}} WITH LINKEDIN</span>
+        </div>
+    </a>
+    <a href="{% url 'social:begin' 'google-oauth2' %}" class="socialbox googleplus">
+        <div class="social_icon">
+            <i class="fab fa-google-plus-g"></i>
+        </div>
+        <div class="social-text">
+            <span>{{content}} WITH GOOGLE+</span>
+        </div>
+    </a>
+    <a href="{% url 'social:begin' 'facebook' %}" class="socialbox facebook">
+        <div class="social_icon">
+            <i class="fab fa-facebook-f"></i>
+        </div>
+        <div class="social-text">
+            <span>{{content}} WITH FACEBOOK</span>
+        </div>
+    </a>
+</div>

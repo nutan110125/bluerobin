@@ -1,0 +1,84 @@
+{% extends 'profileheader.html' %}
+{% load static %}
+{% block content %}
+<main class="main-container">
+   <!-- ontainer-1280 Start -->
+   <div class="container-1280">
+      <!-- Sidebar-content-box Start -->
+      <div class="sidebar-content-box clearfix">
+         <!--Aside Start -->
+         <aside class="sidebar">
+            <span class="back_btn"><i class="fas fa-chevron-left"></i></span>
+            <!-- aside-box Start -->
+            <div class="aside-box">
+               <div class="profile_pic"><img src="{% static 'images/user-img.png' %}" alt="Logo"/></div>
+               <h6 class="profile_name">Cameron Bancroft</h6>
+               <p class="profile_id">cameronbancroft@gmail.com</p>
+               <h4 class="company_name">Mobiloitte Technologies</h4>
+               <div class="profile_progress_block border0">
+                  <div class="progress_slider">
+                     <span style="width:50%;"></span>
+                  </div>
+                  <div class="profile-status"><span>50%</span>Profile Completed</div>
+               </div>
+            </div>
+            <!-- aside-box End -->
+         </aside>
+         <!--Aside End -->
+         <!-- Right Content Box-->
+         <div class="right_content_box mb60">
+            <!-- step block start -->
+            <div class="steps-block">
+               <ul class="steps">
+                  <li class="active">Step 1/4</li>
+                  <li class="active">Step 2/4</li>
+                  <li>Step 3/4</li>
+                  <li>Step 4/4</li>
+               </ul>
+            </div>
+            <!-- step block end -->
+            <!-- first step block start -->
+            <div class="step_content_box">
+               <form class="step-form employee-step-form" action="employee-form-step3.html">
+                  <div class="form-group">
+                     <label>How much employee you need</label>
+                     <div class="radio-box">
+                        <label class="redio-design d-inline-block">
+                        <input type="radio" name="option"><span></span>One
+                        </label>
+                        <label class="redio-design d-inline-block">
+                        <input type="radio" name="option"><span></span>Many
+                        </label>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label>What skills set you want in employee?</label>
+                     <select class="form-control select_style2">
+                        <option>IT Networking</option>
+                     </select>
+                  </div>
+                  <div class="form-group">
+                     <ul class="skills_full_box">
+                        <li class="active"><span class="skills_tag">DB Admistration<input type="checkbox"></span></li>
+                        <li><span class="skills_tag">ERP/CRM Software<input type="checkbox"></span></li>
+                        <li><span class="skills_tag">Website Developer<input type="checkbox"></span></li>
+                        <li><span class="skills_tag">Network and System Administration<input type="checkbox"></span></li>
+                        <li><span class="skills_tag">Information Security<input type="checkbox"></span></li>
+                        <li><span class="skills_tag">Others<input type="checkbox"></span></li>
+                     </ul>
+                  </div>
+                  <div class="form-group form-btn">
+                     <button type="submit" class="btn btn-gray btn-block">CONTINUE</button>
+                  </div>
+               </form>
+            </div>
+            <!-- first step block end -->
+         </div>
+         <!-- Right Content Box End -->
+      </div>
+      <!-- Sidebar-content-box End -->
+   </div>
+   <!-- container-1280 End -->
+</main>
+<!-- main End -->
+{% endblock %}

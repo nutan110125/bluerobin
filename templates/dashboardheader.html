@@ -1,0 +1,461 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,width=device-width,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>Analytics Mavens</title>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+	<link href="{% static 'fonts/stylesheet.css' %}" rel="stylesheet">
+	<link href="{% static 'css/slick.css' %}" rel="stylesheet">
+	<link href="{% static 'css/slick-theme.css' %}" rel="stylesheet">
+	<link href="{% static 'css/style.css' %}" rel="stylesheet">
+	<link href="{% static 'css/mobile.css' %}" rel="stylesheet">
+	<script src="{% static 'js/validate.js' %}"></script>
+</head>
+
+<body class="logged">
+	<header class="d-flex  header_fixed_menu align-items-center">
+		<div class="logo align-items-center">
+			<a href="{% url 'analyticsmaven:home' %}">
+				<img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+				<img class="hide_large" src="{% static 'images/logo-mob.png' %}" alt="Logo" />
+			</a>
+		</div>
+		<!-- Search_box Start -->
+		{% ifequal request.user.user_type 'Job Seeker' %}
+		<div class="header_search_box ml-auto">
+			<form action="{% url 'analyticsmaven:search' %}" method="GET">
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Search Job" name="content" id="employee-search" />
+					<div class="input-group-append">
+						<span class="input-group-text" id="basic-addon2">
+							<button class="search_btn" style="border: none" type="submit">
+								<i class="fas fa-search"></i>
+						</span>
+					</div>
+				</div>
+			</form>
+		</div>
+		{% if request.GET.content %}
+		<script>
+			$("#employee-search").val("{{request.GET.content|default:''}}")
+		</script>
+		{% endif %}
+		{% endifequal %} {% ifequal request.user.user_type 'Company' %}
+		<div class="header_search_box ml-auto">
+			<form action="{% url 'analyticsmaven:company-search' %}" method="GET">
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Search Job Seeker" name="content" id='company-search' />
+					<div class="input-group-append">
+						<span class="input-group-text" id="basic-addon2">
+							<button class="search_btn" style="border: none" type="submit">
+								<i class="fas fa-search"></i>
+						</span>
+					</div>
+				</div>
+			</form>
+		</div>
+		{% if request.GET.content %}
+		<script>
+			$("#company-search").val("{{request.GET.content|default:''}}")
+		</script>
+		{% endif %}
+		{% endifequal %}
+
+		{% if request.user.id %}
+		<!-- Search_box End -->
+		<!-- header_menu Start -->
+		<div class="header_menu ml-auto message_icon">
+			{% if request.user.chatsender.count%}
+			<a href="{% url 'analyticsmaven:message-redirect' %}">
+				<i class="fas fa-comments"></i>
+				{% if unread %}
+				<span class="badge message-count">{{unread}}</span>
+				{% endif %}
+			</a>
+			{% elif request.user.chatreceiver.count %}
+			<a href="{% url 'analyticsmaven:message-redirect' %}">
+				<i class="fas fa-comments"></i>
+				{% if unread %}
+				<span class="badge message-count">{{unread}}</span>
+				{% endif %}
+			</a>
+			{% endif %}
+			<a href="{% url 'analyticsmaven:my-jobs' %}">My Jobs</a>
+		</div>
+		<!-- header_menu End -->
+		<div class="header_right_box ml-auto">
+			<div class="notify_icon">
+				<span class="notification">
+					<a href="{% url 'analyticsmaven:notification' %}">
+						<i class="fas fa-bell"></i>
+						{% if ncount %}
+						<span class="badge notification-count">{{ncount}}</span>
+						{% endif %}
+					</a>
+				</span>
+			</div>
+			<div class="top_user_info">
+				<strong class="head-user-name">Welcome {{request.user.first_name|default:''}}
+				</strong>
+				<span class="head-user-img">
+					{% if request.user.avatar %}
+					<img id="signup-image-header" src="{{request.user.avatar}}" alt="Logo" /> {% else %}
+					<img id="signup-image-header" src="{% static 'images/user-icon.png' %}" alt="Logo" /> {% endif %}
+				</span>
+				<div class="dropdown-menu head-drop-down">
+					{% ifequal request.user.user_type 'Job Seeker' %}
+					<a class="dropdown-item" href="{% url 'analyticsmaven:complete-profile' %}">My Profile</a>
+					{% else %}
+					<a class="dropdown-item" href="{% url 'analyticsmaven:company-profile' %}">My Profile</a>
+					{% endifequal %}
+					<a class="dropdown-item" href="#change_passwprd_modal" data-toggle="modal" data-target="#change_passwprd_modal">Change
+						Password</a>
+					<a class="dropdown-item" href="#signout_modal" data-toggle="modal" data-target="#signout_modal">Logout</a>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</header>
+	<div align="center" class="loaderdiv" style="display: none">
+		<div class="loader"></div>
+	</div>
+	{% block content %} {% endblock %} {% include 'browse_top_skills.html' %}
+	<footer class="footer-inner">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-2">
+					<a href="index.html" class="footer_logo">
+						<img src="{% static 'images/logo.png' %}" alt="Logo" />
+					</a>
+				</div>
+				<div class="col-lg-8">
+					<div class="footer-content">
+						<div class="footer-text">
+							<ul class="footmenu">
+								<li>
+									<a href="{% url 'analyticsmaven:aboutus' %}">About Us</a>
+								</li>
+								<li>
+									<a href="javascript:void(0);">Press</a>
+								</li>
+								<li>
+									<a href="{% url 'analyticsmaven:faq' %}">FAQ</a>
+								</li>
+								<li>
+									<a href="{% url 'analyticsmaven:career' %}">Careers</a>
+								</li>
+								<li>
+									<a href="{% url 'analyticsmaven:contactus' %}">Contact Us</a>
+								</li>
+								<li>
+									<a href="javascript:void(0);">Blog</a>
+								</li>
+								<li>
+									<a href="{% url 'analyticsmaven:terms' %}">Terms & Conditions</a>
+								</li>
+								<li>
+									<a href="{% url 'analyticsmaven:privacypolicy' %}">Privacy Policy</a>
+								</li>
+							</ul>
+							<p class="copyright" id="copyright"></p>
+							<script>
+								var date = new Date()
+								$("#copyright").text("© " + date.getFullYear() + " - All Rights Reserved")
+							</script>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-2">
+					<ul class="socialList">
+						<li>
+							<a href="javascript:void(0);">
+								<i class="fab fa-facebook-f"></i>
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);">
+								<i class="fab fa-twitter"></i>
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);">
+								<i class="fab fa-google-plus-g"></i>
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);">
+								<i class="fab fa-instagram"></i>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!-- Thanks Modal Start-->
+	<div class="modal fade global-modal profile-modal thanks-modal" id="upgrade_profile">
+		<div class="modal-dialog max-WT-600">
+			<div class="modal-content">
+				<div class="modal-header ">
+					<!-- <h4 class="modal-title text-center">Sign In</h4> -->
+					<span class="modal_logo">
+						<img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+						<img class="hide_large" src="{% static 'images/logo-mob.png' %}" alt="Logo" />
+					</span>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body text-center">
+					<!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+					<h2 class="modal-hdng">Hi {{user.first_name}}{% if user.last_name %} {{user.last_name}}{% endif %}</h2>
+					<div class="modal_txt">
+						<p class="txt">Thanks for registering with us</p>
+						<div class="check_icn">
+							<!--  <i class="fas fa-check-circle"></i>-->
+							<img src="{% static 'images/check_icn.png' %}" alt="check">
+						</div>
+						<p class="txt">We have send an email on the registered email id, Please click link and complete the profile
+						</p>
+					</div>
+					<button class="btn btn-dark-gray max-WT-200" onclick="window.location.href='{% url 'analyticsmaven:login' %}'">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Thanks Modal End -->
+
+	<!-- Change Password_modal Start -->
+	<div class="modal fade global-modal reset-modal" id="change_passwprd_modal">
+		<div class="modal-dialog max-WT-500">
+			<form class="change_password" method="POST" action="{% url 'analyticsmaven:changepassword' %}" onsubmit="return changepasswordform()">
+				{% csrf_token %}
+				<div class="modal-content">
+					<div class="modal-header ">
+						<!-- <h4 class="modal-title text-center">Sign In</h4> -->
+						<span class="modal_logo">
+							<img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+							<img class="hide_large" src="{% static 'images/logo-mob.png' %}" alt="Logo" />
+						</span>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<div class="modal_box_title">
+							Change Password
+						</div>
+						{% if error %}
+						<div style="color:red">{{ error }}</div>
+						{% endif %}
+						<div class="row align-items-center modal_flax_height">
+							<div class="col">
+								<div class="form-group">
+									<label class="control-labe">Old Password</label>
+									<input class="form-control" placeholder="Old Password" type="password" name="old_password" onkeyup="return validateoldpass()"
+									 required>
+									<span class="errors" id="oldpassword_error"></span>
+									{% if old_error %}
+									<div style="color:red">{{old_error}} </div>
+									{% endif %}
+								</div>
+								<div class="form-group">
+									<label class="control-labe">New Password</label>
+									<input class="form-control" placeholder="New Password" type="password" name="password" onkeyup="return validatepass()"
+									 id="new_password" minlength="8" maxlength="16" required>
+									<span class="errors" id="newpassword_error"></span>
+									{% if form.password.errors %}
+									<div style="color:red">
+										{{form.password.errors}}
+									</div>
+									{% endif %}
+								</div>
+								<div class="form-group">
+									<label class="control-labe">Confirm Password</label>
+									<input class="form-control" placeholder="Confirm Password" type="password" name="confirm_password" id="confirm_password"
+									 onkeyup="return confirmPassword()" minlength="8" maxlength="16" required>
+									<span class="errors" id="confirmpassword_error"></span>
+									{% if form.confirm_password.errors %}
+									<div style="color:red">
+										{{form.confirm_password.errors}}
+									</div>
+									{% endif %}
+								</div>
+								<div class=" row ">
+									<div class="col-6">
+										<button type="submit" class="btn btn-gray radius0 btn-block">SUBMIT</button>
+									</div>
+									<div class="col-6">
+										<button type="button" class="btn btn-red  radius0 btn-block" data-dismiss="modal">CANCEL</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!-- Change Password_modal End -->
+	<!-- signout_modal Start -->
+	<div class="modal fade global-modal reset-modal" id="signout_modal">
+		<div class="modal-dialog max-WT-500">
+			<div class="modal-content">
+				<div class="modal-header ">
+					<!-- <h4 class="modal-title text-center">Sign In</h4> -->
+					<span class="modal_logo">
+						<img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+						<img class="hide_large" src="{% static 'images/logo-mob.png' %}" alt="Logo" />
+					</span>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<!-- Modal body -->
+				<div class="modal-body  text-center">
+					<div class="row align-items-center modal_flax_height">
+						<div class="col">
+							<div class="box-title mb40 d-inline-block">
+								<h2>Logout?</h2>
+								<p>Are you sure you want to logout?</p>
+							</div>
+							<div class="text-center">
+								<a href="{% url 'analyticsmaven:logout' %}" class="max-WT-300 btn btn-gray radius0 ">YES</a>
+								<button type="button" class="max-WT-300 btn btn-red  radius0 mt10" data-dismiss="modal">CANCEL</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Signout Modal -->
+	<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+	<script src="{% static 'js/popper.min.js' %}"></script>
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'js/common.js' %}"></script>
+</body>
+<div class="modal fade global-modal profile-modal thanks-modal" id="success_modal">
+	<div class="modal-dialog max-WT-600">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<!-- <h4 class="modal-title text-center">Sign In</h4> -->
+				<span class="modal_logo">
+					<img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+					<img class="hide_large" src="{% static 'images/logo-mob.png' %}" alt="Logo" />
+				</span>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body text-center">
+				<!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+				<h2 class="modal-hdng">Hi {{request.user.company_name}}</h2>
+				<div class="modal_txt">
+					<p class="txt">Job Posted successfully</p>
+					<div class="check_icn">
+						<!--  <i class="fas fa-check-circle"></i>-->
+						<img src="{% static 'images/check_icn.png' %}" alt="check">
+					</div>
+				</div>
+				<button class="btn btn-dark-gray max-WT-200" data-dismiss="modal">OK</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal complete your profile Start-->
+<div class="modal fade global-modal profile-modal" id="profileModal">
+	<div class="modal-dialog max-WT-600">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<!-- <h4 class="modal-title text-center">Sign In</h4> -->
+				<span class="modal_logo">
+					<img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+					<img class="hide_large" src="{% static 'images/logo-mob.png' %}" alt="Logo" />
+				</span>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body text-center">
+				<!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+				<h2 class="modal-hdng">Please update your profile!</h2>
+				<div class="modal_txt">
+					<p class="txt mb10">Your profile is only {{request.user.job_seeker.profile_completion}}% completed!</p>
+					<p class="txt">Please complete your profile for better matchmaking of jobs!</p>
+				</div>
+				<button class="btn btn-dark-gray max-WT-200" data-dismiss="modal">CONTINUE</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade global-modal profile-modal" id="referfriend">
+	<div class="modal-dialog max-WT-600">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<!-- <h4 class="modal-title text-center">Sign In</h4> -->
+				<span class="modal_logo">
+					<img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+					<img class="hide_large" src="{% static 'images/logo-mob.png' %}" alt="Logo" />
+				</span>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body text-center">
+				<h2 class="modal-hdng">Thanks, For Refering your Friend. Will reward you for this also!</h2>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal complete your profile End -->
+{% ifequal type 'success' %}
+<script>
+	$('#upgrade_profile').modal('show')
+</script> {% endifequal %} {% ifequal type 'old_error' %}
+<script>
+	$('#change_passwprd_modal').modal('show')
+</script> {% endifequal %} {% ifequal type 'job_posted' %}
+<script>
+	$('#success_modal').modal('show')
+</script> {% endifequal %}
+{% if request.GET.refer %}
+<script>
+	$(document).ready(function () {
+		$("#referfriend").modal('show')
+	})
+</script>
+{% endif %}
+<script>
+	$(document).ready(function () {
+		// $("#profileModal").modal('show')
+
+	})
+	$(document).ready(function () {
+		setTimeout(function () {
+			var uri = window.location.href.toString();
+			if (uri.indexOf("?") > 0) {
+				var clean_uri = uri.substring(0, uri.indexOf("?"));
+				window.history.replaceState({}, document.title, clean_uri);
+			}
+		}, 2000);
+	})
+	notificationClick = function (id) {
+		// $(".loaderdiv").show()
+		$.ajax({
+			url: '/read-notification/' + id,
+			type: "GET",
+			dataType: 'json',
+			data: {
+				csrfmiddlewaretoken: '{{ csrf_token }}',
+			},
+			success: function (success) {
+				// $(".loaderdiv").hide()
+				return true
+			}
+		});
+	}
+</script>
+
+
+</html>

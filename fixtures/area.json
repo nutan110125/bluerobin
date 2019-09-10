@@ -1,0 +1,83 @@
+[
+    {
+        "model": "analyticsmaven.area",
+        "pk": 32,
+        "fields": {
+            "name": "Revenue & Price Optimization",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.area",
+        "pk": 33,
+        "fields": {
+            "name": "Computer Vision",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.area",
+        "pk": 34,
+        "fields": {
+            "name": "HR",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.area",
+        "pk": 35,
+        "fields": {
+            "name": "Cyber Security",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.area",
+        "pk": 36,
+        "fields": {
+            "name": "Marketing Strategy",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.area",
+        "pk": 37,
+        "fields": {
+            "name": "Statistical Modeling",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.area",
+        "pk": 38,
+        "fields": {
+            "name": "Pattern Recognition",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.area",
+        "pk": 39,
+        "fields": {
+            "name": "Network and System Administration",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.area",
+        "pk": 40,
+        "fields": {
+            "name": "Supply Chain & Operations",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    }
+]

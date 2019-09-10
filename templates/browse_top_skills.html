@@ -1,0 +1,17 @@
+{% load static %}
+{% if skills %}
+<section class="browse_skill_links">
+    <div class="custom-container">
+        <div class="sec_head mb20">
+            <h3>Browse Top Skills</h3>
+        </div>
+        <ul class="techlinks clearfix">
+            {% for skill in skills %}
+            <li>
+                <a href="{% url 'analyticsmaven:top-skills' %}?skill={{skill.name}}">{{skill.name|title}} Developer</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+{% endif %}

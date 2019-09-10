@@ -1,0 +1,129 @@
+{% load static %} {% load filters %}
+<!--Aside Start -->
+<aside class="sidebar">
+    <span class="back_btn">
+        <i class="fas fa-chevron-left"></i>
+    </span>
+    <!-- aside-box Start -->
+    <div class="aside-box">
+        <div class="profile_pic">
+            {% if request.user.avatar %}
+            <img id="signup-image" src="{{request.user.avatar}}" alt="user pic" /> {% else %}
+            <img id="signup-image" src="{% static 'images/avatar.png' %}" alt="user pic" /> {% endif %}
+            <!-- <button class="btn btn-green  radius0 btn-block" type="file">Change Picture</button> -->
+        </div>
+        <span class="btn btn-green  radius0 btn-block browseBtn">
+            Change Picture
+            <input class="file-upload_input" type="file" name="avatar" id='avatar' onchange="ValidateFileUpload(this,'{{request.user.uuid}}', '{{request.user.user_type}}' )" />
+        </span>
+        {% if company_profile and request.user.id %}
+        <a href="{% url 'analyticsmaven:company-registration' request.user.uuid %}" class="btn bg-green mb15 radius0 btn-block">
+            Edit Profile
+        </a>
+        {% endif %}
+        <br>
+        <h6 class="profile_name">{{ request.user.first_name|default:''|capfirst}}
+            {{request.user.last_name|default:''|capfirst }}
+        </h6>
+        <p class="profile_id">{{request.user.email}}</p>
+        <div class="profile_progress_block">
+            <div class="progress_slider">
+                {% if request.user.job_seeker %}
+                <span style="width:{{request.user.job_seeker.profile_completion}}%;"></span>
+                {% else %}
+                <span style="width:{{request.user.company.profile_completion}}%;"></span>
+                {% endif %}
+            </div>
+            <div class="profile-status">
+                {% if request.user.job_seeker %}
+                <span>{{request.user.job_seeker.profile_completion}}%</span>
+
+                {% elif request.user.company %}
+                <span>{{request.user.company.profile_completion}}%</span>
+
+                {% else %}
+                <span>0%</span>
+                {% endif %} Profile Completed
+            </div>
+        </div>
+        {% ifequal request.user.user_type 'Job Seeker' %}
+        <div class="aside_inner_box">
+            <h5 class="aside_head">Area</h5>
+            {% for area in request.user.job_seeker.area.all %}
+            <li class="skills_tag">{{area}}</li>
+            {% endfor %}
+        </div>
+        <div class="aside_inner_box">
+            <h5 class="aside_head">Industry</h5>
+            {% for industry in request.user.job_seeker.industry.all %}
+            <div class="skills_tag">{{industry}}</div>
+            {% endfor %}
+        </div>
+        <div class="aside_inner_box">
+            <h5 class="aside_head">Tools & Language</h5>
+            {% for skill in request.user.job_seeker.tools_and_language.all %}
+            <div class="skills_tag">{{skill}}</div>
+            {% endfor %}
+        </div>
+        <a href="{% url 'analyticsmaven:complete-profile' %}" class="skills_tag green-bg">Update Your Profile</a>
+        {% endifequal %}
+    </div>
+    <!-- aside-box End -->
+    <!-- aside-box Start -->
+    {% ifequal request.user.user_type "Job Seeker" %}
+    <div class="aside-box">
+        <h5 class="aside_box_head">Recent Job Posted</h5>
+        <!-- company_detail_box Start -->
+        <div class="company_detail_box">
+            {% for latest_job in latest_jobs %}
+            <a href="{% url 'analyticsmaven:job-detail' latest_job.uuid %}" style="cursor:pointer;text-decoration: none;color: #4c4c4c;">
+                <div class="company_name_box">
+                    <span class="company_logo">
+                        {% if latest_job.company_name.user.avatar %}
+                        <img src="{{latest_job.company_name.user.avatar}}" alt="Company Logo"> 
+                        {% else %}
+                        <img src="{% static 'images/avatar.png' %}" alt="Company Logo"> 
+                        {% endif %}
+                    </span>
+                    <div class="company_info">
+                        <p><b>{{latest_job.company_name.company_name|truncatechars:20|capfirst}}</b></p>
+                        <p>{% for coun in latest_job.country.all %}{{coun}} 
+                                {% if forloop.last %} 
+                                {% else %}
+                                , 
+                                {% endif %}
+                            {% endfor%}
+                        </p>
+                    </div>
+                </div>
+                <div class="job_detail">
+                    <strong>Job Profile:</strong>
+                    <span>{{latest_job.job_name}}</span>
+                </div>
+                <div class="job_detail">
+                    <strong>Job Duration:</strong>
+                    <span>{{latest_job.duration}} Month</span>
+                </div>
+                <div class="rating_show">
+                    <strong>Rating:</strong>
+                    <ul class="show_rating_list">
+                        {% for i in "12345" %}
+                        <li>
+                            {% if latest_job.company_name.rating >= i %}
+                            <i class="fas fa-star rated"></i>
+                            {% else %}
+                            <i class="fas fa-star"></i>
+                            {% endif %}
+                        </li>
+                        {% endfor %}
+                        <h5 class="aside_box_head"></h5>
+                    </ul>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        <!-- company_detail_box End -->
+    </div>
+    {% endifequal %}
+    <!-- aside-box End -->
+</aside>

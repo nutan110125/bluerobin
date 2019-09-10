@@ -1,0 +1,50 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="InnertopBanner" style="background-image:url({% static 'images/contact-us-bg.png' %});">
+    <div class="InnertopBanner-content d-flex align-items-center w-100 text-center">
+        <div class="w-100">
+            <div class="container">
+                <h1>Singularly fabulous work without boundaries</h1>
+                <p>Connecting 2 million+ professionals with remote and freelance jobs using artificial intelligence.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<main class="main-container">
+    <section class="static-content-section">
+        <div class="container" style="border:1px solid #ddd;">
+            <!-- form-box start -->
+            <div class="form-box center-box max-WT-350">
+                <div class="row align-items-center modal_flax_height">
+                    <div class="col">
+                        {{message}}
+                        <div class="sec_head mb30 text-center">
+                            <h3>Create a new password</h3>
+                        </div>
+                        <form onsubmit="return validateResetform()" method="POST" action="{% url 'analyticsmaven:reset-password' user.uuid %}">
+                            <div class="form-group">
+                                {% csrf_token %}
+
+                                <input type="password" id="new_password" name="password" onkeyup="return validatepass()" class="form-control" required="true"
+                                    placeholder="Create Password*" minlength="8" maxlength="16" />
+                                <div id="newpassword_error"></div>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id="confirm_password" onkeyup="return confirmPassword()" name="confirm_password" class="form-control"
+                                    required="true" placeholder="Confirm Password*" minlength="8" maxlength="16" />
+                                <div id="confirmpassword_error"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <center>
+                                        <button type="submit" class="btn bg-green max-WT-200">SUBMIT</button>
+                                    </center>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- form-box End -->
+        </div>
+    </section>
+    {% endblock %}

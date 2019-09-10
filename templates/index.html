@@ -1,0 +1,278 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="topBanner">
+  <div class="topBanner-content d-flex align-items-center w-100">
+    <div class="w-100">
+      <h1>Singularly fabulous work without boundaries</h1>
+      <p>Connecting 2 million+ professionals with remote and freelance jobs using artificial intelligence.</p>
+      <button type="button" class="btn bg-gray-animate btn-large max-WT-300 mt40" data-toggle="modal" data-target="#signup_option">GET
+        STARTED NOW</button>
+    </div>
+  </div>
+</div>
+<!-- main Start -->
+<main class="main-container">
+  <section class="who_are_we_section">
+    <div class="custom-container">
+      <div class="who-we-are-box">
+        <div class="border-box"></div>
+        <div class="border-box-content">
+          <h2 class="largeheade">WHO WE ARE?</h2>
+          <h3 class="small_head">{{who.title}}</h3>
+          <p>{{who.content|safe}}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="get_start_section text-center">
+    <div class="container">
+      <div class="sec_head">
+        <h3>We commit ourselves to beautiful let’s get started</h3>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="get_started_box">
+            <span class="getstartIcon">
+              <img src="{% static 'images/get-started-icon.png' %}" alt="Icon" />
+            </span>
+            <h4>The fine i need a project created artisans</h4>
+            <p>The trusted source for everything get the perfect design for your budget from our creative community.</p>
+            <button class="btn btn-dark-gray max-WT-200">GET STARTED NOW</button>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="get_started_box">
+            <span class="getstartIcon">
+              <img src="{% static 'images/get-started-icon2.png' %}" alt="Icon" />
+            </span>
+            <h4>The premier source for everything i want to work</h4>
+            <p>Specialists in do you want to earn money, find unlimited clients and build your freelance career?</p>
+            <button class="btn btn-dark-gray max-WT-200">GET STARTED NOW</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Talent Companies Section -->
+  {% if companies %}
+  <section class="companies_slider_section  text-center">
+    <div class="custom-container">
+      <div class="sec_head">
+        <h3>Finding talent for top 10 companies</h3>
+        <!-- <p>Are you hiring? <a href="javascript:void(0);" class="underline_link">Post a job now</a></p> -->
+      </div>
+      <div class="companies_slider">
+        {% for company in companies %}
+        <div class="slideimgbox">
+          <a style="color: black;cursor: pointer;" href="#signup_option" data-toggle="modal"
+          data-target="#login_modal">
+            <div class="slideimg">
+              {% if company.user.avatar %}
+              <img src="{{company.user.avatar.url}}" alt="Image" />
+              {% else %}
+              <img src="{% static 'images/avatar.png' %}" alt="Image" />
+              {% endif %}
+            </div>
+            <div class="company-detail">
+              <h5 class="company-name">{{company.company_name|title|truncatechars:25}}</h5>
+              <span class="total-applicants">0 Applicants</span>
+              <p class="company-address">
+                <img src="{% static 'images/loc-icon.png' %}" alt="Icon" />{{company.country.name|default:"Multiple Location"}}</p>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+  <!-- Taelnt Companies Section -->
+
+  <section class="category_section text-center">
+    <div class="container">
+      <div class="sec_head">
+        <h3>Categories</h3>
+        <p>We dedicate ourselves to awesome work with someone perfect for your team.</p>
+      </div>
+      <div class="technicBox">
+        <div class="row margin0">
+          <div class="col-md-3">
+            <a href="javascript:void(0);" class="technicBoxThumb">
+              <i class="fas fa-desktop"></i>
+              <span>WEB DEVELOPERS</span>
+            </a>
+          </div>
+
+          <div class="col-md-3">
+            <a href="javascript:void(0);" class="technicBoxThumb">
+              <i class="fas fa-mobile-alt"></i>
+              <span>MOBILE DEVELOPERS</span>
+            </a>
+          </div>
+
+          <div class="col-md-3">
+            <a href="javascript:void(0);" class="technicBoxThumb">
+              <i class="far fa-object-group"></i>
+              <span>DESIGNERS & CREATIVE</span>
+            </a>
+          </div>
+
+          <div class="col-md-3">
+            <a href="javascript:void(0);" class="technicBoxThumb">
+              <i class="fas fa-pencil-alt"></i>
+              <span>WRITERS</span>
+            </a>
+          </div>
+
+          <div class="col-md-3">
+            <a href="javascript:void(0);" class="technicBoxThumb">
+              <i class="fas fa-headphones"></i>
+              <span>VIRTUAL ASSISTANTS</span>
+            </a>
+          </div>
+
+          <div class="col-md-3">
+            <a href="javascript:void(0);" class="technicBoxThumb">
+              <i class="fas fa-user"></i>
+              <span>CUSTOMER SERVICE AGENTS</span>
+            </a>
+          </div>
+
+          <div class="col-md-3">
+            <a href="javascript:void(0);" class="technicBoxThumb">
+              <i class="fas fa-chart-bar"></i>
+              <span>SALES AND MARKETING EXPERTS</span>
+            </a>
+          </div>
+
+          <div class="col-md-3">
+            <a href="javascript:void(0);" class="technicBoxThumb">
+              <i class="fas fa-briefcase"></i>
+              <span>ACCOUNT AND CONSULTANTS</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+      <!-- <a href="javascript:void(0);" class="btn btn-green-overlay max-WT-230 mt40">SEE ALL CATEGORIES</a> -->
+    </div>
+  </section>
+  <!-- How It Works Start -->
+  <section class="how_its_works text-center">
+    <div class="how_its_works-content d-flex align-items-center w-100">
+      <div class="custom-container">
+        <div class="sec_head mb40">
+          <h3 class="white">How it works?</h3>
+          <p class="white">We dedicate ourselves to awesome work with someone perfect for your team.</p>
+        </div>
+        <div class="row">
+          {% if work %}
+          {% for flow in work %}
+          {% if forloop.last %}
+          <div class="col-md-6 col-lg-3">
+            {% else %}
+            <div class="col-md-6 col-lg-3 arrow-icon">
+              {% endif %}
+              <div class="works-box">
+                <span class="works-icon">
+                  <img src="{{flow.icon.url}}" alt="Icon" />
+                </span>
+                <h4>{{flow.title}}</h4>
+                <p>{{flow.content}}</p>
+              </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="col-md-6 col-lg-3 arrow-icon">
+              <div class="works-box">
+                <span class="works-icon">
+                  <img src="{% static 'images/works-icon1.png' %}" alt="Icon" />
+                </span>
+                <h4>Search</h4>
+                <p>Post a job to tell us about your project. We’ll quickly match you with the right freelancers.</p>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-3 arrow-icon">
+              <div class="works-box">
+                <span class="works-icon">
+                  <img src="{% static 'images/works-icon2.png' %}" alt="Icon" />
+                </span>
+                <h4>Hire</h4>
+                <p>Browse profiles, reviews, and proposals then interview top candidates. Hire a favorite and begin
+                  your project.</p>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-3 arrow-icon">
+              <div class="works-box">
+                <span class="works-icon">
+                  <img src="{% static 'images/works-icon3.png' %}" alt="Icon" />
+                </span>
+                <h4>Work</h4>
+                <p>Use the AnalyticsMavens platform to chat, share files, and collaborate from your desktop or on the
+                  go.</p>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+              <div class="works-box">
+                <span class="works-icon">
+                  <img src="{% static 'images/works-icon4.png' %}" alt="Icon" />
+                </span>
+                <h4>Pay</h4>
+                <p>Invoicing and payments happen through AnalyticsMavens. With AnalyticsMavens Protection, only pay for
+                  work you
+                  authorize.
+                </p>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+  </section>
+  <!-- How It Works End -->
+  <!-- Innovative Companies Section -->
+  {% if jobseekers %}
+  <section class="innovative_companies_section">
+    <div class="custom-container">
+      <div class="innovative-box">
+        <div class="border-box"></div>
+        <div class="innovative-box-content">
+          <p>{{jobseekers.count}} Professionals and Counting</p>
+          <h3 class="small_head mb0">Connecting outstanding people
+            <br> with the world’s most innovative companies</h3>
+        </div>
+      </div>
+      <!-- Slider Wrapper -->
+      <div class="clearfix slider-wrapper">
+        <div class="innovative_companies_slider">
+          {% for professionals in jobseekers %}
+          <div class="slideimgbox">
+            <a style="color: black;cursor: pointer;" href="{% url 'analyticsmaven:user-profile' professionals.user.uuid  %}" >
+              <div class="slideimg">
+                {% if professionals.user.avatar %}
+                <img src="{{professionals.user.avatar.url}}" alt="Image" />
+                {% else %}
+                <img src="{% static 'images/avatar.png' %}" alt="Image" />
+                {% endif %}
+              </div>
+              <div class="company-detail">
+                <h5 class="company-name">{{professionals.first_name|title|truncatechars:10}}
+                  {{professionals.last_name|truncatechars:10|default:''}} </h5>
+                <span class="total-applicants">{{professionals.professional_title|title|truncatechars:30|default:''}}</span>
+                <p class="company-address">
+                  <img src="{% static 'images/loc-icon.png' %}" alt="Icon" />{{professionals.country.name|default:'Not to Disclose'}}</p>
+              </div>
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+  <!-- Innovative Companies Section -->
+  <!-- Makers Section-->
+  <!--  {% include 'refer.html' %}  -->
+  <!-- Makers Section Start-->
+
+  {% endblock %}

@@ -1,0 +1,83 @@
+{% load static %}
+<div class="col-sm-2">
+   <h5>Filter</h5>
+   <h6>By Location</h6>
+   <ul class="checkbox-list clearfix">
+      {% for location in country %}
+      <li>
+         <div class="checkbox checkbox-custom">
+            <label>
+               <span class="checkbox-check">
+                  <input type="checkbox" value="{{location.id}}" name='location'>
+                  <span class="cr">
+                     <i class="cr-icon fa fa-check"></i>
+                  </span>
+               </span>
+               <span class="checkbox-txt amount_a">{{location.name}}</span>
+            </label>
+         </div>
+      </li>
+      {% endfor %}
+   </ul>
+   <h6>By Skills</h6>
+   <ul class="checkbox-list clearfix">
+      {% for s in skills %}
+      <li>
+         <div class="checkbox checkbox-custom">
+            <label>
+               <span class="checkbox-check">
+                  <input type="checkbox" value="{{s.id}}" name="skill">
+                  <span class="cr">
+                     <i class="cr-icon fa fa-check"></i>
+                  </span>
+               </span>
+               <span class="checkbox-txt amount_a">{{s.name}}</span>
+            </label>
+         </div>
+      </li>
+      {% endfor %}
+   </ul>
+   <div class="filter-buttons">
+      <a href="javascript:void(0);" class="skills_tag white-bg close_filter clear">Clear</a>
+      <button class="skills_tag white-bg apply">Apply</button>
+   </div>
+</div>
+<script>
+   var URL = "{{ request.get_full_path }}".split("&")[0]
+   console.log(URL)
+   $(".clear").on('click', function () {
+      $("input[name=location]:checked").map(function () {
+         $(this).prop('checked', false);
+      });
+      $("input[name=skill]:checked").map(function () {
+         $(this).prop('checked', false);
+      });
+   })
+   $(".apply").on('click', function () {
+      var location = []
+      $.map($('input[name="location"]:checked'), function (e) {
+         location.push(e.value);
+      })
+      var skill = []
+      $.map($('input[name="skill"]:checked'), function (e) {
+         skill.push(e.value);
+      })
+      if (location.length) {
+         URL = URL + "&location=" + location
+      }
+      if (skill.length) {
+         URL = URL + "&skill=" + skill
+      }
+      window.location.href = URL
+   })
+</script> {% if request.GET.location %}
+<script>
+   $.each("{{request.GET.location}}".split(","), function (index, value) {
+      $("input[name='location'][value=" + value + "]").prop('checked', true)
+   })
+</script> {% endif %}{% if request.GET.skill %}
+<script>
+   $.each("{{request.GET.skill}}".split(","), function (index, value) {
+      $("input[name='skill'][value=" + value + "]").prop('checked', true)
+   })
+</script> {% endif %}

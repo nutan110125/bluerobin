@@ -1,0 +1,283 @@
+{% load static %}
+<div class="top_filter_box">
+   <form action="">
+      <div class="search_box max-WT-300">
+         <input type="text" class="form-control" placeholder="Search Job" name="qf" id='search' />
+         <button class="search_btn" type="submit">
+            <i class="fas fa-search"></i>
+         </button>
+      </div>
+      <!-- Filter -->
+      <div class="filter-select">
+         <label>Sort</label>
+         <div class="select_inline">
+            <select class="form-control select_style2" onchange="this.form.submit()" name="dqf" id="datefilter">
+               <option value="">Any Date</option>
+               <option value="today">Today</option>
+               <option value="yesterday">Yesterday</option>
+               <option value="week">Last Week</option>
+               <option value="month">Last Month</option>
+            </select>
+         </div>
+         <div class="select_inline">
+            <div class="filter">
+               <input type="text" class="form-control filter_icn" placeholder="Filter" />
+            </div>
+         </div>
+      </div>
+      <div class="filter_dropdown">
+         <div class="upper-filter">
+            <ul class="custom_tabs clearfix">
+               <li>
+                  <span>Time Zone</span>
+               </li>
+               <li>
+                  <span>Hourly Rate</span>
+               </li>
+               <li>
+                  <span>Job Type</span>
+               </li>
+               <li>
+                  <span>Contract Period</span>
+               </li>
+               <li>
+                  <span>Entry Level</span>
+               </li>
+            </ul>
+         </div>
+         <div class="lower-filter">
+            <div class="row">
+               <div class="col-sm-3">
+                  <!-- custom_filter_job Start -->
+                  <div class="custom_filter_job">
+                     {% for time in timezone%}
+                     <div class="checkbox checkbox-custom">
+                        <label>
+                           <span class="checkbox-check">
+                              <input type="checkbox" value="{{time.id}}" name='tqf'>
+                              <span class="cr">
+                                 <i class="cr-icon fa fa-check"></i>
+                              </span>
+                           </span>
+                           <span class="checkbox-txt amount_a">{{time.name}}</span>
+                        </label>
+                     </div>
+                     {% endfor %}
+                  </div>
+                  <!-- custom_filter_job End -->
+               </div>
+               <div class="col-sm-2">
+                  <!-- custom_filter_job Start -->
+                  <div class="custom_filter_job">
+                     <div class="checkbox checkbox-custom">
+                        <label>
+                           <span class="checkbox-check">
+                              <input type="checkbox" value="$10/HR" name="pqf">
+                              <span class="cr">
+                                 <i class="cr-icon fa fa-check"></i>
+                              </span>
+                           </span>
+                           <span class="checkbox-txt amount_a">$10/HR</span>
+                        </label>
+                     </div>
+                     <div class="checkbox checkbox-custom" id="demo">
+                        <label>
+                           <span class="checkbox-check">
+                              <input type="checkbox" value="$20/HR" name="pqf">
+                              <span class="cr">
+                                 <i class="cr-icon fa fa-check"></i>
+                              </span>
+                           </span>
+                           <span class="checkbox-txt amount_a">$20/HR</span>
+                        </label>
+                     </div>
+                     <div class="checkbox checkbox-custom">
+                        <label>
+                           <span class="checkbox-check">
+                              <input type="checkbox" value="$30/HR" name="pqf">
+                              <span class="cr">
+                                 <i class="cr-icon fa fa-check"></i>
+                              </span>
+                           </span>
+                           <span class="checkbox-txt amount_a">$30+</span>
+                        </label>
+                     </div>
+                     <div class="checkbox checkbox-custom">
+                        <label>
+                           <span class="checkbox-check">
+                              <input type="checkbox" value="others" name="pqf">
+                              <span class="cr">
+                                 <i class="cr-icon fa fa-check"></i>
+                              </span>
+                           </span>
+                           <span class="checkbox-txt amount_a">Others</span>
+                        </label>
+                     </div>
+                  </div>
+                  <!-- custom_filter_job End -->
+               </div>
+               <div class="col-sm-2">
+                  <!-- custom_filter_job Start -->
+                  <div class="custom_filter_job">
+                     <div class="checkbox checkbox-custom">
+                        <label>
+                           <span class="checkbox-check">
+                              <input type="checkbox" value="One Time Project" name="tpqf">
+                              <span class="cr">
+                                 <i class="cr-icon fa fa-check"></i>
+                              </span>
+                           </span>
+                           <span class="checkbox-txt amount_a">One Time Project</span>
+                        </label>
+                     </div>
+                     <div class="checkbox checkbox-custom">
+                        <label>
+                           <span class="checkbox-check">
+                              <input type="checkbox" value="On going Project" name="tpqf">
+                              <span class="cr">
+                                 <i class="cr-icon fa fa-check"></i>
+                              </span>
+                           </span>
+                           <span class="checkbox-txt amount_a">On going Project</span>
+                        </label>
+                     </div>
+                     <div class="checkbox checkbox-custom">
+                        <label>
+                           <span class="checkbox-check">
+                              <input type="checkbox" value="To be decided" name="tpqf">
+                              <span class="cr">
+                                 <i class="cr-icon fa fa-check"></i>
+                              </span>
+                           </span>
+                           <span class="checkbox-txt amount_a">To be decided</span>
+                        </label>
+                     </div>
+                  </div>
+                  <!-- custom_filter_job End -->
+               </div>
+               <div class="col-sm-2">
+                  <!-- custom_filter_job Start -->
+                  <div class="custom_filter_job">
+                     <div class="checkbox checkbox-custom">
+                        <label>
+                           <span class="checkbox-check">
+                              <input type="checkbox" value="0-3" name="mqf">
+                              <span class="cr">
+                                 <i class="cr-icon fa fa-check"></i>
+                              </span>
+                           </span>
+                           <span class="checkbox-txt amount_a">0-3 Months</span>
+                        </label>
+                     </div>
+
+                     <div class="checkbox checkbox-custom">
+                        <label>
+                           <span class="checkbox-check">
+                              <input type="checkbox" value="3-6" name="mqf">
+                              <span class="cr">
+                                 <i class="cr-icon fa fa-check"></i>
+                              </span>
+                           </span>
+                           <span class="checkbox-txt amount_a">3-6 Months</span>
+                        </label>
+                     </div>
+
+                     <div class="checkbox checkbox-custom">
+                        <label>
+                           <span class="checkbox-check">
+                              <input type="checkbox" value="6-12" name="mqf">
+                              <span class="cr">
+                                 <i class="cr-icon fa fa-check"></i>
+                              </span>
+                           </span>
+                           <span class="checkbox-txt amount_a">6-12 Months</span>
+                        </label>
+                     </div>
+
+                     <div class="checkbox checkbox-custom">
+                        <label>
+                           <span class="checkbox-check">
+                              <input type="checkbox" value="12+" name="mqf">
+                              <span class="cr">
+                                 <i class="cr-icon fa fa-check"></i>
+                              </span>
+                           </span>
+                           <span class="checkbox-txt amount_a">12+ Months</span>
+                        </label>
+                     </div>
+
+                  </div>
+                  <!-- custom_filter_job End -->
+               </div>
+               <div class="col-sm-3">
+                  <!-- custom_filter_job Start -->
+                  <div class="custom_filter_job">
+                     <div class="checkbox checkbox-custom">
+                        <label>
+                           <span class="checkbox-check">
+                              <input type="checkbox" value="Beginner" name="eqf">
+                              <span class="cr">
+                                 <i class="cr-icon fa fa-check"></i>
+                              </span>
+                           </span>
+                           <span class="checkbox-txt amount_a">Beginner</span>
+                        </label>
+                     </div>
+                     <div class="checkbox checkbox-custom">
+                        <label>
+                           <span class="checkbox-check">
+                              <input type="checkbox" value="Intermediate" name="eqf">
+                              <span class="cr">
+                                 <i class="cr-icon fa fa-check"></i>
+                              </span>
+                           </span>
+                           <span class="checkbox-txt amount_a">Intermediate</span>
+                        </label>
+                     </div>
+                     <div class="checkbox checkbox-custom">
+                        <label>
+                           <span class="checkbox-check">
+                              <input type="checkbox" value="Expert" name="eqf">
+                              <span class="cr">
+                                 <i class="cr-icon fa fa-check"></i>
+                              </span>
+                           </span>
+                           <span class="checkbox-txt amount_a">Expert</span>
+                        </label>
+                     </div>
+                  </div>
+                  <!-- custom_filter_job End -->
+               </div>
+            </div>
+         </div>
+         <div class="filter-buttons">
+            <button class="skills_tag white-bg">Apply</button>
+            <!-- <a href="javascript:void(0);" class="skills_tag white-bg clear_filter">Clear Filter</a> -->
+            <a href="javascript:void(0);" class="skills_tag white-bg close_filter">Close Filter</a>
+         </div>
+      </div>
+      <!-- End -->
+   </form>
+</div>
+{% if request.GET.qf %}
+<script>
+   $("#search").val("{{request.GET.qf}}")
+</script> {% endif %} {% if request.GET.dqf %}
+<script>
+   $("#datefilter").val("{{request.GET.dqf}}")
+</script> {% endif %} {% if request.GET.tqf %}
+<script>
+   $("input[name='tqf'][value='{{request.GET.tqf}}']").prop('checked', true)
+</script> {% endif %} {% if request.GET.pqf %}
+<script>
+   $("input[name='pqf'][value='{{request.GET.pqf}}']").prop('checked', true)
+</script> {% endif %} {% if request.GET.tpqf %}
+<script>
+   $("input[name='tpqf'][value='{{request.GET.tpqf}}']").prop('checked', true)
+</script> {% endif %} {% if request.GET.mqf %}
+<script>
+   $("input[name='mqf'][value='{{request.GET.mqf}}']").prop('checked', true)
+</script> {% endif %} {% if request.GET.eqf %}
+<script>
+   $("input[name='eqf'][value='{{request.GET.eqf}}']").prop('checked', true)
+</script> {% endif %}

@@ -1,0 +1,13 @@
+{% load static %}
+<div class="search_box max-WT-300">
+    <form action="">
+        <input type="text" class="form-control" placeholder="Search Job" name="qf" id='search' />
+        <button class="search_btn" type="submit">
+            <i class="fas fa-search"></i>
+        </button>
+    </form>
+</div>
+{% if request.GET.qf %}
+<script>
+    $("#search").val("{{request.GET.qf}}")
+</script> {% endif %}

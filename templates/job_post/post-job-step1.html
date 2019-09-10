@@ -1,0 +1,166 @@
+{% extends 'dashboardheader.html' %} {% load static %} {% block content %}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="{% static 'js/validate.js' %}"></script>
+<main class="main-container">
+    <!-- ontainer-1280 Start -->
+    <div class="container-1280">
+        <!-- Sidebar-content-box Start -->
+        <div class="sidebar-content-box clearfix">
+            <!--Aside Start -->
+            <aside class="sidebar">
+                <span class="back_btn">
+                    <i class="fas fa-chevron-left"></i>
+                </span>
+                <!-- aside-box Start -->
+                {% include 'dashboard-aside.html' %}
+                <!-- aside-box End -->
+            </aside>
+            <!--Aside End -->
+            <!-- Right Content Box-->
+            <div class="right_content_box mb60">
+                <!-- step block start -->
+                <div class="steps-block">
+                    <ul class="steps">
+                        <li class="active">
+                            <a href="{% url 'analyticsmaven:job-post' %}">Step 1/4</a>
+                        </li>
+                        <li>
+                            <a>Step 2/4</a>
+                        </li>
+                        <li>
+                            <a>Step 3/4</a>
+                        </li>
+                        <li>
+                            <a>Step 4/4</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- step block end -->
+                <!-- first step block start -->
+                <div class="step_content_box">
+                    {% if job_post %}
+                    <form class="step-form employee-step-form" onsubmit="return jobstep1validation()" method="POST" action="{% url 'analyticsmaven:edit-job-post' job_post.uuid %}">
+                        {% else %}
+                        <form class="step-form employee-step-form" onsubmit="return jobstep1validation()" method="POST" action="{% url 'analyticsmaven:job-post' %}">
+                            {% endif %} {% csrf_token %}
+                            <input type="hidden" name="company_name" value="{{request.user.company.id}}">
+                            <div class="form-group">
+                                <label>Area of work</label>
+                                <ul class="skills_full_box">
+                                    {% for area in areas %} {% if area in job_post.area.all %}
+                                    <li id='{{area.id}}' value='{{area.id}}' class="select-subSkill active">
+                                        <span class="skills_tag">
+                                            <input type="checkbox" name="area" id='area_{{area.id}}' value='{{area.id}}' />{{area.name}}
+                                            <script>
+                                                $("#area_{{area.id}}").attr("checked", "checked")
+                                            </script>
+                                        </span>
+                                    </li>
+                                    {% else %}
+
+                                    <li id='{{area.id}}' value='{{area.id}}' class="select-subSkill">
+                                        <span class="skills_tag">
+                                            <input type="checkbox" name="area" value='{{area.id}}' />{{area.name}}</span>
+                                    </li>
+                                    {% endif %} {% endfor %}
+                                    <li id='0' value='0' class="select-subSkill-area">
+                                        <span class="skills_tag">
+                                            <input type="checkbox" name="area" id="custom-area" placeholder='Please enter Area' style="border: none;background: none;"
+                                            />
+                                            <strong id="area-text">Others</strong>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="form-group">
+                                <label>Job post title</label>
+                                <input type="text" class="form-control" placeholder="Requirement for IT &  Networking" name="job_name" required="true" id="job_name"
+                                    onkeyup="return validatetitle()" style="font-size: 12px;" />
+                                <div id="title_error"></div>
+                            </div>
+                            <div class="form-group">
+                                <label>Description of job</label>
+                                <textarea rows="4" class="form-control" placeholder="Description..." name="description" required="true" id="description"
+                                    style="font-size: 12px;"></textarea>
+                                <div id="description_error"></div>
+                            </div>
+                            <div class="form-group form-btn text-center">
+                                <button type="submit" class="btn btn-green max-WT-200">CONTINUE</button>
+                            </div>
+                        </form>
+                </div>
+                <!-- first step block end -->
+            </div>
+            <!-- Right Content Box End -->
+        </div>
+        <!-- Sidebar-content-box End -->
+    </div>
+    <!-- container-1280 End -->
+    {% include 'refer.html' %} 
+
+</main>
+<!-- main End -->
+
+
+
+<script>
+    var validateskill = function () {
+        var area_checkboxs = document.getElementsByName("area");
+        var area_okay = false;
+        var l1 = area_checkboxs.length;
+
+        for (var i = 0; i < l1; i++) {
+            if (area_checkboxs[i].checked) {
+                area_okay = true;
+                break;
+            }
+        }
+
+        if (area_okay) return true;
+        else return false;
+
+
+    }
+    validateskill()
+</script>
+<script>
+
+    $(".select-subSkill-area").on('click', function () {
+        if ($(this).hasClass('active')) {
+            $(this).removeClass("active");
+            return
+        } else {
+            $(this).addClass("active");
+            $(this).find("input[name=area]").attr('type', 'text')
+            $("#area-text").text("")
+        }
+
+    })
+
+    $("#custom-area").on('blur', function () {
+
+        if ($(this).val() && $(this).attr('type') == 'text') {
+            $("#area-text").text($(this).val())
+        } else {
+            $("#area-text").text("Others")
+        }
+        $(this).attr('type', 'checkbox')
+    })
+
+</script>
+
+<script>
+    $(".select-subSkill").on('click', function () {
+        if ($(this).hasClass('active')) {
+            $(this).removeClass("active");
+        } else {
+            $(this).addClass("active");
+        }
+    });
+</script> {% if job_post %} {% if job_post.job_name%}
+<script>
+    $("#job_name").val("{{job_post.job_name}}")
+</script> {% endif %} {% if job_post.description%}
+<script>
+    $("#description").val("{{job_post.description}}")
+</script> {% endif %} {% endif %} {% endblock %}

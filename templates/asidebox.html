@@ -1,0 +1,40 @@
+{% load static %}
+<!-- aside-box Start -->
+<div class="aside-box">
+    <div class="profile_pic">
+        {% if user.avatar %}
+        <img id="signup-image" src="{{user.avatar}}" alt="user pic" /> {% else %}
+        <img id="signup-image" src="{% static 'images/avatar.png' %}" alt="user pic" /> {% endif %}
+        <!-- <button class="btn btn-green  radius0 btn-block" type="file">Change Picture</button> -->
+
+    </div>
+    <span class="btn btn-green  radius0 btn-block browseBtn">
+        Change Picture
+        <input class="file-upload_input" type="file" name="avatar" id='avatar' onchange="ValidateFileUpload(this,'{{user.uuid}}', '{{user.user_type}}' )"
+        />
+    </span>
+    <br> {% if user.first_name %}
+    <h6 class="profile_name">{{user.first_name}}</h6>
+    {% endif %}
+    <p class="profile_id">{{user.email}}</p>
+    <!-- <div class="profile_progress_block border0">
+        <div class="progress_slider">
+            {% if user.job_seeker %}
+            <span style="width:{{user.job_seeker.profile_completion}}%;"></span>
+            {% else %}
+            <span style="width:{{user.company.profile_completion}}%;"></span>
+            {% endif %}
+        </div>
+        <div class="profile-status">
+            {% if user.job_seeker %}
+            <span>{{user.job_seeker.profile_completion}}%</span>
+
+            {% elif user.company %}
+            <span>{{user.company.profile_completion}}%</span>
+
+            {% else %}
+            <span>0%</span>
+            {% endif %} Profile Completed
+        </div>
+    </div> -->
+</div>

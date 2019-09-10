@@ -1,0 +1,110 @@
+[
+    {
+        "model": "analyticsmaven.industry",
+        "pk": 37,
+        "fields": {
+            "name": "Supply Chain Management",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.industry",
+        "pk": 38,
+        "fields": {
+            "name": "Consumer Goods",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.industry",
+        "pk": 39,
+        "fields": {
+            "name": "Telecommunications",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.industry",
+        "pk": 40,
+        "fields": {
+            "name": "Government",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.industry",
+        "pk": 41,
+        "fields": {
+            "name": "Healthcare",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.industry",
+        "pk": 42,
+        "fields": {
+            "name": "Real Estate",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.industry",
+        "pk": 43,
+        "fields": {
+            "name": "HR",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.industry",
+        "pk": 44,
+        "fields": {
+            "name": "Manufacturing",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.industry",
+        "pk": 45,
+        "fields": {
+            "name": "Retail",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.industry",
+        "pk": 46,
+        "fields": {
+            "name": "Technology",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.industry",
+        "pk": 47,
+        "fields": {
+            "name": "Start-Ups",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    },
+    {
+        "model": "analyticsmaven.industry",
+        "pk": 48,
+        "fields": {
+            "name": "Management Consulting",
+            "is_active": true,
+            "created_by": "AM"
+        }
+    }
+]

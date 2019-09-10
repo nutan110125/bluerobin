@@ -1,0 +1,775 @@
+{% extends 'dashboardheader.html' %} {% load static %} {% block content %}
+<main class="main-container">
+   <!-- ontainer-1280 Start -->
+   <div class="container-1280">
+      <!-- Sidebar-content-box Start -->
+      <div class="sidebar-content-box clearfix">
+         <!--Aside Start -->
+         <aside class="sidebar">
+            <span class="back_btn">
+               <i class="fas fa-chevron-left"></i>
+            </span>
+            <!-- aside-box Start -->
+            {% include 'dashboard-aside.html' %}
+            <!-- aside-box End -->
+         </aside>
+         <!--Aside End -->
+         <!-- Right Content Box-->
+         <div class="right_content_box mb60">
+            <!-- global_tabs start -->
+            <div class="global_tabs">
+               <ul class="nav nav-tabs tabs3col" id="myTab" role="tablist">
+                  <li class="nav-item">
+                     <a class="nav-link  active" id="home-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="home" aria-selected="true">
+                        Job Applicants
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" id="profile-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="profile" aria-selected="false">
+                        Posted Jobs
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="{% url 'analyticsmaven:job-post' %}">
+                        Post a Jobs
+                     </a>
+                  </li>
+               </ul>
+               <!-- Tab Content Start -->
+               <div class="tab-content" id="myTabContent">
+                  <!-- Tab 1 Start -->
+                  <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="home-tab">
+                     <div class="top_filter_box">
+                        <div class="search_box max-WT-300">
+                           <input type="text" class="form-control" placeholder="Search Job" />
+                           <button class="search_btn">
+                              <i class="fas fa-search"></i>
+                           </button>
+                        </div>
+                        <div class="filter-select">
+                           <label>Sort</label>
+                           <div class="select_inline">
+                              <select class="form-control select_style2">
+                                 <option>Newest</option>
+                              </select>
+                           </div>
+                           <div class="select_inline">
+                              <div class="filter">
+                                 <input type="text" class="form-control filter_icn" placeholder="Filter" />
+                              </div>
+                           </div>
+                        </div>
+                        <div class="filter_dropdown">
+                           <div class="upper-filter">
+                              <ul class="custom_tabs clearfix">
+                                 <li>
+                                    <span>All Time Zone</span>
+                                 </li>
+                                 <li>
+                                    <span>All Hourly Rate</span>
+                                 </li>
+                                 <li>
+                                    <span>All Job Type</span>
+                                 </li>
+                                 <li>
+                                    <span>All Contract Period</span>
+                                 </li>
+                                 <li>
+                                    <span>All Entry Level</span>
+                                 </li>
+                              </ul>
+                           </div>
+                           <div class="lower-filter">
+                              <!-- custom_filter_job Start -->
+                              <div class="custom_filter_job active">
+                                 <ul class="checkbox-list clearfix">
+                                    <li>
+                                       <div class="checkbox checkbox-custom">
+                                          <label>
+                                             <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr">
+                                                   <i class="cr-icon fa fa-check"></i>
+                                                </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">Pacific Time</span>
+                                          </label>
+                                       </div>
+                                    </li>
+                                    <li>
+                                       <div class="checkbox checkbox-custom">
+                                          <label>
+                                             <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr">
+                                                   <i class="cr-icon fa fa-check"></i>
+                                                </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">Mountain Time</span>
+                                          </label>
+                                       </div>
+                                    </li>
+                                    <li class="nav-item">
+                                       <a class="nav-link" href="{% url 'analyticsmaven:job-post' %}">
+                                          Post a Job
+                                       </a>
+                                    </li>
+                                    <li>
+                                       <div class="checkbox checkbox-custom">
+                                          <label>
+                                             <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr">
+                                                   <i class="cr-icon fa fa-check"></i>
+                                                </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">2 Years</span>
+                                          </label>
+                                       </div>
+                                    </li>
+                                 </ul>
+                              </div>
+                              <!-- custom_filter_job End -->
+                              <!-- custom_filter_job Start -->
+                              <div class="custom_filter_job">
+                                 <ul class="checkbox-list clearfix">
+                                    <li>
+                                       <div class="checkbox checkbox-custom">
+                                          <label>
+                                             <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr">
+                                                   <i class="cr-icon fa fa-check"></i>
+                                                </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">intermediate</span>
+                                          </label>
+                                       </div>
+                                    </li>
+                                    <li>
+                                       <div class="checkbox checkbox-custom">
+                                          <label>
+                                             <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr">
+                                                   <i class="cr-icon fa fa-check"></i>
+                                                </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">Beginner</span>
+                                          </label>
+                                       </div>
+                                    </li>
+                                    <li>
+                                       <div class="checkbox checkbox-custom">
+                                          <label>
+                                             <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr">
+                                                   <i class="cr-icon fa fa-check"></i>
+                                                </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">Expert</span>
+                                          </label>
+                                       </div>
+                                    </li>
+                                 </ul>
+                              </div>
+                              <!-- custom_filter_job End -->
+                           </div>
+                           <div class="filter-buttons">
+                              <a href="javascript:void(0);" class="skills_tag green-bg  close_filter ">Close Filter</a>
+                              <a href="javascript:void(0);" class="skills_tag white-bg">Apply</a>
+                           </div>
+                        </div>
+                     </div>
+                     <div>
+                        <div class="content-box">
+                           <div class="profile-view d-flex align-items-center">
+                              <div class="userimg">
+                                 {% if user.avatar %}
+                                 <img id="signup-image" src="{{user.avatar}}" alt="user pic" /> {% else %}
+                                 <img id="signup-image" src="{% static 'images/avatar.png' %}" alt="user pic" /> {% endif %}
+                              </div>
+                              <div class="about-user">
+                                 <h4>{{user.first_name}} {{user.last_name}}
+                                 </h4>
+                                 <p>{{user.job_seeker.professional_title}}</p>
+                                 <p>{{user.job_seeker.country.name}}</p>
+                                 <p>{{user.language}}</p>
+                                 <p>{{user.location}}</p>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="content-box">
+                           <label class="pro-detail">Education -</label>
+                           <div class="detail-cover">
+                              <ul class="skills_tag_list d-inline-block">
+                                 {% for education in user.job_seeker.job_seeker_education.all %}
+                                 <li>
+                                    <span class="skills_tag">{{education.degree}}
+                                       <br>from
+                                       <br>{{education.school}}
+                                       <br>Passing Year- {{education.to_year}}</span>
+                                 </li>
+                                 {% endfor %}
+                              </ul>
+                           </div>
+                        </div>
+                        <div class="area-interest">
+                           <label class="pro-detail paddL0">Average Rating:</label>
+                           <ul class="show_rating_list">
+                              <li>
+                                 <i class="rated fas fa-star"></i>
+                              </li>
+                              <li>
+                                 <i class="rated fas fa-star"></i>
+                              </li>
+                              <li>
+                                 <i class="rated fas fa-star"></i>
+                              </li>
+                              <li>
+                                 <i class="rated fas fa-star"></i>
+                              </li>
+                              <li>
+                                 <i class="rated fas fa-star"></i>
+                              </li>
+                           </ul>
+                        </div>
+                        <div class="content-box">
+                           <label class="pro-detail">Area - </label>
+                           <div class="detail-cover">
+                              <ul class="skills_tag_list d-inline-block">
+                                 {% for area in user.job_seeker.area.all %}
+                                 <li>
+                                    <span class="skills_tag">{{area}} </span>
+                                 </li>
+                                 {% endfor %}
+                              </ul>
+                           </div>
+                        </div>
+                        <div class="content-box">
+                           <label class="pro-detail">Industry - </label>
+                           <div class="detail-cover">
+                              <ul class="skills_tag_list d-inline-block">
+                                 {% for industry in user.job_seeker.industry.all %}
+                                 <li>
+                                    <span class="skills_tag">{{industry}}</span>
+                                 </li>
+                                 {% endfor %}
+                              </ul>
+                           </div>
+                        </div>
+                        <div class="content-box">
+                           <label class="pro-detail">Tools & Language - </label>
+                           <div class="detail-cover">
+                              <ul class="skills_tag_list d-inline-block">
+                                 {% for skill in user.job_seeker.tools_and_language.all %}
+                                 <li>
+                                    <span class="skills_tag">{{skill}}</span>
+                                 </li>
+                                 {% endfor %}
+                              </ul>
+                           </div>
+                        </div>
+                        {% for skill in user.user_skill.all%} {% if skill.skill in user.job_seeker.tools_and_language.all%}
+                        <div class="area-interest">
+                           <label class="pro-detail paddL0">{{skill.skill.name}}:</label>
+                           <ul class="show_rating_list">
+                              {% for i in "12345"%}
+                              <li>
+                                 {% if skill.rate >= i %}
+                                 <i class="rated fas fa-star"></i>
+                                 {% else %}
+                                 <i class="fas fa-star"></i>
+                                 {% endif %}
+                              </li>
+                              {% endfor %}
+                           </ul>
+                        </div>
+                        {% endif %} {% endfor %}
+                        <div class="area-interest mt10">
+                           <label class="pro-detail paddL0">Working Experience : 10 Years</label>
+                        </div>
+                        <div class="area-interest mt10">
+                           <label class="pro-detail pR20 paddL0">Timezone -</label>
+                           <ul class="skills_tag_list d-inline-block">
+                              <li>
+                                 <span class="skills_tag">Pacific Time</span>
+                              </li>
+                           </ul>
+                        </div>
+                        <div class="content-box">
+                           <label class="pro-detail">Employer History - </label>
+                           <div class="detail-cover">
+                              {% for employment in user.job_seeker.job_seeker_employment.all%}
+                              <div class="company_name_box">
+                                 <span class="company_logo">
+                                    <img src="{% static 'images/company-icon.png' %}" alt="Company Logo">
+                                 </span>
+                                 <div class="company_info  emp-history">
+                                    <h5>{{employment.title}}</h5>
+                                    <p>
+                                       <b>{{employment.company}}</b>
+                                    </p>
+                                    {% if employment.currently %}
+                                    <p>{{employment.get_from_month_display}}, {{employment.from_year}} to Currently
+                                    </p>
+                                    {% else %}
+                                    <p>{{employment.get_from_month_display}}, {{employment.from_year}} to {{employment.get_to_month_display}},
+                                       {{employment.to_year}}
+                                    </p>
+                                    {% endif %}
+                                    <p>{{employment.location}}</p>
+                                 </div>
+                              </div>
+                              {% endfor %}
+                           </div>
+                        </div>
+                        <div class="content-box">
+                           <label class="pro-detail">Languages Known - </label>
+                           <div class="detail-cover">
+                              <ul class="skills_tag_list d-inline-block">
+                                 {% for language in user.job_seeker.language_known.all %}
+                                 <li>
+                                    <span class="skills_tag">{{language}}</span>
+                                 </li>
+                                 {% endfor %}
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- Tab 1 End -->
+                  <!-- Tab 2 Start -->
+                  <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="profile-tab">
+                     <div class="top_filter_box">
+                        <div class="search_box max-WT-300">
+                           <input type="text" class="form-control" placeholder="Search Job" />
+                           <button class="search_btn">
+                              <i class="fas fa-search"></i>
+                           </button>
+                        </div>
+                        <div class="filter-select">
+                           <label>Sort</label>
+                           <div class="select_inline">
+                              <select class="form-control select_style2">
+                                 <option onclick="return NewestPostedJob()">Newest</option>
+                                 <option onclick="return AllPostedJob()">All</option>
+                              </select>
+                           </div>
+                           <div class="select_inline">
+                              <div class="filter">
+                                 <input type="text" class="form-control filter_icn" placeholder="Filter" />
+                              </div>
+                           </div>
+                        </div>
+                        <div class="filter_dropdown">
+                           <div class="upper-filter">
+                              <ul class="custom_tabs clearfix">
+                                 <li>
+                                    <span>All Time Zone</span>
+                                 </li>
+                                 <li>
+                                    <span>All Hourly Rate</span>
+                                 </li>
+                                 <li>
+                                    <span>All Job Type</span>
+                                 </li>
+                                 <li>
+                                    <span>All Contract Period</span>
+                                 </li>
+                                 <li>
+                                    <span>All Entry Level</span>
+                                 </li>
+                              </ul>
+                           </div>
+                           <div class="lower-filter">
+                              <!-- custom_filter_job Start -->
+                              <div class="custom_filter_job active">
+                                 <ul class="checkbox-list clearfix">
+                                    <li>
+                                       <div class="checkbox checkbox-custom">
+                                          <label>
+                                             <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr">
+                                                   <i class="cr-icon fa fa-check"></i>
+                                                </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">Pecific Time</span>
+                                          </label>
+                                       </div>
+                                    </li>
+                                    <li>
+                                       <div class="checkbox checkbox-custom">
+                                          <label>
+                                             <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr">
+                                                   <i class="cr-icon fa fa-check"></i>
+                                                </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">Mountain Time</span>
+                                          </label>
+                                       </div>
+                                    </li>
+                                    <li>
+                                       <div class="checkbox checkbox-custom">
+                                          <label>
+                                             <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr">
+                                                   <i class="cr-icon fa fa-check"></i>
+                                                </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">Central Time</span>
+                                          </label>
+                                       </div>
+                                    </li>
+                                    <li>
+                                       <div class="checkbox checkbox-custom">
+                                          <label>
+                                             <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr">
+                                                   <i class="cr-icon fa fa-check"></i>
+                                                </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">Eastern Time</span>
+                                          </label>
+                                       </div>
+                                    </li>
+                                 </ul>
+                              </div>
+                              <!-- custom_filter_job End -->
+                              <!-- custom_filter_job Start -->
+                              <div class="custom_filter_job">
+                                 <ul class="checkbox-list clearfix">
+                                    <li>
+                                       <div class="checkbox checkbox-custom">
+                                          <label>
+                                             <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr">
+                                                   <i class="cr-icon fa fa-check"></i>
+                                                </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">$15 - $30</span>
+                                          </label>
+                                       </div>
+                                    </li>
+                                    <li>
+                                       <div class="checkbox checkbox-custom">
+                                          <label>
+                                             <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr">
+                                                   <i class="cr-icon fa fa-check"></i>
+                                                </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">$30 - $70</span>
+                                          </label>
+                                       </div>
+                                    </li>
+                                    <li>
+                                       <div class="checkbox checkbox-custom">
+                                          <label>
+                                             <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr">
+                                                   <i class="cr-icon fa fa-check"></i>
+                                                </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">$70+</span>
+                                          </label>
+                                       </div>
+                                    </li>
+                                    <li>
+                                       <div class="checkbox checkbox-custom">
+                                          <label>
+                                             <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr">
+                                                   <i class="cr-icon fa fa-check"></i>
+                                                </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">Fixed Price</span>
+                                          </label>
+                                       </div>
+                                    </li>
+                                 </ul>
+                              </div>
+                              <!-- custom_filter_job End -->
+                              <!-- custom_filter_job Start -->
+                              <div class="custom_filter_job">
+                                 <ul class="checkbox-list clearfix">
+                                    <li>
+                                       <div class="checkbox checkbox-custom">
+                                          <label>
+                                             <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr">
+                                                   <i class="cr-icon fa fa-check"></i>
+                                                </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">Freelancing</span>
+                                          </label>
+                                       </div>
+                                    </li>
+                                    <li>
+                                       <div class="checkbox checkbox-custom">
+                                          <label>
+                                             <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr">
+                                                   <i class="cr-icon fa fa-check"></i>
+                                                </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">Full Time</span>
+                                          </label>
+                                       </div>
+                                    </li>
+                                    <li>
+                                       <div class="checkbox checkbox-custom">
+                                          <label>
+                                             <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr">
+                                                   <i class="cr-icon fa fa-check"></i>
+                                                </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">Part Time</span>
+                                          </label>
+                                       </div>
+                                    </li>
+                                 </ul>
+                              </div>
+                              <!-- custom_filter_job End -->
+                              <!-- custom_filter_job Start -->
+                              <div class="custom_filter_job">
+                                 <ul class="checkbox-list clearfix">
+                                    <li>
+                                       <div class="checkbox checkbox-custom">
+                                          <label>
+                                             <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr">
+                                                   <i class="cr-icon fa fa-check"></i>
+                                                </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">1 - 6 Months</span>
+                                          </label>
+                                       </div>
+                                    </li>
+                                    <li>
+                                       <div class="checkbox checkbox-custom">
+                                          <label>
+                                             <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr">
+                                                   <i class="cr-icon fa fa-check"></i>
+                                                </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">6 - 12 Months</span>
+                                          </label>
+                                       </div>
+                                    </li>
+                                    <li>
+                                       <div class="checkbox checkbox-custom">
+                                          <label>
+                                             <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr">
+                                                   <i class="cr-icon fa fa-check"></i>
+                                                </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">2 Years</span>
+                                          </label>
+                                       </div>
+                                    </li>
+                                 </ul>
+                              </div>
+                              <!-- custom_filter_job End -->
+                              <!-- custom_filter_job Start -->
+                              <div class="custom_filter_job">
+                                 <ul class="checkbox-list clearfix">
+                                    <li>
+                                       <div class="checkbox checkbox-custom">
+                                          <label>
+                                             <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr">
+                                                   <i class="cr-icon fa fa-check"></i>
+                                                </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">intermediate</span>
+                                          </label>
+                                       </div>
+                                    </li>
+                                    <li>
+                                       <div class="checkbox checkbox-custom">
+                                          <label>
+                                             <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr">
+                                                   <i class="cr-icon fa fa-check"></i>
+                                                </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">Beginner</span>
+                                          </label>
+                                       </div>
+                                    </li>
+                                    <li>
+                                       <div class="checkbox checkbox-custom">
+                                          <label>
+                                             <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr">
+                                                   <i class="cr-icon fa fa-check"></i>
+                                                </span>
+                                             </span>
+                                             <span class="checkbox-txt amount_a">Expert</span>
+                                          </label>
+                                       </div>
+                                    </li>
+                                 </ul>
+                              </div>
+                              <!-- custom_filter_job End -->
+                           </div>
+                           <div class="filter-buttons">
+                              <a href="javascript:void(0);" class="skills_tag green-bg  close_filter ">Close Filter</a>
+                              <a href="javascript:void(0);" class="skills_tag white-bg">Apply</a>
+                           </div>
+                        </div>
+                     </div>
+                     <ul class="job_list posted-job-block posted_job_list">
+                        {% for job_posted in request.user.company.company_name_jobmanagement.all %}
+                        <li>
+                           <div class="job_list_block">
+                              <div class="list_upper border0 p0">
+                                 <div class="flex-block flexBoxOne">
+                                    <div class="flex2">Type of your company:</div>
+                                    <div class="flex1"> {{job_posted.job_name|capfirst}}</div>
+                                    <div class="flex1 text-right flexBoxBtn">
+                                       <div class="job-icons jobs_action_btn">
+
+                                          <a href="{% url 'analyticsmaven:posted-job-view' job_posted.uuid %}">
+                                             <i class="fa fa-eye"></i>
+                                          </a>
+
+                                          <a href="{% url 'analyticsmaven:edit-job-post' job_posted.uuid  %}">
+                                             <i class="fa fa-edit"></i>
+                                          </a>
+                                          <a href="javascript:void(0);" data-toggle="modal" data-target="#deleteJobModal" onclick="DeleteJob(this)">
+                                             <i class="fa fa-trash"></i>
+                                          </a>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="flex-block flexBoxTwo">
+                                    <div class="flex2">Post Job Title:</div>
+                                    <div class="flex1">{{job_posted.description}}</div>
+                                    <div class="flex1 text-right">
+                                    </div>
+                                 </div>
+                                 <div class="flex-block align-items-center">
+                                    <div class="flex1">
+                                       <div class="job-icons job_icons2">
+                                          <a href="javascript:void(0);">
+                                             <i class="fas fa-map-marker"></i>
+                                          </a>
+                                          {{job_posted.country}}
+                                       </div>
+                                    </div>
+                                    <div class="flex1">
+                                       <div class="job-icons job_icons2">
+                                          <a href="javascript:void(0);">
+                                             <i class="fas fa-clock"></i>
+                                          </a>
+                                          {{job_posted.duration}} Month
+                                       </div>
+                                    </div>
+                                    <div class="flex1">{{job_posted.credit}}</div>
+                                    <div class="text-right button-message  max-WT-150">
+                                       <a href="{% url 'analyticsmaven:view-applicants' job_posted.uuid %}" class="btn bg-white-animate maxWidthAuto">View Applicants</a>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </li>
+                        <div class="modal fade global-modal profile-modal" id="deleteJobModal">
+                           <div class="modal-dialog max-WT-600">
+                              <div class="modal-content">
+                                 <div class="modal-header ">
+                                    <!-- <h4 class="modal-title text-center">Sign In</h4> -->
+                                    <span class="modal_logo">
+                                       <img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo">
+                                       <img class="hide_large" src="{% static 'images/logo-mob.png' %}" alt="Logo">
+                                    </span>
+                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                 </div>
+                                 <div class="modal-body text-center">
+                                    <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+                                    <h2 class="modal-hdng mb10">Hi {{request.user.first_name}}</h2>
+                                    <p class="txt mb30">Are you sure you want to delete this job?</p>
+                                    <div class="text-center">
+                                       <button type="button" class="max-WT-300 btn btn-gray radius0" onclick="Deletepostedjob('{{job_posted.uuid}}') ">YES</button>
+                                       <!-- <a href="{% url 'analyticsmaven:posted-job-delete' job_posted.uuid %}" class="max-WT-300 btn btn-gray radius0 ">YES</a> -->
+                                       <button type="button" class="max-WT-300 btn btn-red  radius0 mt10" data-dismiss="modal">CANCEL</button>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        {% endfor %}
+                     </ul>
+                     <div class="pagination_block" id="company">
+                        <ul class="pagination">
+                           <li class="page-item">
+                              {% if companypage.has_previous %}
+                              <a class="page-link" href="?pages={{ companypage.previous_page_number }}">
+                                 <i class="fas fa-angle-double-left"></i>
+                              </a>
+                              {% endif %}
+                           </li>
+                           {% for num in companypage.paginator.page_range %} {% if companypage.number == num %}
+                           <li class="page-item  active">
+                              <a class="page-link" href="?pages={{ num }}">{{num}} </a>
+                           </li>
+                           {% else %}
+                           <li class="page-item">
+                              <a class="page-link" href="?pages={{ num }}">{{num}} </a>
+                           </li>
+                           {% endif %} {% endfor %}
+                           <li class="page-item">
+                              {% if companypage.has_next %}
+                              <a class="page-link" href="?pages={{ companypage.next_page_number }}">
+                                 <i class="fas fa-angle-double-right"></i>
+                              </a>
+                              {% endif %}
+                           </li>
+
+                        </ul>
+                     </div>
+                  </div>
+                  <!-- Tab 2 End -->
+               </div>
+               <!-- Tab Content Start -->
+            </div>
+            <!-- global_tabs End -->
+         </div>
+         <!-- Right Content Box End -->
+      </div>
+      <!-- Sidebar-content-box End -->
+   </div>
+   <!-- container-1280 End -->
+   {% include 'refer.html' %} 
+</main>
+<!-- main End -->
+{% ifequal type 'delete-success' %}
+<script>
+   $('#tab2').modal('show')
+</script> {% endifequal %} {% ifequal type 'job_post' %}
+<script>
+   $('#tab2').modal('show')
+</script> {% endifequal %} {% endblock %}

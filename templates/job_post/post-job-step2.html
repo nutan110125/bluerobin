@@ -1,0 +1,171 @@
+{% extends 'dashboardheader.html' %} {% load static %} {% block content %}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="{% static 'js/validate.js' %}"></script>
+
+
+
+<main class="main-container">
+    <!-- ontainer-1280 Start -->
+    <div class="container-1280">
+        <!-- Sidebar-content-box Start -->
+        <div class="sidebar-content-box clearfix">
+            <!--Aside Start -->
+            <aside class="sidebar">
+                <span class="back_btn">
+                    <i class="fas fa-chevron-left"></i>
+                </span>
+                <!-- aside-box Start -->
+                {% include 'dashboard-aside.html' %}
+                <!-- aside-box End -->
+            </aside>
+            <!--Aside End -->
+            <!-- Right Content Box-->
+            <div class="right_content_box mb60">
+                <!-- step block start -->
+                <div class="steps-block">
+                    <ul class="steps">
+                        <li class="active">
+                            <a href="{% url 'analyticsmaven:edit-job-post' job.uuid  %}">Step 1/4</a>
+                        </li>
+                        <li class="active">
+                            <a href="{% url 'analyticsmaven:job-post-step-2' job.uuid  %}">Step 2/4</a>
+                        </li>
+                        <li>
+                            <a>Step 3/4</a>
+                        </li>
+                        <li>
+                            <a>Step 4/4</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- step block end -->
+                <!-- first step block start -->
+                <div class="step_content_box">
+                    <form class="step-form employee-step-form" onsubmit="return validateemployeeneed()" method="POST" action="{% url 'analyticsmaven:job-post-step-2' job.uuid %}">
+                        {% csrf_token %}
+                        <div class="form-group row">
+                            <label class="col-sm-3 mt7">Analytics Professionals Required</label>
+                            <div class="col-sm-9">
+                                <input class="form-control max-WT-190" type="number" name="number_of_employees" required="true" id="number_of_employees" min="1"
+                                    oninput="this.value = Math.abs(this.value)" />
+                            </div>
+                            <script>
+                            </script>
+                            <!--   <div class="radio-box">
+						     <label class="redio-design d-inline-block">
+							   <input type="radio" name="option"><span></span>One
+					         </label>
+							  <label class="redio-design d-inline-block">
+							   <input type="radio" name="option"><span></span>Many
+					         </label>
+						   </div> -->
+                        </div>
+                        <!-- <div class="form-group">
+						     <label>What skills set you want in employee?</label>
+                             <select class="form-control select_style2">
+								<option>IT Networking</option> 
+							</select>
+						</div> -->
+                        <div class="form-group">
+                            <label>What skills set you want in employee?</label>
+                            <ul class="skills_full_box">
+                                {% for skill in skills %} {% if skill in job.tools_and_language.all %}
+                                <li id='{{skill.id}}' value='{{skill.id}}' class="select-subSkill active">
+                                    <span class="skills_tag">
+                                        <input type="checkbox" name="tools_and_language" id='skill_{{skill.id}}' value='{{skill.id}}' />{{skill.name}}
+                                        <script>
+                                            $("#skill_{{skill.id}}").attr("checked", "checked")
+                                        </script>
+                                    </span>
+                                </li>
+                                {% else %}
+                                <li id='{{skill.id}}' value='{{skill.id}}' class="select-subSkill">
+                                    <span class="skills_tag">
+                                        <input type="checkbox" name="tools_and_language" value='{{skill.id}}' />{{skill.name}}</span>
+                                </li>
+                                {% endif %} {% endfor %}
+                                <li id='0' value='0' class="select-subSkill-skill">
+                                    <span class="skills_tag">
+                                        <input type="checkbox" name="tools_and_language" id="custom-skill" placeholder='Please enter Skill' style="border: none;background: none;"
+                                        />
+                                        <strong id="skill-text">Others</strong>
+                                    </span>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                        <div class="form-group form-btn text-center">
+                            <button type="submit" class="btn btn-green max-WT-200">CONTINUE</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- first step block end -->
+            </div>
+            <!-- Right Content Box End -->
+        </div>
+        <!-- Sidebar-content-box End -->
+    </div>
+    <!-- container-1280 End -->
+    {% include 'refer.html' %} 
+</main>
+<!-- main End -->
+
+
+<script>
+    var validateskill = function () {
+        var skill_checkboxs = document.getElementsByName("tools_and_language");
+        var skill_okay = false;
+        var l1 = skill_checkboxs.length;
+
+        for (var i = 0; i < l1; i++) {
+            if (skill_checkboxs[i].checked) {
+                skill_okay = true;
+                break;
+            }
+        }
+
+        if (skill_okay) return true;
+        else return false;
+
+
+    }
+    validateskill()
+</script>
+<script>
+    $(".select-subSkill-skill").on('click', function () {
+        if ($(this).hasClass('active')) {
+            $(this).removeClass("active");
+            return
+        } else {
+            $(this).addClass("active");
+            $(this).find("input[name=tools_and_language]").attr('type', 'text')
+            $("#skill-text").text("")
+        }
+
+    })
+    $("#custom-skill").on('blur', function () {
+        if ($(this).val() && $(this).attr('type') == 'text') {
+            $("#skill-text").text($(this).val())
+        } else {
+            $("#skill-text").text("Others")
+        }
+        $(this).attr('type', 'checkbox')
+
+    })
+
+</script>
+
+
+<script>
+    $(".select-subSkill").on('click', function () {
+        if ($(this).hasClass('active')) {
+            $(this).removeClass("active");
+        } else {
+            $(this).addClass("active");
+        }
+    });
+</script> {% if job.number_of_employees%}
+<script>
+    $("#number_of_employees").val("{{job.number_of_employees}}")
+</script> {% endif %} {% endblock %}

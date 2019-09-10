@@ -1,0 +1,192 @@
+{% extends template_name %} {% load static %} {% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="{% static 'js/validate.js' %}"></script>
+
+
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous" defer></script> -->
+<div class="InnertopBanner" style="background-image:url({% static 'images/contact-us-bg.png' %});">
+  <div class="InnertopBanner-content d-flex align-items-center w-100 text-center">
+    <div class="w-100">
+      <div class="container">
+        <h1>Singularly fabulous work without boundaries</h1>
+        <p>Connecting 2 million+ professionals with remote and freelance jobs using artificial intelligence.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- main Start -->
+<main class="main-container">
+  <section class="static-content-section">
+    <div class="container">
+      <div class="sec_head mb20">
+        <h3>Contact Us</h3>
+      </div>
+      <h5 class="head5">Let’s start the conversation. We want to hear from you.</h5>
+      <div class="emailus">Email us at career@analyticsmavens.com</div>
+      <!-- form-box start -->
+      <div class="form-box contact_box">
+        {% if message %}
+        <p id="message">{{message}}</p> {% endif %}
+        <form onsubmit="return contactus()" method="POST" action="{% url 'analyticsmaven:contactus' %}">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-md-6 contat_bdr">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="First Name*" name="first_name" minlength="3"
+                  maxlength="40" required="true" id="first_name" onkeyup="return validatefirstname()" />
+                <div id="firstname_error"></div>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Last Name*" name="last_name" minlength="3"
+                  maxlength="40" required="true" id="last_name" onkeyup="return validatelastname()" />
+                <div id="lastname_error"></div>
+
+              </div>
+              <div class="form-group">
+                <input type="email" class="form-control" placeholder="Email*" name="email" maxlength="100" required="true"
+                  id="email" onkeyup="return validateemail()" />
+                <div id="email_error"></div>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Phone*" name="mobile_number" id="mobile" onkeyup="return isValidmobile()"
+                  maxlength="14" minlength="3" required="true" />
+                <div id="mobile_error"></div>
+              </div>
+              <div class="form-group">
+                <textarea class="form-control" placeholder="Message" name="message" maxlength="500" required="true"></textarea>
+              </div>
+              <div id="captcha">
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-11">
+                      <input class="user-text form-control" placeholder="Type here" type="text" id='usertext' required />
+                      <span class="errors" style="color:red" id='captch-error'></span>
+                    </div>
+                    <div class="col-1 controls refresh" style="padding-left:0px">
+                      <button class="btn-common" type="button">
+                        <img src="{% static 'img/refresh_icon.png' %}" alt="refresh icon" style="height: 37px;">
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button class="btn bg-green max-WT-220 validate" style="border-radius:5px">SUBMIT</button>
+            </div>
+            <div class="col-md-6">
+              <div class="contact_details_box">
+                <div class="contact_address contact_common">
+                  <i class="fas fa-map-marker-alt"></i>D115, London 1120034</div>
+                <a class="contact_phone contact_common" href="tel:9876543210">
+                  <i class="fas fa-phone"></i>9876543210</a>
+                <a class="contact_phone contact_common" href="mailto:career@analyticsmavens.com">
+                  <i class="fas fa-envelope"></i>mailto:career@analyticsmavens.com</a>
+                <div class="contact_map">
+                  <div class="mapBlock" id="map" style="width:750px;height:500px">
+                  </div>
+                </div>
+              </div>
+            </div>
+        </form>
+      </div>
+      <!-- form-box End -->
+    </div>
+  </section>
+
+  <!-- Thanks Modal Start-->
+  <div class="modal fade global-modal reset-modal" id="thanks">
+    <div class="modal-dialog max-WT-600">
+      <div class="modal-content">
+        <div class="modal-header ">
+          <!-- <h4 class="modal-title text-center">Sign In</h4> -->
+          <span class="modal_logo">
+            <img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+            <img class="hide_large" src="{% static 'images/logo-mob.png' %}" alt="Logo" />
+          </span>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="modal_box_title">
+            Thanks
+          </div>
+          <div class="row align-items-center ">
+            <div class="col">
+              <div class="center-box max-WT-450">
+                <div class="box-title mb30">
+                  <p>Thanks for sharing your contact with us.</p>
+                </div>
+                <div class="action-btn mb0 text-center">
+                  <button type="button" class="btn btn-green  max-WT-200 mb15" data-dismiss="modal">OK</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Thanks Modal End -->
+
+</main>
+<!-- main End -->
+<script src="{% static 'js/client_captcha.js' %}" defer></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.body.scrollTop;
+    var timeout;
+    captcha = new $.Captcha();
+    captcha.generate();
+  });
+  contactus = function () {
+    var flag = 0;
+    if (captcha._settings.text == $("#usertext").val()) {
+      flag++;
+      $("#captch-error").text("")
+    } else {
+      $("#captch-error").text("Captch does not match")
+    }
+
+    if (isValidmobile())
+      flag++;
+    if (validatefirstname())
+      flag++;
+    if (validatelastname())
+      flag++;
+    if (validateemail())
+      flag++;
+    if (flag == 5)
+      return true;
+    else
+      return false;
+  }
+</script>{% if popup %}
+<script>
+  $(document).ready(function () {
+    $("#thanks").modal('show')
+  })
+</script> {% endif %}
+<script>
+  $(document).ready(function () {
+    $('#thanks').on('hidden.bs.modal', function () {
+      window.location = '/dashboard'
+    })
+  })
+</script>
+<script>
+  initMap = function () {
+    var myLatLng = { lat: -34.728560, lng: 135.881660 };
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 17,
+      center: myLatLng
+    });
+
+    var marker = new google.maps.Marker({
+      position: myLatLng,
+      map: map,
+      title: 'Analytics Maven'
+    });
+  }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyAzXN02NK7q-oDtej8u46huknxo50B04&libraries=places&callback=initMap"
+  async defer></script>
+{% endblock %}

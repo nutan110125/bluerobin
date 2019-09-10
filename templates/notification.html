@@ -1,0 +1,47 @@
+{% extends 'dashboardheader.html' %} {% load static %} {% load filters %}{% block content %}
+<script src="{% static 'js/validate.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<main class="main-container">
+   <!-- ontainer-1280 Start -->
+   <div class="container-1280">
+      <!-- Sidebar-content-box Start -->
+      <div class="sidebar-content-box clearfix">
+         {% include 'dashboard-aside.html' %}
+         <!-- Right Content Box-->
+         <div class="right_content_box" style="padding: 10px 0px">
+            <center>
+               <h3 style="padding: 10px 0px">Notifications</h3>
+            </center>
+            {% if notifications%}
+            <ul class="notification-ul">
+               {% for n in notifications %} {% if n.read %}
+               <li class="notification-col">
+                  {% else %}
+                  <li class="notification-col" style="background:#b1ed95">
+                     {% endif %}
+                     <a href="{% url 'analyticsmaven:read-notification' n.id %}" style="color: black" class="d-flex align-items-center">
+                        {% if n.sender.avatar %}
+                        <img class="notification-image" src="{{n.sender.avatar}}" alt="Logo" /> {% else %}
+                        <img class="notification-image" src="{% static 'images/user-icon.png' %}" alt="Logo" /> {% endif %}
+                        <div class="d-inline-block align-items-center">
+                           <p class="notification-text">{{n.message}}
+                           </p>
+                        </div>
+                     </a>
+                  </li>
+                  {% endfor %}
+            </ul>
+            {% else %}
+            <!-- Tab 2 Start -->
+            <div class="no-active-jobs">No Notifications</div>
+            <!-- Tab 2 End -->
+            {% endif %}
+         </div>
+      </div>
+      <!-- Sidebar-content-box End -->
+   </div>
+   <!-- container-1280 End -->
+   {% include 'refer.html' %} 
+</main>
+<!-- main End -->
+{% endblock %}

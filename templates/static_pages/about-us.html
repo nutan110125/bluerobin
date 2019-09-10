@@ -1,0 +1,169 @@
+{% extends template_name %} {% load static %} {% block content %}
+{% for first in about %}
+<div class="InnertopBanner" style="background-image:url({{first.avatar.url}});">
+    <div class="InnertopBanner-content d-flex align-items-center w-100 text-center">
+        <div class="w-100">
+            <div class="container">
+                <h1>{{first.banner_heading}}</h1>
+                <p>{{first.banner_content}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- main Start -->
+<main class="main-container">
+       
+    <section class="who_are_we_section about_overview_section">
+        <div class="custom-container">
+            <div class="who-we-are-box">
+                <div class="border-box"></div>
+                <div class="border-box-content">
+                    
+                    <h2 class="largeheade mb15">{{first.title}}</h2>
+                    <p>{{first.title_description}}</p>
+                </div>
+            </div>
+            <div class="clearfix overview-wrapper">
+                <div class="border-box-content">
+                    <h2 class="small_head">{{first.overview}}</h2>
+                    <p>{{first.overview_description|safe}}
+                    </p>
+                   
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Inner Banner 2 Section -->
+    <section class="about_inner_banner" style="background-image:url({{first.avatar_2.url}});"></section>
+    <!-- Inner banner 2 Section end -->
+    <!-- Innovative Companies Section -->
+    <section class="innovative_companies_section">
+        <div class="custom-container">
+            <div class="innovative-box">
+                <div class="border-box"></div>
+                <div class="innovative-box-content">
+                    <h3 class="small_head mb0">Our Team
+                    </h3>
+                                        <p>lorem ipsum dollor wvhskvnskjv ssdnvmvbdfjbnjdfbdfbdbdbsfbsf
+
+                                            </p>
+
+                </div>
+            </div>
+            <!-- Slider Wrapper -->
+            <div class="clearfix slider-wrapper">
+                <!-- innovative_companies_slider Start -->
+                <div class="team-block">
+                    <!-- team-block-inner Start-->
+                    <div class="team-block-inner clearfix">
+                        
+                        {% for person in member %}
+                        <div class="slideimgbox">
+                            <div class="slideimg">
+                                <img style="width: 300px; height: 250px;" src="{{person.avatar.url}}" alt="Image" />
+                            </div>
+                            <div class="company-detail">
+                                <h5 class="company-name">{{person.first_name}} {{person.last_name}}</h5>
+                                <span class="total-applicants">{{person.designation}}</span>
+                                <p class="company-address">
+                                    <img src="{% static 'images/loc-icon.png' %}" alt="Icon" />{{person.city_country}}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <!-- <div class="slideimgbox">
+                            <div class="slideimg">
+                                <img src="{% static 'images/emp-img3.png' %}" alt="Image" />
+                            </div>
+                            <div class="company-detail">
+                                <h5 class="company-name">Naomi Stalenberg</h5>
+                                <span class="total-applicants">UI Designer</span>
+                                <p class="company-address">
+                                    <img src="{% static 'images/loc-icon.png' %}" alt="Icon" />New York, USA</p>
+                            </div>
+                        </div>
+                        <div class="slideimgbox">
+                            <div class="slideimg">
+                                <img src="{% static 'images/emp-img4.png' %}" alt="Image" />
+                            </div>
+                            <div class="company-detail">
+                                <h5 class="company-name">James Pattinson</h5>
+                                <span class="total-applicants">130 Applicants</span>
+                                <p class="company-address">
+                                    <img src="{% static 'images/loc-icon.png' %}" alt="Icon" />New York, USA</p>
+                            </div>
+                        </div> -->
+                    </div>
+                    <!-- team-block-inner End-->
+                    <!-- <div class="team-block-inner clearfix">
+                        <div class="slideimgbox">
+                            <div class="slideimg">
+                                <img src="{% static 'images/emp-img1.png' %}" alt="Image" />
+                            </div>
+                            <div class="company-detail">
+                                <h5 class="company-name">Glenn Maxwell</h5>
+                                <span class="total-applicants">Senior Project Manager</span>
+                                <p class="company-address">
+                                    <img src="{% static 'images/loc-icon.png' %}" alt="Icon" />New York, USA</p>
+                            </div>
+                        </div>
+                        <div class="slideimgbox">
+                            <div class="slideimg">
+                                <img src="{% static 'images/emp-img2.png' %}" alt="Image" />
+                            </div>
+                            <div class="company-detail">
+                                <h5 class="company-name">Cameron Bancroft</h5>
+                                <span class="total-applicants">Senior Software Developer</span>
+                                <p class="company-address">
+                                    <img src="{% static 'images/loc-icon.png' %}" alt="Icon" />New York, USA</p>
+                            </div>
+                        </div>
+                        <div class="slideimgbox">
+                            <div class="slideimg">
+                                <img src="{% static 'images/emp-img3.png' %}" alt="Image" />
+                            </div>
+                            <div class="company-detail">
+                                <h5 class="company-name">Naomi Stalenberg</h5>
+                                <span class="total-applicants">UI Designer</span>
+                                <p class="company-address">
+                                    <img src="{% static 'images/loc-icon.png' %}" alt="Icon" />New York, USA</p>
+                            </div>
+                        </div>
+                        <div class="slideimgbox">
+                            <div class="slideimg">
+                                <img src="{% static 'images/emp-img4.png' %}" alt="Image" />
+                            </div>
+                            <div class="company-detail">
+                                <h5 class="company-name">James Pattinson</h5>
+                                <span class="total-applicants">130 Applicants</span>
+                                <p class="company-address">
+                                    <img src="{% static 'images/loc-icon.png' %}" alt="Icon" />New York, USA</p>
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- team-block-inner End-->
+                </div>
+                <!-- innovative_companies_slider End -->
+            </div>
+            <!-- Slider Wrapper End -->
+
+            <div class="team-box-bottom">
+                <div class="innovative-box-content">
+                    <!-- <p>{{first.mission}}</p> -->
+                    <h3 class="small_head mb10">{{first.mission}}
+                    </h3>
+                    <!-- <p>{% for mission in about %}{{about.mission}}{% endfor %}</p> -->
+
+                    <p>{{first.mission_description|safe}}</p>
+
+                  
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+<!-- main End -->
+{% endfor %}
+
+{% endblock %}

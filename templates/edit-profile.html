@@ -1,0 +1,75 @@
+ {% extends 'dashboardheader.html' %} {% load static %} {% block content %}
+
+<!-- main Start -->
+<main class="main-container">
+    <!-- ontainer-1280 Start -->
+    <div class="container-1280">
+        <!-- Sidebar-content-box Start -->
+        <div class="sidebar-content-box clearfix">
+            <!--Aside Start -->
+            {% include "dashboard-aside.html" %}
+            <!--Aside End -->
+            <!-- Right Content Box-->
+            <div class="right_content_box">
+                <form method="POST" action="{% url 'analyticsmaven:edit-profile' %}">
+                    {% csrf_token %}
+                    <div class="profile-view-block ">
+                        <h2 class="profile-heading text-center">Edit Profile</h2>
+                        <div class="skills-head mb7">
+                            <strong>Skills i am looking for</strong>
+                        </div>
+                        <div class="preference_box paddL0 mb15">
+                            <select name="Skills" class="form-control" required>{% for skill in skills %}
+                                <option>{{skill}}</option>{% endfor %} </select>
+                            <!-- <input type="text" class="form-control" required /> -->
+                            <!-- <ul class="preference_list clearfix">
+                                 <li><span class="skills_tag">SQL</span></li>
+                                 <li><span class="skills_tag">PHP</span></li>
+                                 <li><span class="skills_tag">C++</span></li>
+                                 <li><span class="skills_tag">Others</span></li>
+                              </ul> -->
+                        </div>
+
+                        <div class="skills-head mb7">
+                            <strong>Preference Language</strong>
+                            {{language}}
+                        </div>
+                        <div class="preference_box paddL0 mb15">
+                            <select name="language" class="form-control" required>{% for language in languages %}
+                                <option>{{language}}</option>{% endfor %} </select>
+                            <!-- <ul class="preference_list clearfix">
+                                 <li><span class="skills_tag">English</span></li>
+                                 <li><span class="skills_tag">French</span></li>
+                                 <li><span class="skills_tag">German</span></li>
+                              </ul> -->
+                        </div>
+
+                        <div class="skills-head mb7">
+                            <strong>Preference Location</strong>
+                        </div>
+                        <div class="preference_box paddL0 mb20">
+                            <input type="text" class="form-control" name="country" required />
+                            <!-- <ul class="preference_list clearfix">
+                                 <li><span class="skills_tag">Canada</span></li>
+                                 <li><span class="skills_tag">US</span></li>
+                                 <li><span class="skills_tag">Others</span></li>
+                              </ul> -->
+                        </div>
+
+                        <div class="text-center">
+                            <a href="{% url 'analyticsmaven:view-profile' %}" class="btn btn-gray max-WT-200 mr10 ">Cancel</a>
+                            <button type="submit " class="btn btn-green max-WT-200 ">Submit</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <!-- Right Content Box end-->
+        </div>
+        <!-- Sidebar-content-box End -->
+    </div>
+    <!-- container-1280 End -->
+    {% include 'refer.html' %} 
+</main>
+<!-- main End -->
+{% endblock %}

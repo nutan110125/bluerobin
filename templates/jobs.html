@@ -1,0 +1,508 @@
+{% extends 'dashboardheader.html' %} {% load static %} {% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<main class="main-container">
+  <!-- ontainer-1280 Start -->
+  <div class="container-1280">
+    <!-- Sidebar-content-box Start -->
+    <div class="sidebar-content-box clearfix">
+      <!--Aside Start -->
+      <aside class="sidebar">
+        <span class="back_btn">
+          <i class="fas fa-chevron-left"></i>
+        </span>
+        {% include 'dashboard-aside.html' %}
+        <!-- aside-box End -->
+      </aside>
+      <!--Aside End -->
+      <!-- Right Content Box-->
+      <div class="right_content_box mb60">
+        <!-- global_tabs start -->
+        <div class="global_tabs">
+          <ul class="nav nav-tabs tabs3col" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link  active" id="home-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="home" aria-selected="true">
+                Job Applicants
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="profile" aria-selected="false">
+                Posted Jobs
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'analyticsmaven:job-post' %}">
+                Post a Job
+              </a>
+            </li>
+          </ul>
+          <!-- Tab Content Start -->
+          <div class="tab-content" id="myTabContent">
+            <!-- Tab 1 Start -->
+            <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="home-tab">
+              {% include 'filter.html' %}
+              <div class="row mt25 newest">
+                <!-- Col Start -->
+                {% if job_seeker %} 
+                {% for seeker in job_seeker %}
+                <div class="col-lg-4 col-md-6 job-applicant">
+                  <div class="matched_box">
+                    <span class="match_user_img">
+                      {% if seeker.user.avatar %}
+                      <img src="{{seeker.user.avatar}}" alt="Logo"> {% else %}
+                      <img src="{% static 'images/user-img.png' %}" alt="Logo"> {% endif %}
+                    </span>
+                    <h2 class="match_user_name">{{seeker.user.first_name}} {{seeker.user.last_name}}</h2>
+                    <p class="experties">{{seeker.professional_title}}</p>
+                    <label class="skill_label">Tools/Skills:</label>
+                    <div style="max-height: 55px;min-height:55px;overflow: hidden;">
+                      {% for tool in seeker.user.user_skill.all %} {% if tool.skill in seeker.user.job_seeker.tools_and_language.all%}
+                      <div class="skills_rating_box">
+                        <label>{{tool.skill.name}}</label>
+                        <div class="skills_rating">
+                          <ul class="show_rating_list">
+                            {% for i in "12345" %}
+                            <li>
+                              {% if tool.rate >= i %}
+                              <i class="rated fas fa-star"></i>
+                              {% else %}
+                              <i class="fas fa-star"></i>
+                              {% endif %}
+                            </li>
+                            {% endfor %}
+                          </ul>
+                        </div>
+                      </div>
+                      {% endif %} {% endfor %}
+                    </div>
+                    <div class="matched_action_btn">
+                      <!-- <a class="btn btn-gray btn-block view-btn" id="{{seeker.id}}">View</a> -->
+                      <a href="{% url 'analyticsmaven:user-profile' seeker.user.uuid  %}" class="btn btn-gray btn-block">View</a>
+                      <!-- <a href="" class="btn btn-green btn-block">Hire for Job</a> -->
+                    </div>
+                  </div>
+                </div>
+                {% endfor %} {% else %}
+                <div class="no-active-jobs" style="width: 100%">No Job Applicants</div>
+                {% endif %}
+                <!-- Col End -->
+              </div>
+              <div class="pagination_block mt0" id="job_seeker">
+                <ul class="pagination">
+                  <li class="page-item">
+                    {% if job_seeker.has_previous %}
+                    <a class="page-link" href="?page={{ job_seeker.previous_page_number }}">
+                      <i class="fas fa-angle-double-left"></i>
+                    </a>
+                    {% endif %}
+                  </li>
+                  {% for num in job_seeker.paginator.page_range %} {% if job_seeker.number == num %}
+                  <li class="page-item  active">
+                    <a class="page-link" href="?page={{ num }}">{{num}} </a>
+                  </li>
+                  {% else %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ num }}">{{num}} </a>
+                  </li>
+                  {% endif %} {% endfor %}
+                  <li class="page-item">
+                    {% if job_seeker.has_next %}
+                    <a class="page-link" href="?page={{ job_seeker.next_page_number }}">
+                      <i class="fas fa-angle-double-right"></i>
+                    </a>
+                    {% endif %}
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- Tab 1 End -->
+            <!-- Tab 2 Start -->
+            <div class="tab-pane fade jobs" id="tab2" role="tabpanel" aria-labelledby="profile-tab">
+              <!-- Job View -->
+              {% include 'filter.html' %}
+              <ul class="job_list posted-job-block posted_job_list">
+                {% for job_posted in companypage %}
+                <li class="job-view">
+                  <div class="job_list_block">
+                    <div class="list_upper border0 p0">
+                      <div class="flex-block flexBoxOne">
+                        <div class="flex1">Type of your company:</div>
+                        <div class="flex2"> {{job_posted.job_name|capfirst}}</div>
+                        <div class="flex1 text-right flexBoxBtn">
+                          <div class="job-icons jobs_action_btn">
+                            <a class="detail-view" id='{{job_posted.id}}'>
+                              <i class="fa fa-eye"></i>
+                            </a>
+
+                            <a href="{% url 'analyticsmaven:edit-job-post' job_posted.uuid  %}">
+                              <i class="fa fa-edit"></i>
+                            </a>
+                            <a href="javascript:void(0);" data-toggle="modal" data-target="#deleteJobModal" onclick="DeleteJob(this)">
+                              <i class="fa fa-trash"></i>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="flex-block flexBoxTwo">
+                        <div class="flex1">Post Job Title:</div>
+                        <div class="flex2">{{job_posted.description}}</div>
+                        <div class="flex1 text-right">
+                        </div>
+                      </div>
+                      <div class="flex-block align-items-center">
+                        <div class="flex1">
+                          <div class="job-icons job_icons2">
+                            <a href="javascript:void(0);">
+                              <i class="fas fa-map-marker"></i>
+                            </a>
+                            {% for coun in job_posted.country.all %} {{coun}}{% if forloop.last%}{% else %},{% endif %} {% endfor%}
+                          </div>
+                        </div>
+                        <div class="flex1">
+                          <div class="job-icons job_icons2">
+                            <a href="javascript:void(0);">
+                              <i class="fas fa-clock"></i>
+                            </a>
+                            {{job_posted.duration}} Month
+                          </div>
+                        </div>
+                        <div class="flex1">{{job_posted.credit}}</div>
+                        <div class="text-right button-message  max-WT-150">
+                          <a class="btn bg-white-animate maxWidthAuto view-job-applicants" id="{{job_posted.id}}">View Applicants</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <div class="modal fade global-modal profile-modal" id="deleteJobModal">
+                  <div class="modal-dialog max-WT-600">
+                    <div class="modal-content">
+                      <div class="modal-header ">
+                        <!-- <h4 class="modal-title text-center">Sign In</h4> -->
+                        <span class="modal_logo">
+                          <img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo">
+                          <img class="hide_large" src="{% static 'images/logo-mob.png' %}" alt="Logo">
+                        </span>
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                      </div>
+                      <div class="modal-body text-center">
+                        <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+                        <h2 class="modal-hdng mb10">Hi {{request.user.first_name}}</h2>
+                        <p class="txt mb30">Are you sure you want to delete this job?</p>
+                        <div class="text-center">
+                          <button type="button" class="max-WT-300 btn btn-gray radius0" onclick="Deletepostedjob('{{job_posted.uuid}}') ">YES</button>
+                          <button type="button" class="max-WT-300 btn btn-red  radius0 mt10" data-dismiss="modal">CANCEL</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-block" style="display: none;padding: 0px !important" id='detail_{{job_posted.id}}'>
+                  <div class="profile-view-block">
+                    <div class="profile-view-body">
+                      <div class="row form-group">
+                        <label class="custom-label col-sm-6 col-md-5 col-lg-4">Type of your company</label>
+                        <div class="col-sm-6 col-md-7 col-lg-8 viewField">{% for i in job_posted.company_name.industry.all%}{{i.name}}, {% endfor %}
+                        </div>
+                      </div>
+                      <div class="row form-group">
+                        <label class="custom-label col-sm-6 col-md-5 col-lg-4">Job Post Title</label>
+                        <div class="col-sm-6 col-md-7 col-lg-8 viewField">{{job_posted.job_name|capfirst}}</div>
+                      </div>
+                      <div class="row form-group">
+                        <label class="custom-label col-sm-6 col-md-5 col-lg-4">Description of Job</label>
+                        <div class="col-sm-6 col-md-7 col-lg-8 viewField">{{job_posted.description|capfirst}}</div>
+                      </div>
+                      <div class="row form-group">
+                        <label class="custom-label col-sm-6 col-md-5 col-lg-4">How much employee you need</label>
+                        <div class="col-sm-6 col-md-7 col-lg-8 viewField">{{job_posted.number_of_employees}}</div>
+                      </div>
+                      <div class="row form-group">
+                        <label class="custom-label col-sm-6 col-md-5 col-lg-4">Skill set you want in employee</label>
+                        <div class="col-lg-8">
+                          <div class="viewField">
+                            {% for skill in job_posted.tools_and_language.all %}
+                            <span>{{skill}}, </span>
+                            {% endfor %}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row form-group">
+                        <label class="custom-label col-sm-6 col-md-5 col-lg-4">What type of project you have</label>
+                        <div class="col-sm-6 col-md-7 col-lg-8 viewField">{{job_posted.type_of_project}}</div>
+                      </div>
+                      <div class="row form-group">
+                        <label class="custom-label col-sm-6 col-md-5 col-lg-4">Preference of the language</label>
+                        <div class="col-lg-8">
+                          <div class="viewField">
+                            {% for language in job_posted.language.all %}
+                            <span>{{language}}, </span>
+                            {% endfor %}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row form-group">
+                        <label class="custom-label col-sm-6 col-md-5 col-lg-4">Preference Location</label>
+                        <div class="col-sm-6 col-md-7 col-lg-8 viewField">{% for c in job_posted.country.all%}{{c.name}}, {% endfor %}</div>
+                      </div>
+                      <div class="row form-group">
+                        <label class="custom-label col-sm-6 col-md-5 col-lg-4">Employee to be paid</label>
+                        <div class="col-sm-6 col-md-7 col-lg-8 viewField"> {{job_posted.payment}}</div>
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                      <label class="custom-label col-sm-6 col-md-5 col-lg-4">Job Duration</label>
+                      <div class="col-sm-6 col-md-7 col-lg-8 viewField">{{job_posted.duration}} Month</div>
+                    </div>
+                    <div class="row form-group">
+                      <label class="custom-label col-sm-6 col-md-5 col-lg-4">Salary to be paid</label>
+                      <div class="col-sm-6 col-md-7 col-lg-8 viewField">{{job_posted.credit}}</div>
+                    </div>
+                  </div>
+                  <div class="profileAction text-center">
+                    <a class="btn btn-gray max-WT-200 mr10 back-btn" id="{{job_posted.id}}">Back</a>
+                    <a href="{% url 'analyticsmaven:edit-job-post' job_posted.uuid %}" class="btn btn-green max-WT-200 mr10">Edit</a>
+                  </div>
+                </div>
+                <div class='job-applicant-view' style="display: none;" id="applicant_{{job_posted.id}}">
+                  <div class="row mt25 newest" id="job-applied-applicant_{{job_posted.id}}">
+                    <!-- Col Start -->
+                    {% if job_posted.applied %} {% for applicant in job_posted.applied %}
+                    <div class="col-lg-4 col-md-6" id="applied_applicant_{{applicant.id}}_{{applicant.user.id}}">
+                      <div class="matched_box">
+                        <span class="match_user_img">
+                          {% if applicant.user.avatar %}
+                          <img src="{{applicant.user.avatar}}" alt="Logo"> {% else %}
+                          <img src="{% static 'images/user-img.png' %}" alt="Logo"> {% endif %}
+                        </span>
+                        <h2 class="match_user_name">
+                          {{applicant.user.first_name}} {% if applicant.user.last_name %} {{applicant.user.last_name}} {%endif%}
+                        </h2>
+                        <p class="experties">{{applicant.user.job_seeker.professional_title}}</p>
+                        <label class="skill_label">Tools/Skills:</label>
+                        <div style="max-height: 55px;min-height:55px;overflow: hidden;">
+                          {% for tool in applicant.user.user_skill.all %} {% if tool.skill in applicant.user.job_seeker.tools_and_language.all%}
+                          <div class="skills_rating_box">
+                            <label>{{tool.skill.name}}</label>
+                            <div class="skills_rating skill-tool-language">
+                              <ul class="show_rating_list">
+                                {% for i in "12345" %}
+                                <li>
+                                  {% if tool.rate >= i %}
+                                  <i class="rated fas fa-star"></i>
+                                  {% else %}
+                                  <i class="fas fa-star"></i>
+                                  {% endif %}
+                                </li>
+                                {% endfor %}
+                              </ul>
+                            </div>
+                          </div>
+                          {% endif %} {% endfor %}
+                        </div>
+                        <div class="matched_action_btn">
+                          <a href="{% url 'analyticsmaven:job-approval' applicant.user.uuid applicant.uuid  %}" class="btn btn-gray btn-block">View</a>
+                          <a href="#escrowModal" onclick=" return escrow({{applicant.id}})"
+                            class="btn btn-green btn-block" id="{{applicant.id}}" data-toggle="modal" data-target="#escrowModal">Hire for Job</a>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %} {% else %}
+                    <div class="no-active-jobs" style="width: 100%">No Applied Applicant</div>
+                    {% endif %}
+                    <!-- Col End -->
+                  </div>
+                  <div class="matched_action_btn" style="margin-top: 10px">
+                    <a class="btn btn-gray btn-block view-job-applicants-back-btn">Back</a>
+                  </div>
+                </div>
+                {% endfor %}
+              </ul>
+              <div class="pagination_block" id="company">
+                <ul class="pagination">
+                  <li class="page-item">
+                    {% if companypage.has_previous %}
+                    <a class="page-link" href="?pages={{ companypage.previous_page_number }}">
+                      <i class="fas fa-angle-double-left"></i>
+                    </a>
+                    {% endif %}
+                  </li>
+                  {% for num in companypage.paginator.page_range %} {% if companypage.number == num %}
+                  <li class="page-item  active">
+                    <a class="page-link" href="?pages={{ num }}">{{num}} </a>
+                  </li>
+                  {% else %}
+                  <li class="page-item">
+                    <a class="page-link" href="?pages={{ num }}">{{num}} </a>
+                  </li>
+                  {% endif %} {% endfor %}
+                  <li class="page-item">
+                    {% if companypage.has_next %}
+                    <a class="page-link" href="?pages={{ companypage.next_page_number }}">
+                      <i class="fas fa-angle-double-right"></i>
+                    </a>
+                    {% endif %}
+                  </li>
+
+                </ul>
+              </div>
+              <!-- Detail View -->
+            </div>
+            <!-- Tab 2 End -->
+
+          </div>
+          <!-- Tab Content Start -->
+        </div>
+        <!-- global_tabs End -->
+      </div>
+      <!-- Right Content Box End -->
+    </div>
+    <!-- Sidebar-content-box End -->
+  </div>
+  <!-- container-1280 End -->
+  <div class="modal fade global-modal contract-modal" id="escrowModal">
+    <div class="modal-dialog max-WT-600">
+      <form class="step-form" method="POST" action="{% url 'analyticsmaven:job-approved' %}">
+        {% csrf_token %}
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="modal_logo">
+              <img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+              <img class="hide_large" src="{% static 'images/logo-mob.png' %} " alt="Logo" />
+            </span>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="modal_box_title">Escrow Payment</div>
+            <div class="form-group">
+              <h6 style="text-align: center">Thanks for Approving the Job</h6>
+              <input type="hidden" name="job" id="escrow_job">
+              <label for="textarea">Amount</label>
+              <input type="number" class="form-control" placeholder="Please enter your escrow Payment..." id="escrow" name="escrow" min="1" />
+            </div>
+            <button type="submit" class="btn btn-dark-gray mt10 escrow-job" style="width: 100%">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- container-1280 End -->
+  <script>
+    escrow = function (id) {
+      $("#escrow_job").val(id)
+      return true
+    }
+  </script>
+
+  {% if tab %}
+  <script>
+    $(document).ready(function () {
+      $('.nav-tabs a[href="#{{tab}}"]').tab('show')
+    });
+  </script> {% endif %} {% ifequal type 'delete-success' %}
+  <script>
+    $('#tab2').modal('show')
+  </script> {% endifequal %} {% ifequal type 'job_post' %}
+  <script>
+    $('#tab2').modal('show')
+  </script> {% endifequal %}
+
+  <script>
+    NewestJobApplicants = function () {
+      var items = $('.newest').children();
+      for (var i = 6; i < items.length; i++) {
+        items[i].hidden = true;
+      }
+    }
+    AllJobApplicants = function () {
+      var items = $('.newest').children();
+      for (var i = 0; i < items.length; i++) {
+        items[i].hidden = false;
+      }
+
+    }
+    NewestPostedJob = function () {
+      var items = $('.job_list').children();
+      console.log(items)
+      for (var i = 5; i < items.length; i++) {
+        items[i].hidden = true;
+      }
+    }
+    AllPostedJob = function () {
+      var items = $('.job_list').children();
+      for (var i = 0; i < items.length; i++) {
+        items[i].hidden = false;
+      }
+    }
+    $(".detail-view").on('click', function () {
+      $("#detail_" + $(this).attr('id')).show()
+      $(".job-view").hide()
+      $(".pagination_block").hide()
+    })
+
+    $(".back-btn").on('click', function () {
+      $("#detail_" + $(this).attr('id')).hide()
+      $(".job-view").show()
+      $(".pagination_block").show()
+
+    })
+
+    $(".view-btn").on('click', function () {
+      $("#seeker_" + $(this).attr('id')).show()
+      $(".job-applicant").hide()
+      $(".pagination_block").hide()
+    })
+
+    $(".applicant-back-btn").on('click', function () {
+      $("#seeker_" + $(this).attr('id')).hide()
+      $(".job-applicant").show()
+      $(".pagination_block").show()
+    })
+
+    $(".view-job-applicants").on('click', function () {
+      job_applicant_id = $(this).attr('id')
+      $("#applicant_" + job_applicant_id).show()
+      $(".job-view").hide()
+    })
+
+    $(".view-job-applicants-back-btn").on('click', function () {
+      $("#applicant_" + job_applicant_id).hide()
+      $(".job-view").show()
+    })
+
+    $(".view-applied-job-applicant-btn").on('click', function () {
+      $("#applied_job_" + $(this).attr('id')).show()
+      $(".job-applicant-view").hide()
+    })
+
+    $(".applied-applicant-back-btn").on('click', function () {
+      $("#applied_job_" + $(this).attr('id')).hide()
+      $("#applicant_" + job_applicant_id).show()
+    })
+
+    $(".job-awarded").on('click', function () {
+      $(".loaderdiv").show()
+      applied_job = $(this).attr('id');
+      $.ajax({
+        url: '/job-approved/' + applied_job,
+        type: "POST",
+        dataType: 'json',
+        data: {
+          "csrfmiddlewaretoken": '{{ csrf_token }}'
+        },
+        success: function (success) {
+          console.log("Success" + JSON.stringify(success))
+          $("#applied_job_" + applied_job).hide()
+          $("#applied_applicant_" + success.job_id + "_" + success.user_id).remove()
+          console.log("Children" + $("#job-applied-applicant_" + job_applicant_id).children().length)
+          if ($("#job-applied-applicant_" + job_applicant_id).children().length) {
+            $("#applicant_" + job_applicant_id).show()
+          } else {
+            $(" #job-applied-applicant_" + job_applicant_id).append('<div class="no-active-jobs" style="width: 100%">No Applied Applicant</div>')
+            $("#applicant_" + job_applicant_id).show()
+          }
+          console.log("Job Awarded Successfully")
+          $(".loaderdiv").hide()
+        }
+      });
+    })
+  </script> {% endblock %}

@@ -1,0 +1,104 @@
+{% extends 'dashboardheader.html' %} {% load static %} {% block content %}
+<!-- main Start -->
+<main class="main-container">
+  <!-- ontainer-1280 Start -->
+  <div class="container-1280">
+    <!-- Sidebar-content-box Start -->
+    <div class="sidebar-content-box clearfix">
+      <!--Aside Start -->
+      {% include 'dashboard-aside.html' %}
+      <!--Aside End -->
+      <!-- Right Content Box-->
+      <div class="right_content_box profile_content">
+        <div class="complete-profile">
+          <div class="flex-block">
+
+            <div class="flex1 profile_skills_info">
+              <h2 class="profile-heading">Hello {{request.user.first_name}} {{request.user.last_name}}! Please complete your profile</h2>
+              <p>
+                <strong>Your preference are:</strong>
+              </p>
+              <div class="preference_box">
+                <strong>Area</strong>
+                <ul class="preference_list clearfix">
+                  {% for area in request.user.job_seeker.area.all %}
+                  <li>
+                    <span class="skills_tag">{{area}}</span>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div class="preference_box">
+                <strong>Industry</strong>
+                <ul class="preference_list clearfix">
+                  {% for industry in request.user.job_seeker.industry.all %}
+                  <li>
+                    <span class="skills_tag">{{industry}}</span>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div class="preference_box">
+                <strong>Tools & Language</strong>
+                <ul class="preference_list clearfix">
+                  {% for tools in request.user.job_seeker.tools_and_language.all %}
+                  <li>
+                    <span class="skills_tag">{{tools}}</span>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div class="skills-head">
+                <strong>Experience Level:</strong> Expert</div>
+              <div class="skills-head">
+                <strong>Professional Title:</strong> {{request.user.job_seeker.professional_title}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="set_hourly_rate">
+          <h2 class="profile-heading">Set your hourly rate</h2>
+          <form class="form_block">
+            <div class="form-group row">
+              <label class="col-lg-4 col-form-label">Hourly Rate:</label>
+              <div class="col-lg-8">
+                <div class="input-group">
+                  <span class="input-group-addon">$</span>
+                  <input type="text" class="form-control" placeholder="0.00" />
+                  <span class="input-group-addon">/Hr</span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="example-text-input" class="col-lg-4 col-form-label">Analytics Mavens Fees:</label>
+              <div class="col-lg-8">
+                <label class="col-form-label">$ 0.00</label>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="example-text-input" class="col-lg-4 col-form-label">You will be paid:</label>
+              <div class="col-lg-8">
+                <div class="input-group">
+                  <span class="input-group-addon">$</span>
+                  <input type="text" class="form-control" placeholder="0.00" />
+                  <span class="input-group-addon">/Hr</span>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="grey-btn-block">
+              <button type="button" class="btn bg-green max-WT-200 mb15">SAVE AND NEXT</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- Right Content Box end-->
+    </div>
+    <!-- Sidebar-content-box End -->
+  </div>
+  <!-- container-1280 End -->
+  {% include 'refer.html' %} 
+</main>
+
+{% endblock %}

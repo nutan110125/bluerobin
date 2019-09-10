@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,width=device-width,user-scalable=no">
+      <meta name="apple-mobile-web-app-capable" content="yes">
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <title>Analytics Mavens</title>
+      <link href="css/bootstrap.min.css" rel="stylesheet">
+      <link href="fonts/stylesheet.css" rel="stylesheet">
+      <link href="css/slick.css" rel="stylesheet">
+      <link href="css/slick-theme.css" rel="stylesheet">
+      <link href="css/style.css" rel="stylesheet">
+      <link href="css/mobile.css" rel="stylesheet">
+   </head>
+   <body class="logged">
+      <header class="d-flex  header_fixed_menu align-items-center">
+         <div class="logo align-items-center">
+            <a href="index.html">
+            <img class="hide_small" src="images/logo.png" alt="Logo"/>
+            <img class="hide_large" src="images/logo-mob.png" alt="Logo"/>
+            </a>
+         </div>
+         <!-- Search_box Start -->
+         <div class="header_search_box ml-auto ">
+            <form>
+               <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search Job"/>
+                  <div class="input-group-append">
+                     <span class="input-group-text" id="basic-addon2"><i class="fas fa-search"></i></span>
+                  </div>
+               </div>
+            </form>
+         </div>
+         <!-- Search_box End -->
+         <!-- header_menu Start -->
+         <div class="header_menu ml-auto">
+            <a href="javascript:void(0);">Messages</a>
+            <a href="javascript:void(0);">My Jobs</a>
+         </div>
+         <!-- header_menu End -->
+         <div class="header_right_box ml-auto">
+            <div class="notify_icon">
+               <a href="javascript:void(0);" class=" toggle_search hide_from_tab"><i class="fas fa-search"></i></a>
+               <a href="javascript:void(0);"><i class="fas fa-bell"></i><span class="badge">2</span></a>
+            </div>
+            <div class="top_user_info">
+               <strong class="head-user-name">Welcome, Cameron</strong>
+               <span class="head-user-img"><img src="images/user-icon.png" alt="Logo"/></span>
+                <div class="dropdown-menu head-drop-down">
+                  <a class="dropdown-item" href="profile.html">My Profile</a>
+                  <a class="dropdown-item" href="#change_passwprd_modal" data-toggle="modal" data-target="#change_passwprd_modal">Change Password</a>
+                  <a class="dropdown-item" href="#signout_modal" data-toggle="modal" data-target="#signout_modal">Logout</a>
+               </div>
+            </div>
+         </div>
+      </header>
+      <main class="main-container">
+         <!-- ontainer-1280 Start -->
+         <div class="container-1280">
+            <!-- Sidebar-content-box Start -->
+            <div class="sidebar-content-box clearfix">
+               <!--Aside Start -->
+               <aside class="sidebar">
+                  <span class="back_btn"><i class="fas fa-chevron-left"></i></span>
+                  <!-- aside-box Start -->
+                  <div class="aside-box">
+                     <div class="profile_pic">
+					  <img src="images/avatar.png" alt="user pic"/>
+					  <button class="btn btn-green  radius0 btn-block">Change Picture</button>
+					 </div>
+                     <h6 class="profile_name">Cameron Bancroft</h6>
+                     <p class="profile_id">cameronbancroft@gmail.com</p>
+                     <div class="profile_progress_block">
+                        <div class="progress_slider">
+                           <span style="width:30%;"></span>
+                        </div>
+                        <div class="profile-status"><span>25%</span>Profile Completed</div>
+                     </div>
+                     <div class="aside_inner_box">
+                        <h5 class="aside_head">Area</h5>
+                        <div class="skills_tag">ERP/CRM Software</div>
+                        <div class="skills_tag paddLR0 ">Network and System Administration</div>
+                     </div>
+                     <div class="aside_inner_box">
+                        <h5 class="aside_head">Industry</h5>
+                        <div class="skills_tag">Technology</div>
+                     </div>
+                     <div class="aside_inner_box">
+                        <h5 class="aside_head">Tools & Language</h5>
+                        <div class="skills_tag">SQL</div>
+                        <div class="skills_tag">PHP</div>
+                        <div class="skills_tag">C++</div>
+                     </div>
+                     <a href="complete-profile.html" class="skills_tag green-bg">Update Your Profile</a>
+                  </div>
+                  <!-- aside-box End -->
+                  <!-- aside-box Start -->
+                  <div class="aside-box">
+                     <h5 class="aside_box_head">Recent Job Posted</h5>
+                     <!-- company_detail_box Start -->
+                     <div class="company_detail_box">
+                        <div class="company_name_box">
+                           <span class="company_logo"><img src="images/company-icon.png" alt="Company Logo"></span>
+                           <div class="company_info">
+                              <h6>Mobiloitte Technologies</h6>
+                              <p>New Delhi, INDIA</p>
+                           </div>
+                        </div>
+                        <div class="job_detail">
+                           <strong>Job Profile:</strong><span>PHP Developer</span>
+                        </div>
+                        <div class="job_detail">
+                           <strong>Job Duration:</strong><span>4 Months</span>
+                        </div>
+                        <div class="job_detail mb0">
+                           <strong>Date:</strong><span>From 4th March to 4th July</span>
+                        </div>
+                        <div class="rating_show">
+                           <strong>Rating:</strong>
+                           <ul class="show_rating_list">
+                              <li><i class="rated fas fa-star"></i></li>
+                              <li><i class="rated fas fa-star"></i></li>
+                              <li><i class="rated fas fa-star"></i></li>
+                              <li><i class="rated fas fa-star"></i></li>
+                              <li><i class=" rated fas fa-star"></i></li>
+                           </ul>
+                        </div>
+                     </div>
+                     <!-- company_detail_box End -->
+                     <!-- company_detail_box Start -->
+                     <div class="company_detail_box">
+                        <div class="company_name_box">
+                           <span class="company_logo"><img src="images/company-icon.png" alt="Company Logo"></span>
+                           <div class="company_info">
+                              <h6>Mobiloitte Technologies</h6>
+                              <p>New Delhi, INDIA</p>
+                           </div>
+                        </div>
+                        <div class="job_detail">
+                           <strong>Job Profile:</strong><span>PHP Developer</span>
+                        </div>
+                        <div class="job_detail">
+                           <strong>Job Duration:</strong><span>4 Months</span>
+                        </div>
+                        <div class="job_detail mb0">
+                           <strong>Date:</strong><span>From 4th March to 4th July</span>
+                        </div>
+                        <div class="rating_show">
+                           <strong>Rating:</strong>
+                           <ul class="show_rating_list">
+                              <li><i class="rated fas fa-star"></i></li>
+                              <li><i class="rated fas fa-star"></i></li>
+                              <li><i class="rated fas fa-star"></i></li>
+                              <li><i class="rated fas fa-star"></i></li>
+                              <li><i class="rated fas fa-star"></i></li>
+                           </ul>
+                        </div>
+                     </div>
+                     <!-- company_detail_box End -->
+                  </div>
+                  <!-- aside-box End -->
+               </aside>
+               <!--Aside End -->
+               <!-- Right Content Box-->
+               <div class="right_content_box">
+			      <div class="text-right">
+				    <a href="dashboard.html" class="btn btn-green max-WT-200">Favourite Job</a>
+				  </div>
+                  <div class="top_filter_box">
+                              <div class="search_box max-WT-300">
+                                 <input type="text" class="form-control" placeholder="Search Job"/>
+                                 <button class="search_btn"><i class="fas fa-search"></i></button>
+                              </div>
+                              <div class="filter-select">
+                                 <label>Sort</label>
+                                 <div class="select_inline">
+                                    <select class="form-control select_style2">
+                                       <option>Newest</option>
+                                    </select>
+                                 </div>
+                                 <div class="select_inline">
+                                    <div class="filter">
+                                       <input type="text" class="form-control filter_icn" placeholder="Filter" />                                
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="filter_dropdown">
+                                 <div class="upper-filter">
+                                    <ul class="custom_tabs clearfix">
+                                       <li>
+                                          <span>All Time Zone</span>
+                                       </li>
+                                       <li>
+                                          <span>All Hourly Rate</span>
+                                       </li>
+                                       <li>
+                                          <span>All Job Type</span>
+                                       </li>
+                                       <li>
+                                          <span>All Contract Period</span>
+                                       </li>
+                                       <li>
+                                          <span>All Entry Level</span>
+                                       </li>
+                                    </ul>
+                                 </div>
+                                 <div class="lower-filter">
+                                    <!-- custom_filter_job Start -->
+                                    <div class="custom_filter_job active">
+                                       <ul class="checkbox-list clearfix">
+                                          <li>
+                                             <div class="checkbox checkbox-custom">
+                                                <label>
+                                                <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                                </span>
+                                                <span class="checkbox-txt amount_a">Pecific Time</span>
+                                                </label>
+                                             </div>
+                                          </li>
+                                          <li>
+                                             <div class="checkbox checkbox-custom">
+                                                <label>
+                                                <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                                </span>
+                                                <span class="checkbox-txt amount_a">Mountain Time</span>
+                                                </label>
+                                             </div>
+                                          </li>
+                                          <li>
+                                             <div class="checkbox checkbox-custom">
+                                                <label>
+                                                <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                                </span>
+                                                <span class="checkbox-txt amount_a">Central Time</span>
+                                                </label>
+                                             </div>
+                                          </li>
+                                          <li>
+                                             <div class="checkbox checkbox-custom">
+                                                <label>
+                                                <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                                </span>
+                                                <span class="checkbox-txt amount_a">Eastern Time</span>
+                                                </label>
+                                             </div>
+                                          </li>
+                                       </ul>
+                                    </div>
+                                    <!-- custom_filter_job End -->
+                                    <!-- custom_filter_job Start -->
+                                    <div class="custom_filter_job">
+                                       <ul class="checkbox-list clearfix">
+                                          <li>
+                                             <div class="checkbox checkbox-custom">
+                                                <label>
+                                                <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                                </span>
+                                                <span class="checkbox-txt amount_a">$15 - $30</span>
+                                                </label>
+                                             </div>
+                                          </li>
+                                          <li>
+                                             <div class="checkbox checkbox-custom">
+                                                <label>
+                                                <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                                </span>
+                                                <span class="checkbox-txt amount_a">$30 - $70</span>
+                                                </label>
+                                             </div>
+                                          </li>
+                                          <li>
+                                             <div class="checkbox checkbox-custom">
+                                                <label>
+                                                <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                                </span>
+                                                <span class="checkbox-txt amount_a">$70+</span>
+                                                </label>
+                                             </div>
+                                          </li>
+                                          <li>
+                                             <div class="checkbox checkbox-custom">
+                                                <label>
+                                                <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                                </span>
+                                                <span class="checkbox-txt amount_a">Fixed Price</span>
+                                                </label>
+                                             </div>
+                                          </li>
+                                       </ul>
+                                    </div>
+                                    <!-- custom_filter_job End -->
+                                    <!-- custom_filter_job Start -->
+                                    <div class="custom_filter_job">
+                                       <ul class="checkbox-list clearfix">
+                                          <li>
+                                             <div class="checkbox checkbox-custom">
+                                                <label>
+                                                <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                                </span>
+                                                <span class="checkbox-txt amount_a">Freelancing</span>
+                                                </label>
+                                             </div>
+                                          </li>
+                                          <li>
+                                             <div class="checkbox checkbox-custom">
+                                                <label>
+                                                <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                                </span>
+                                                <span class="checkbox-txt amount_a">Full Time</span>
+                                                </label>
+                                             </div>
+                                          </li>
+                                          <li>
+                                             <div class="checkbox checkbox-custom">
+                                                <label>
+                                                <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                                </span>
+                                                <span class="checkbox-txt amount_a">Part Time</span>
+                                                </label>
+                                             </div>
+                                          </li>
+                                       </ul>
+                                    </div>
+                                    <!-- custom_filter_job End -->
+                                    <!-- custom_filter_job Start -->
+                                    <div class="custom_filter_job">
+                                       <ul class="checkbox-list clearfix">
+                                          <li>
+                                             <div class="checkbox checkbox-custom">
+                                                <label>
+                                                <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                                </span>
+                                                <span class="checkbox-txt amount_a">1 - 6 Months</span>
+                                                </label>
+                                             </div>
+                                          </li>
+                                          <li>
+                                             <div class="checkbox checkbox-custom">
+                                                <label>
+                                                <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                                </span>
+                                                <span class="checkbox-txt amount_a">6 - 12 Months</span>
+                                                </label>
+                                             </div>
+                                          </li>
+                                          <li>
+                                             <div class="checkbox checkbox-custom">
+                                                <label>
+                                                <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                                </span>
+                                                <span class="checkbox-txt amount_a">2 Years</span>
+                                                </label>
+                                             </div>
+                                          </li>
+                                       </ul>
+                                    </div>
+                                    <!-- custom_filter_job End -->
+                                    <!-- custom_filter_job Start -->
+                                    <div class="custom_filter_job">
+                                       <ul class="checkbox-list clearfix">
+                                          <li>
+                                             <div class="checkbox checkbox-custom">
+                                                <label>
+                                                <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                                </span>
+                                                <span class="checkbox-txt amount_a">intermediate</span>
+                                                </label>
+                                             </div>
+                                          </li>
+                                          <li>
+                                             <div class="checkbox checkbox-custom">
+                                                <label>
+                                                <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                                </span>
+                                                <span class="checkbox-txt amount_a">Beginner</span>
+                                                </label>
+                                             </div>
+                                          </li>
+                                          <li>
+                                             <div class="checkbox checkbox-custom">
+                                                <label>
+                                                <span class="checkbox-check">
+                                                <input type="checkbox" value="">
+                                                <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                                </span>
+                                                <span class="checkbox-txt amount_a">Expert</span>
+                                                </label>
+                                             </div>
+                                          </li>
+                                       </ul>
+                                    </div>
+                                    <!-- custom_filter_job End -->
+                                 </div>
+                                 <div class="filter-buttons">
+                                    <a href="javascript:void(0);" class="skills_tag green-bg  close_filter ">Close Filter</a>
+                                    <a href="javascript:void(0);" class="skills_tag white-bg">Apply</a>
+                                 </div>
+                              </div>
+                           </div>
+                           <ul class="matching_jobs">
+                              <li>
+                                 <div class="looking-for">
+                                    <div class="looking-hdng-block flex-block">
+                                       <h2 class="flex1 looking_hdng">Looking for a designer for the logo</h2>
+                                       <span class="post_time">6 Hrs Ago <a herf="javascript:void(0);"><i class="far fa-heart"></i></a></span>
+                                    </div>
+                                    <p class="txt">Hourly -  Entry Level (Beginner), Freelancing</p>
+                                    <p class="txt">Est Time: More than 6 months</p>
+                                 </div>
+                                 <div class="skills-desc">
+                                    <p class="txt">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                                    <ul class="skills-tag-block">
+                                       <li class="skills_tag">Adobe Photoshop</li>
+                                       <li class="skills_tag">3D Designing</li>
+                                       <li class="skills_tag">Logo Designing</li>
+                                    </ul>
+                                    <ul class="client-ratings">
+                                       <li>
+                                          <strong>Client:</strong> Mobiloitte Technologies
+                                       </li>
+                                       <li>
+                                          <strong>Ratings:</strong> 
+                                          <span class="show_rating_list">
+                                          <i class="rated fas fa-star"></i>
+                                          <i class="rated fas fa-star"></i>
+                                          <i class="rated fas fa-star"></i>
+                                          <i class="rated fas fa-star"></i>
+                                          <i class="rated fas fa-star"></i>
+                                          </span>
+                                       </li>
+                                    </ul>
+                                    <div class="location-block flex-block">
+                                       <div class="flex1"><img src="images/location_icn.png"> New Delhi, INDIA</div>
+                                       <a href="#profileModal" class="skills_tag green-bg" >Apply to this job</a>
+                                    </div>
+                                 </div>
+                              </li>
+                              <li>
+                                 <div class="looking-for">
+                                    <div class="looking-hdng-block flex-block">
+                                       <h2 class="flex1 looking_hdng">Looking for a designer for the logo</h2>
+                                       <span class="post_time">6 Hrs Ago <a herf="javascript:void(0);"><i class="far fa-heart"></i></a></span>
+                                    </div>
+                                    <p class="txt">Hourly -  Entry Level (Beginner), Freelancing</p>
+                                    <p class="txt">Est Time: More than 6 months</p>
+                                 </div>
+                                 <div class="skills-desc">
+                                    <p class="txt">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                                    <ul class="skills-tag-block">
+                                       <li class="skills_tag">Adobe Photoshop</li>
+                                       <li class="skills_tag">3D Designing</li>
+                                       <li class="skills_tag">Logo Designing</li>
+                                    </ul>
+                                    <ul class="client-ratings">
+                                       <li>
+                                          <strong>Client:</strong> Mobiloitte Technologies
+                                       </li>
+                                       <li>
+                                          <strong>Ratings:</strong> 
+                                          <span class="show_rating_list">
+                                          <i class="rated fas fa-star"></i>
+                                          <i class="rated fas fa-star"></i>
+                                          <i class="rated fas fa-star"></i>
+                                          <i class="rated fas fa-star"></i>
+                                          <i class="rated fas fa-star"></i>
+                                          </span>
+                                       </li>
+                                    </ul>
+                                    <div class="location-block flex-block">
+                                       <div class="flex1"><img src="images/location_icn.png"> New Delhi, INDIA</div>
+                                       <a href="#profileModal" class="skills_tag green-bg" >Applied</a>
+                                    </div>
+                                 </div>
+                              </li>
+                              <li>
+                                 <div class="looking-for">
+                                    <div class="looking-hdng-block flex-block">
+                                       <h2 class="flex1 looking_hdng">Looking for a designer for the logo</h2>
+                                       <span class="post_time">6 Hrs Ago <a herf="javascript:void(0);"><i class="far fa-heart"></i></a></span>
+                                    </div>
+                                    <p class="txt">Hourly -  Entry Level (Beginner), Freelancing</p>
+                                    <p class="txt">Est Time: More than 6 months</p>
+                                 </div>
+                                 <div class="skills-desc">
+                                    <p class="txt">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                                    <ul class="skills-tag-block">
+                                       <li class="skills_tag">Adobe Photoshop</li>
+                                       <li class="skills_tag">3D Designing</li>
+                                       <li class="skills_tag">Logo Designing</li>
+                                    </ul>
+                                    <ul class="client-ratings">
+                                       <li>
+                                          <strong>Client:</strong> Mobiloitte Technologies
+                                       </li>
+                                       <li>
+                                          <strong>Ratings:</strong> 
+                                          <span class="show_rating_list">
+                                          <i class="rated fas fa-star"></i>
+                                          <i class="rated fas fa-star"></i>
+                                          <i class="rated fas fa-star"></i>
+                                          <i class="rated fas fa-star"></i>
+                                          <i class="rated fas fa-star"></i>
+                                          </span>
+                                       </li>
+                                    </ul>
+                                    <div class="location-block flex-block">
+                                       <div class="flex1"><img src="images/location_icn.png"> New Delhi, INDIA</div>
+                                       <a href="#profileModal" class="skills_tag green-bg" >Apply to this job</a>
+                                    </div>
+                                 </div>
+                              </li>
+                              <li>
+                                 <div class="looking-for">
+                                    <div class="looking-hdng-block flex-block">
+                                       <h2 class="flex1 looking_hdng">Looking for a designer for the logo</h2>
+                                       <span class="post_time">6 Hrs Ago <a herf="javascript:void(0);"><i class="far fa-heart"></i></a></span>
+                                    </div>
+                                    <p class="txt">Hourly -  Entry Level (Beginner), Freelancing</p>
+                                    <p class="txt">Est Time: More than 6 months</p>
+                                 </div>
+                                 <div class="skills-desc">
+                                    <p class="txt">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                                    <ul class="skills-tag-block">
+                                       <li class="skills_tag">Adobe Photoshop</li>
+                                       <li class="skills_tag">3D Designing</li>
+                                       <li class="skills_tag">Logo Designing</li>
+                                    </ul>
+                                    <ul class="client-ratings">
+                                       <li>
+                                          <strong>Client:</strong> Mobiloitte Technologies
+                                       </li>
+                                       <li>
+                                          <strong>Ratings:</strong> 
+                                          <span class="show_rating_list">
+                                          <i class="rated fas fa-star"></i>
+                                          <i class="rated fas fa-star"></i>
+                                          <i class="rated fas fa-star"></i>
+                                          <i class="rated fas fa-star"></i>
+                                          <i class="rated fas fa-star"></i>
+                                          </span>
+                                       </li>
+                                    </ul>
+                                    <div class="location-block flex-block">
+                                       <div class="flex1"><img src="images/location_icn.png"> New Delhi, INDIA</div>
+                                       <a href="javascript:void(0);" class="skills_tag green-bg" >Apply to this job</a>
+                                    </div>
+                                 </div>
+                              </li>
+                           </ul>
+						   <div class="pagination_block">
+								  <ul class="pagination">
+									  <li class="page-item"><a class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a></li>
+									  <li class="page-item  active"><a class="page-link" href="#">1</a></li>
+									  <li class="page-item"><a class="page-link" href="#">2</a></li>
+									  <li class="page-item"><a class="page-link" href="#">3</a></li>
+									  <li class="page-item"><a class="page-link" href="#">4</a></li>
+									  <li class="page-item"><a class="page-link" href="#">5</a></li>
+									  <li class="page-item"><a class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li>
+									</ul>
+								</div>
+               </div>
+               <!-- Right Content Box End -->
+            </div>
+            <!-- Sidebar-content-box End -->
+         </div>
+         <!-- container-1280 End -->
+		 {% include 'refer.html' %} 
+      </main>
+      <!-- main End -->
+     <!--  <section class="join_now_section text-center">
+         <div class="joinnow_banner d-flex align-items-center w-100">
+            <div class="container">
+               <div class="sec_head mb15">
+                  <h3 class="white">Join over 2 million others in the future of work</h3>
+               </div>
+               <button type="button" class="btn bg-white-animate btn-large max-WT-300">GET STARTED NOW</button>
+            </div>
+         </div>
+      </section> -->
+      <section class="browse_skill_links">
+         <div class="custom-container">
+            <div class="sec_head mb20">
+               <h3>Browse Top Skills</h3>
+            </div>
+            <ul class="techlinks clearfix">
+               <li>
+                  <a href="javascript:void(0);">Android Developer</a>
+                  <a href="javascript:void(0);">Bookkeeper</a>
+                  <a href="javascript:void(0);">Content Writer</a>
+                  <a href="javascript:void(0);">Copywriter</a>
+                  <a href="javascript:void(0);">Customer Service Representative</a>
+                  <a href="javascript:void(0);">Database Administrator</a>
+                  <a href="javascript:void(0);">Data Scientist</a>
+                  <a href="javascript:void(0);">Facebook Developer</a>
+               </li>
+               <li>
+                  <a href="javascript:void(0);">Front-End Developer</a>
+                  <a href="javascript:void(0);">Game Developer</a>
+                  <a href="javascript:void(0);">Graphic Designer</a>
+                  <a href="javascript:void(0);">Information Security Analyst</a>
+                  <a href="javascript:void(0);">IOS Developer</a>
+                  <a href="javascript:void(0);">Java Developer</a>
+                  <a href="javascript:void(0);">Logo Designer</a>
+                  <a href="javascript:void(0);">Mobile App Developer</a>
+               </li>
+               <li>
+                  <a href="javascript:void(0);">PHP Developer</a>
+                  <a href="javascript:void(0);">Python Developer</a>
+                  <a href="javascript:void(0);">Resume Writer</a>
+                  <a href="javascript:void(0);">Sales Consultant</a>
+                  <a href="javascript:void(0);">SEO Expert</a>
+                  <a href="javascript:void(0);">Social Media Manager</a>
+                  <a href="javascript:void(0);">Software Developer</a>
+                  <a href="javascript:void(0);">Software Engineer</a>
+               </li>
+               <li>
+                  <a href="javascript:void(0);">PHP Developer</a>
+                  <a href="javascript:void(0);">Python Developer</a>
+                  <a href="javascript:void(0);">Resume Writer</a>
+                  <a href="javascript:void(0);">Sales Consultant</a>
+                  <a href="javascript:void(0);">SEO Expert</a>
+                  <a href="javascript:void(0);">Social Media Manager</a>
+                  <a href="javascript:void(0);">Software Developer</a>
+                  <a href="javascript:void(0);">Software Engineer</a>
+               </li>
+               <li>
+                  <a href="javascript:void(0);">Technical Writer</a>
+                  <a href="javascript:void(0);">UI Designer</a>
+                  <a href="javascript:void(0);">UX Designer</a>
+                  <a href="javascript:void(0);">Virtual Assistant</a>
+                  <a href="javascript:void(0);">Web Designer</a>
+                  <a href="javascript:void(0);">Wordpress Developer</a>
+                  <a href="javascript:void(0);">Writer</a>
+               </li>
+            </ul>
+         </div>
+      </section>
+      <footer class="footer-inner">
+         <div class="container-fluid">
+            <div class="row">
+               <div class="col-lg-2">
+                  <a href="index.html" class="footer_logo">
+                  <img src="images/logo.png" alt="Logo"/>
+                  </a>
+               </div>
+               <div class="col-lg-8">
+                  <div class="footer-content">
+                     <div class="footer-text">
+                        <ul class="footmenu">
+                           <li><a href="about-us.html">About Us</a></li>
+                          
+                           <li><a href="faq.html">FAQ</a></li>
+                           <li><a href="career.html">Careers</a></li>
+                           <li><a href="contact-us.html">Contact Us</a></li>
+                           
+                           <li><a href="terms.html">Terms & Conditions</a></li>
+                           <li><a href="privacy-policy.html">Privacy & Policy</a></li>
+                        </ul>
+                        <p class="copyright">© 2018 - All Rights Reserved</p>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-lg-2">
+                  <ul class="socialList">
+                     <li><a href="javascript:void(0);"><i class="fab fa-facebook-f"></i></a></li>
+                     <li><a href="javascript:void(0);"><i class="fab fa-twitter"></i></a></li>
+                     <li><a href="javascript:void(0);"><i class="fab fa-google-plus-g"></i></a></li>
+                     <li><a href="javascript:void(0);"><i class="fab fa-instagram"></i></a></li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </footer>
+      <!-- Modal complete your profile Start-->
+      <div class="modal fade global-modal contract-modal" id="profileModal">
+         <div class="modal-dialog max-WT-600">
+            <div class="modal-content">
+                 <div class="modal-header ">
+                        <!-- <h4 class="modal-title text-center">Sign In</h4> -->
+                        <span class="modal_logo">
+                        <img class="hide_small" src="images/logo.png" alt="Logo"/>
+                        <img class="hide_large" src="images/logo-mob.png" alt="Logo"/>
+                        </span>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     </div>
+                     <div class="modal-body">
+                        <div class="modal_box_title"> Contract</div>
+                  <form class="form_modal" action="">
+                     <div class="form-group">
+                        <label for="textarea">Why should we hire you?</label>
+                        <textarea rows="4" class="form-control" placeholder="Please write something about yourself..." id="textarea"></textarea>
+                     </div>
+                     <div class="form-group">
+                        <div class="file">
+                           <input type="text" class="form-control file_icn" placeholder="Upload your resume" />
+                           <input type="file" class="form-control file-input" />
+                        </div>
+                     </div>
+                     <button class="btn btn-dark-gray max-WT-200 mt10" data-dismiss="modal">SUBMIT (Your Proposal)</button>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Modal complete your profile End -->
+      <!-- Modal complete your profile Start-->
+      <div class="modal fade global-modal profile-modal" id="profileModal2">
+         <div class="modal-dialog max-WT-600">
+            <div class="modal-content">
+			<div class="modal-header ">
+                        <!-- <h4 class="modal-title text-center">Sign In</h4> -->
+                        <span class="modal_logo">
+                        <img class="hide_small" src="images/logo.png" alt="Logo"/>
+                        <img class="hide_large" src="images/logo-mob.png" alt="Logo"/>
+                        </span>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     </div>
+               <div class="modal-body text-center">
+                  <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+                  <h2 class="modal-hdng">Having trouble in finding sutable jobs?</h2>
+                  <div class="modal_txt">
+                     <p class="txt">Your profile is only 20% completed!</p>
+                     <p class="txt">Please complete your profile for better matchmaking of  jobs!</p>
+                  </div>
+                  <button class="btn btn-dark-gray max-WT-200" data-dismiss="modal">CONTINUE</button>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Modal complete your profile End -->
+      <!-- Thanks Modal Start-->
+      <div class="modal fade global-modal profile-modal thanks-modal" id="update_profile">
+         <div class="modal-dialog max-WT-600">
+            <div class="modal-content">
+			<div class="modal-header ">
+                        <!-- <h4 class="modal-title text-center">Sign In</h4> -->
+                        <span class="modal_logo">
+                        <img class="hide_small" src="images/logo.png" alt="Logo"/>
+                        <img class="hide_large" src="images/logo-mob.png" alt="Logo"/>
+                        </span>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     </div>
+               <div class="modal-body text-center">
+                  <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+                  <h2 class="modal-hdng">Hi Cameron Bancroft</h2>
+                  <div class="modal_txt">
+                     <p class="txt">Thanks for registering with us</p>
+                     <div class="check_icn">
+                        <!--  <i class="fas fa-check-circle"></i>-->
+                        <img src="images/check_icn.png" alt="check">
+                     </div>
+                     <p class="txt">We have send an email on the registered email id, Please click link and complete the profile</p>
+                  </div>
+                  <button class="btn btn-dark-gray max-WT-200" data-dismiss="modal">OK</button>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Thanks Modal End -->
+     
+	  
+	   <!-- Change Password_modal Start -->
+      <div class="modal fade global-modal reset-modal" id="change_passwprd_modal">
+         <div class="modal-dialog max-WT-500">
+            <form class="change_password">
+               <div class="modal-content">
+                    <div class="modal-header ">
+                        <!-- <h4 class="modal-title text-center">Sign In</h4> -->
+                        <span class="modal_logo">
+                        <img class="hide_small" src="images/logo.png" alt="Logo"/>
+                        <img class="hide_large" src="images/logo-mob.png" alt="Logo"/>
+                        </span>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     </div>
+                     <div class="modal-body">
+                        <div class="modal_box_title">
+                           Change Password
+                        </div>
+                     <div class="row align-items-center modal_flax_height">
+                        <div class="col">
+                           <div class="form-group">
+                              <label class="control-labe">Old Password</label>
+                              <input class="form-control" placeholder=""  type="text">
+                           </div>
+                           <div class="form-group">
+                              <label class="control-labe">New Password</label>
+                              <input class="form-control" placeholder=""  type="text">
+                           </div>
+                           <div class="form-group">
+                              <label class="control-labe">Confirm Password</label>
+                              <input class="form-control" placeholder=""  type="text">
+                           </div>
+                           <div class="row">
+                              <div class="col-6">
+                                 <button type="submit" class="btn btn-gray radius0 btn-block">SUBMIT</button>
+                              </div>
+                              <div class="col-6">
+                                 <button type="button" class="btn btn-red  radius0 btn-block" data-dismiss="modal">CANCEL</button>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+      <!-- Change Password_modal End -->
+      <!-- signout_modal Start -->
+      <div class="modal fade global-modal reset-modal" id="signout_modal">
+         <div class="modal-dialog max-WT-500">
+            <div class="modal-content">
+			 <div class="modal-header ">
+                        <!-- <h4 class="modal-title text-center">Sign In</h4> -->
+                        <span class="modal_logo">
+                        <img class="hide_small" src="images/logo.png" alt="Logo"/>
+                        <img class="hide_large" src="images/logo-mob.png" alt="Logo"/>
+                        </span>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     </div>
+               <!-- Modal body -->
+               <div class="modal-body  text-center">
+                  <div class="row align-items-center modal_flax_height">
+                     <div class="col">
+                        <div class="box-title mb40 d-inline-block">
+                           <h2>Logout?</h2>
+                           <p>Are you sure you want to logout?</p>
+                        </div>
+                        <div class="text-center">
+                           <a href="index.html" class="max-WT-300 btn btn-gray radius0 ">YES</a>
+                           <button type="button" class="max-WT-300 btn btn-red  radius0 mt10" data-dismiss="modal">CANCEL</button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Signout Modal -->
+	  
+      <script src="js/jquery-3.3.1.min.js"></script>
+      <script src="js/popper.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/common.js"></script>
+      
+   </body>
+</html>

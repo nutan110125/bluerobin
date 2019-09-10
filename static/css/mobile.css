@@ -1,0 +1,314 @@
+
+/*----Media Query From Tablet to Large Device Start----*/
+@media(min-width:1024px){
+.hide_large {display:none!important;}
+
+.dashboard_head .header_menu{max-width:70px;}
+.dashboard_head .header_search_box{max-width:675px;}
+.field_group.text-left {
+    max-height: calc(100vh - 264px);
+   }
+
+}/*----Media Query From Tablet to Large Device End----*/
+
+
+@media(max-width:1023px){
+	body{overflow-x:hidden;}
+	.innovative_companies_slider .slick-prev {left: 0;}
+	.innovative_companies_slider .slick-next {right: 0;}
+.hide_small,.head-user-name{display:none!important;}
+.top_user_info{width:61px;}
+}/*----Media Query From Tablet to Large Device End----*/
+
+/*----Media Query For Mobile Start----*/
+@media(max-width:767px){
+.flexBoxOne,.jobs_action_btn,.posted-job-block .job_list_block{text-align:center;}
+.flex1{margin-top:10px;}
+.flexBoxTwo{}	
+.technicBoxCol + .technicBoxCol{border-top:none;}	
+.contact_details_box{margin-top:30px;}
+.posted-job-block .button-message{margin:0 auto;}	
+.border-box{display:none!important;}
+.d-flex.landing_header,.button-box.d-flex{display:block!important;}
+header{padding:15px 15px 0;}
+.logo {width:45px;}
+.logo  a{max-width:100%;width:100%;}
+.menu-box,header.header-bg .menu-box{margin-top:15px;}
+.dropdownStyle1,.dropdownStyleMenu{width:100%;}	
+.menu-box ul li + li {margin-left:0;}
+.menu-box ul{text-align:left;}
+/* .menu-box ul li{display:block;} */
+.menu-box ul li.signup_list { position: absolute; right: 15px; top: 15px; width: 165px; }
+.btn.bg-gray-animate.signbtn + .btn {margin-left: 10px;}
+.btn.bg-gray-animate.signbtn {font-size:12px;padding:6px 12px;min-width:72px;min-height: auto;}
+.topBanner-content h1,.InnertopBanner-content h1{font-size: 25px;line-height: 1.2;}
+.topBanner-content p,.InnertopBanner-content p { font-size: 16px; line-height: 1.2; }
+.btn.btn-large { padding: 8px 20px; font-size: 16px; }
+.max-WT-300.btn.btn-large{width:auto;}
+.menu-box ul li a,.menu-box ul li a.active{padding:10px 6px;font-size:1em;}
+.topBannerform{padding:15px;text-align:center;}
+.topBannerform form{display:block;}
+.topBannerform form.form-inline .form-group{width:100%;margin-bottom:15px;}
+.topBannerform form.form-inline select, .topBannerform form.form-inline .btn{border-radius:4px;font-size: 20px;}
+.section_head h2{font-size: 28px;}
+.section_head p{font-size: 18px;}
+.career_box{padding-left:0;}
+.category_list li,.techlinks li,.team-block-inner .slideimgbox{float: none;width: 100%;}
+.category_list li + li,.techlinks li + li,.team-block-inner .slideimgbox + .slideimgbox{margin-top:15px;}
+.global-modal.modal .modal-dialog{margin-left:0;margin-top: 54px;}
+.modal_flax_height {min-height: 175px;}
+.global-modal .modal-body {padding:20px 15px;max-height:calc(100vh - 125px);overflow-y: auto;}
+.choose-img{width: 100px;height: 100px;line-height: 98px;margin:0 auto 15px;}
+.resgister_option span{font-size: 14px;}
+.choose-img img{max-width:60px;}
+
+.divider {margin: 15px 0;}
+.form-box .form-control{min-height: 34px;font-size:14px;}
+.social-text,.social_icon{font-size: 14px;padding: 6px 0px;}
+.largeheade{margin-bottom:15px;font-size: 22px;}
+.small_head{font-size:18px;}
+.sec_head h3{font-size: 20px;line-height: 1.2;}
+.who_are_we_section,.get_start_section,.how_its_works,.makers_section,.companies_slider_section,.innovative_companies_section{padding:2em 0;}
+.get_started_box{margin-bottom:15px;}
+.works-box{margin-bottom:30px;}
+.arrow-icon:after{background:transparent;width:0;position:static;height:0;}
+.companies_slider {padding:0;}
+.companies_slider .slick-next{right:0;}
+.companies_slider .slick-prev{left:0;}
+.makers-form-box .form-control{padding-right:12px;min-height:34px;}
+.makers-form-box form .btn{position:static;margin-top:15px;padding: 6px 12px;font-size:14px;width: 120px;}
+.innovative_companies_slider{float:none;}
+.innovative-box-content p {margin: 0 0 4px;}
+.footer-inner{padding:15px;}
+.footer_logo { width: 210px; display: block; margin-bottom: 15px; }
+.footmenu li {display: block;margin-bottom:10px;}
+.footmenu li a:before{position:static;background:transparent;margin:0;}
+.footmenu li a{padding:0;}
+.footer-inner .socialList{text-align: center;}
+.border-box-content{padding:0;}
+.InnertopBanner-content {min-height: 390px;}
+.about_inner_banner {min-height: 300px;}
+.ans{font-size:16px;}
+.right_content_box{width: 100%; padding: 15px;}
+.modal-hdng{font-size: 20px;}
+    
+.job_list_block{padding: 0;}
+.list_upper .flex1.text-center,  .list_upper .flex1.text-right{text-align: left !important;}
+.list_upper .company-logo{width: 80px; height: 80px;}
+.list_upper{padding-left: 95px; padding-right: 0;}
+.list_lower{padding: 0;}
+.list_lower .button-message{text-align: left !important; margin-top: 5px;}
+.location-block .skills_tag, .location-block{margin: 5px 0 0;}	
+	
+/* ========Chat Box=========*/
+.header_right_box { max-width: 109px; position: absolute; right: 15px; top: 10px; }
+.header_search_box .form-control{min-height:34px;font-size:14px;}
+body.logged main {padding: 30px 0 15px;}
+body.logged {padding-top: 60px;}
+.logged header{display: block!important;min-height: 60px;}
+.logged header .logo{float:left;}
+.header_menu { max-width: 124px; width: 100%; float: left; margin:4px 0 0 10px!important; }
+.header_menu a{font-size:12px;}
+.chat_frame{height:auto;min-height:auto;}
+.chat_left_panel { position: fixed; width:100%;top:59px;left:-100%; float: none;z-index:999;overflow: initial;transition:0.5s;}
+.chat_left_panel.show{left: -13%;transition: 0.5s;padding-left: 56px;}
+body.stopscroll{overflow-y:hidden!important;}
+.chat_open_btn { position: absolute; right:-42px; top: 0; background: #000; padding: 6px 12px; font-size: 14px; color: #fff; }
+.chat_user_list{height: calc(100% - 81px);}
+.chat_content{width:100%;float:none;} 
+.header_search_box { max-width: 100%; padding-right: 0; position: fixed; left: 0; top: 60px; padding: 10px 15px; display: none; background: rgba(0,0,0,0.5); }
+.header_search_box.show{display:block;}
+.top_user_info {width: 50px;}
+.head-user-img{width:40px;height:40px;}
+.notify_icon{width:50px;margin-right:0;}
+.notify_icon a{display:inline-block;}
+.notify_icon a + a{margin-left:5px;}
+.notify_icon a i{font-size:14px;}
+.notify_icon a .badge{font-size: 9px;width: 20px;height: 20px;}
+.chat_content .message-input .wrap input{padding:6px 12px 6px 8px;}
+.chat_content .message-input .wrap button {padding:6px 0;}
+.chat_content .message-input .wrap .attachment{margin-top: 13px;}
+.chat_content .messages{height: calc(100vh - 107px);padding-bottom:25px;}
+.chat_content .messages ul li:nth-last-child(1) { margin-bottom: 0;} 
+.dropdown-menu.head-drop-down{right:0;top:55px;}
+.dropdown-menu.head-drop-down.show:before{right:10px;}
+.sidebar {width: 100%;float: none;}
+.global_tabs .nav-tabs.tabs3col .nav-item,.global_tabs .nav-tabs.tabs4col .nav-item {width:100%;margin:0;}
+.global_tabs .nav-item + .nav-item {border-top: 1px solid #a7a7a7;border-left:none;}
+.top_filter_box .search_box, .filter-select, .select_inline{display:block;margin:0 0 15px;width:100%;}
+.filter-select label { margin: 0 0 7px; width: 100%; text-align: left; }
+.filter-select, .select_inline + .select_inline {margin-left: 0;}
+.top_filter_box{margin:15px 0;}
+.skills_tag_list {margin: 7px 0 0;}
+.looking-hdng-block{position:relative;padding-top:18px;}
+.post_time { position: absolute; top: 0; right: 0; }
+.client-ratings > li{margin:0 0 10px;display:block;}
+.location-block .flex1{margin-bottom:10px;}
+
+/* ===========Step Page========= */
+.steps > li{font-size:14px;}
+ .skills_full_box li{width:100%;}
+.radio-box3 .redio-design{display:block;}
+.radio-box.radio-box3 .redio-design  + .redio-design {margin:10px 0 0;}
+
+/* ===========Matched page======== */
+.page_title{text-align:center;}
+.post_job{position:static;margin-bottom:15px;}
+.page_title_with_btn {padding-right: 0;}
+
+/**********Amit************/
+.form-labels label:first-child {width: 54%;}
+.form-labels label:last-child {width: calc(100% - 56%);}
+label.custom-label {font-size: 14px;}
+.profile-view-block .form-group {margin-bottom: 15px;}
+.profile-view-block {margin: 0 auto 20px;}
+.profile-view-block .profile-heading {margin: 0 0 20px;}
+.tab-block{padding:0;}
+.text-right.button-message{text-align:left!important;}
+
+.profile-view{min-height:45px;}
+.userimg {width:45px;}
+.userimg img {width:45px;height:45px;}
+/************************/
+
+}/*----Media Query For Mobile End----*/
+
+@media(max-width:400px){
+.input-group-text.captcha-image{width:114px;margin-right:6px;}
+.input-group-captcha .form-control { border-radius: 4px !important; padding: 6px; font-size: 12px!important; }	
+}
+
+/*----Media Query From Tablet to Large Device Start----*/
+@media(min-width:768px){
+/* .viewField{position:relative;} */
+.viewField:before{content:":";position:absolute;left:0;top:-7px;font-size:20px;}	
+.chat_open_btn,.hide_from_tab{display:none!important;}
+header.header-bg{min-height:70px;}
+.contat_bdr{position:relative;}
+.contat_bdr:after{content:"";height:100%;width:1px;background:#ddd;position:absolute;right:-10px;top:0;}
+.contact_details_box{padding-left:15px;}
+.modal_flax_height400{min-height:400px;}
+.BoxBorderNone{border-bottom:none;}
+.BorderRightNone{border-right:none;}
+}/*----Media Query From Tablet to Large Device Endt----*/
+
+
+/*----Media Query From Horizontal Tablet to Small Device Start----*/
+@media(max-width:990px){
+.validate-style1 .error { background: none; color: #e93e2c; position: static; padding: 5px 0 0; }
+.validate-style1 .error:before{border:none;}
+}/*----Media Query From Horizontal Tablet to Small Device End----*/
+
+
+/*----Media Query From Verticla Tablet to Horizontal Tablet Start----*/
+@media(min-width:768px) and (max-width:1023px){
+
+.header_right_box{max-width: 106px;}
+.header_search_box{max-width:300px;}
+.menu-box ul li + li {margin-left: 15px;}
+.btn.btn-large.signbtn { font-size: 14px; padding: 6px 20px;}
+header{min-height: 80px;}
+header.header-bg{padding:10px 30px;}
+.border-box{left:0;}
+.who-we-are-box,.innovative-box{padding-left: 30px;}
+.innovative_companies_slider{float:none;}
+.arrow-icon:nth-child(2n):after{background:transparent;}
+.innovative-box .border-box {height: calc(100% + 90px);}
+.works-box{margin-bottom:30px;}
+.category_list li figure{width:120px;height:120px;line-height:118px;}
+.category_list li figure img{max-width:80px;}
+.category_list li p{font-size:12px;}
+.sec_head h3{font-size: 24px;}
+.companies_slider .slick-next, .companies_slider .slick-prev{right:0;}
+.company-detail h5{font-size: 16px;}
+.footer-inner,.footer-inner .socialList{text-align:center;}
+.footmenu{margin:10px 0;}
+
+.right_content_box{padding:15px;}
+.top_filter_box{text-align: left;}
+.top_filter_box .search_box{min-width:100%;margin-bottom: 15px;}
+
+/* ============Step======== */
+.second-step .skills_full_box li{width:49%;}
+
+/**********Amit************/
+.content-box .skills_tag_list{text-align:left;}
+
+.global_tabs .nav-tabs a{font-size: 13px;padding: 10px 5px;}
+.select_inline {width: 172px;}
+.location-block{margin-top:10px;}
+.technicBoxThumb span{font-size:13px;}
+.technicBoxThumb{min-height:160px;padding:15px;}
+.profileAction .btn{width:48%;}
+.steps > li{font-size:15px;}
+.skills_full_box li{width:49%;}
+
+.flexBoxOne,.flexBoxTwo{position:relative;display:block!important;}
+.flexBoxBtn{position:absolute;right:0;top:0;}
+}/*----Media Query From Verticla Tablet to Horizontal Tablet End----*/
+
+/*----Media Query From Horizontal Tablet to Laptop Start----*/
+@media(min-width:1024px) and (max-width:1279px){
+	
+.logo,.logged header.header-bg .logo{max-width: 205px;}	
+.header_search_box{max-width: 250px;}	
+.slide_info_icon{width:40px;height:40px;}
+.slideinfo h2{font-size: 20px;}	
+.works_feature_list li figcaption,.works_tag{font-size:16px;}
+.direct_green_box{font-size: 20px;padding: 30px 50px;}	
+
+
+.border-box{left:0;}
+.who-we-are-box,.innovative-box{padding-left: 30px;}
+.innovative_companies_slider {max-width: 786px;}
+.companies_slider .slick-next, .companies_slider .slick-prev{right:0;}
+.footmenu li a {font-size: 13px;}
+.copyright{font-size:13px;}
+.right_content_box{padding:15px;}
+.top_filter_box .search_box{width:280px;}
+.technicBoxThumb{min-height:180px;}
+.top_filter_box .search_box {margin-bottom:10px;}
+}/*----Media Query From Horizontal Tablet to Laptop End----*/
+
+/*----Media Query From Laptop to Large Laptop Start----*/
+@media(min-width:1280px) and (max-width:1439px){
+
+.companies_slider ,.innovative_companies_slider{padding-left:30px;padding-right:30px;}	
+.companies_slider .slick-next{ right: 0;}
+.companies_slider .slick-prev{    left: 11px;}
+.innovative_companies_slider,.overview-wrapper .border-box-content, .team-block{max-width:980px;}
+.innovative-box,.who-we-are-box{padding-left: 60px;}
+.border-box{left: 30px;}
+
+.innovative_companies_slider  .slick-prev {
+    left: 9px;
+}
+.innovative_companies_slider .slick-next {
+    right: 0;
+}
+
+}/*----Media Query From Laptop to Large Laptop End----*/
+
+/*----Media Query From Large Laptop to Large Device Start----*/
+@media(min-width:1440px) and (max-width:1500px){
+.companies_slider .slick-next,.companies_slider .slick-prev{right: -5px;}
+.innovative_companies_slider,.overview-wrapper .border-box-content, .team-block{max-width:1130px;}
+.innovative-box,.who-we-are-box{padding-left: 60px;}
+.border-box{left: 30px;}
+}/*----Media Query From Large Laptop to Large Device End----*/
+
+
+
+
+@media(min-width:767px){
+    .flex-block{display: flex;}
+    .flex1{flex: 1;}
+    .flex2{flex: 2;}
+    .profile_content{padding: 30px; min-height: 1043px;}
+    .profile-modal .modal-body{padding: 4rem 50px;}
+    .modal_txt p{font-size: 16px; color: #4c4c4c; line-height: 20px;}
+    .contract-modal .modal-body{padding: 20px 35px 3em;}
+}
+
+
+

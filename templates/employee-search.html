@@ -1,0 +1,213 @@
+{% extends 'dashboardheader.html' %} {% load static %} {% load filters %} {% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="{% static 'js/validate.js' %}"></script>
+
+
+<main class="main-container">
+  <!-- ontainer-1280 Start -->
+  <div class="container-1280">
+    <!-- Sidebar-content-box Start -->
+    <div class="sidebar-content-box clearfix">
+      <!--Aside Start -->
+      <aside class="sidebar">
+        <span class="back_btn">
+          <i class="fas fa-chevron-left"></i>
+        </span>
+        {% include 'dashboard-aside.html' %}
+        <!-- aside-box End -->
+      </aside>
+      <!--Aside End -->
+      <!-- Right Content Box-->
+      <div class="right_content_box mb60" style="padding: 30px 30px !important">
+        <center>
+          <h3>Search Results</h3>
+        </center>
+        <div class="row">
+          {% include 'left-filter.html' %}
+          <div class="col-sm-10">
+            {% if jobs %}
+            <ul class="matching_jobs">
+              {% for job in jobs %}
+              <li>
+                <div class="looking-for">
+                  <div class="looking-hdng-block flex-block">
+                    <h2 class="flex1 looking_hdng">{{job.job_name}}</h2>
+                    <span class="post_time">{{job.created_at|current_duration}}
+                      <a herf="javascript:void(0);">
+                        {% if job.id in fav %}
+                        <i class="fas fa-heart fav-heart active" id='{{job.id}}'></i>
+                        {% else %}
+                        <i class="far fa-heart fav-heart" id='{{job.id}}'></i>
+                        {% endif %}
+                      </a>
+                    </span>
+                  </div>
+                  <p class="txt">Hourly- {{job.type_of_project}}</p>
+                  <p class="txt">Est Time: {{job.duration}} Month</p>
+                </div>
+                <div class="skills-desc">
+                  <p class="txt">{{job.description}}</p>
+                  <ul class="skills-tag-block">
+                    {% for skill in job.tools_and_language.all%}
+                    <li class="skills_tag">{{skill}}</li>
+                    {% endfor %}
+                    <!-- <li class="skills_tag">3D Designing</li>
+                         <li class="skills_tag">Logo Designing</li> -->
+                  </ul>
+                  <ul class="client-ratings">
+                    <li>
+                      <strong>Client:</strong> {{job.company_name}}
+                    </li>
+                    <li>
+                      <strong>Ratings:</strong>
+                      <span class="show_rating_list">
+                        {% for i in "12345"%}
+                        <i class="fas fa-star"></i>
+                        {% endfor %}
+                      </span>
+                    </li>
+                  </ul>
+                  <div class="location-block flex-block">
+                    <div class="flex1">
+                      <img src="{% static 'images/location_icn.png' %}"> {% for coun in job.country.all %} {{coun}} {% if forloop.last %} {% else %}, {%endif%} {%endfor%}
+                    </div>
+                    {% if job.id in applied %}
+                    <a href="javascript:void(0);" class="skills_tag green-bg">Applied</a>
+                    {% else %}
+                    <a href="#profileModal" class="skills_tag green-bg appliedbtn" id="{{job.id}}" data-toggle="modal" data-target="#profileModal">Apply to this job</a>
+                    {% endif%}
+                  </div>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+            <div class="pagination_block">
+              <ul class="pagination">
+                <li class="page-item">
+                  {% if jobs.has_previous %}
+                  <a class="page-link" href="?content={{content}}&page={{ jobs.previous_page_number }}">
+                    <i class="fas fa-angle-double-left"></i>
+                  </a>
+                  {% endif %}
+                </li>
+                {% for num in jobs.paginator.page_range %} {% if jobs.number == num %}
+                <li class="page-item  active">
+                  <a class="page-link" href="?content={{content}}&page={{num}}">{{num}} </a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                  <a class="page-link" href="?content={{content}}&page={{num}}">{{num}} </a>
+                </li>
+                {% endif %} {% endfor %}
+                <li class="page-item">
+                  {% if jobs.has_next %}
+                  <a class="page-link" href="?content={{content}}&page={{ jobs.next_page_number }}">
+                    <i class="fas fa-angle-double-right"></i>
+                  </a>
+                  {% endif %}
+                </li>
+              </ul>
+            </div>
+            {% else %}
+            <!-- Tab 1 Start -->
+            <div class="no-active-jobs">No Search Result Available</div>
+            <!-- Tab 1 End -->
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Right Content Box End -->
+  </div>
+  <!-- Sidebar-content-box End -->
+  </div>
+  <!-- container-1280 End -->
+  <div class="modal fade global-modal contract-modal" id="profileModal">
+    <div class="modal-dialog max-WT-600">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="modal_logo">
+            <img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+            <img class="hide_large" src="{% static 'images/logo-mob.png' %} " alt="Logo" />
+          </span>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body ">
+          <div class="modal_box_title"> Contract</div>
+          <form class="form_modal" method="POST" action="{% url 'analyticsmaven:apply-job' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+              <input type="hidden" name="job" id="job" value="{{job.id}}">
+              <input type="hidden" name="user" value="{{request.user.id}}">
+              <label for="textarea">Why should we hire you?</label>
+              <textarea rows="4" class="form-control" placeholder="Please write something about yourself..." id="textarea" name="reason"></textarea>
+            </div>
+            <div class="form-group">
+              <div class="file">
+                <input type="text" class="form-control file_icn" placeholder="Upload your resume" id="proposal" />
+                <input type="file" value="upload" class="form-control file-input" name="resume" id="resume" onchange="return validateresumeupload()"
+                  required="True" />
+              </div>
+            </div>
+            <button type="submit" class="btn btn-dark-gray max-WT-300 mt10 ">SUBMIT (Your Proposal)</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if content %}
+  <script>
+    $("#employee-search").val("{{content}}")
+  </script> {% endif %}
+  <script>
+    $(".fav-heart").click(function () {
+      if ($(this).hasClass('active')) {
+        status = false
+        $(this).removeClass('active')
+        $(this).removeClass('fas')
+        $(this).addClass('far')
+      } else {
+        status = true
+        $(this).addClass('active')
+        $(this).removeClass('far')
+        $(this).addClass('fas')
+      }
+      $.ajax({
+        url: '/favourite-jobs',
+        type: "POST",
+        dataType: 'json',
+        data: {
+          id: $(this).attr('id'),
+          user: '{{request.user.id}}',
+          status: status,
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+        },
+        success: function (success) {
+          console.log(success)
+        }
+      });
+    })
+  </script>
+  <script>
+    $(document).ready(function () {
+      $(".appliedbtn").click(function () {
+        $("#job ").val($(this).attr('id'))
+      })
+
+      $(".pending-job").click(function () {
+        job_id = $(this).attr('id')
+        $.ajax({
+          url: '/job-pending/' + job_id,
+          type: "POST",
+          dataType: 'json',
+          data: {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+          },
+          success: function (success) {
+            $("#job_" + job_id).remove()
+          }
+        });
+      })
+    })
+  </script> {% endblock %}

@@ -1,0 +1,433 @@
+{% extends 'dashboardheader.html' %} {% load static %} {% load filters %}{% block content %}
+<script src="{% static 'js/validate.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<main class="main-container">
+  <!-- ontainer-1280 Start -->
+  <div class="container-1280">
+    <!-- Sidebar-content-box Start -->
+    <div class="sidebar-content-box clearfix">
+      {% include 'dashboard-aside.html' %}
+      <!-- Right Content Box-->
+      <div class="right_content_box">
+        <div class="global_tabs">
+          <ul class="nav nav-tabs tabs6col" id="myTab" role="tablist">
+            <!-- Approved Job -->
+            <li class="nav-item">
+              <a class="nav-link  active" id="home-tab" href="#tab1" role="tab" data-toggle="tab" aria-controls="home"
+                aria-selected="true">
+                Active Jobs
+              </a>
+            </li>
+            <!-- End -->
+            <!-- Completed Jobs -->
+            <li class="nav-item">
+              <a class="nav-link" id="contact-tab" href="#tab2" data-toggle="tab" aria-controls="contact" aria-selected="false">
+                Completed & Closed Jobs
+              </a>
+            </li>
+            <!-- End -->
+          </ul>
+          <!-- Tab Content Start -->
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="contact-tab">
+              {% include 'filter.html' %} {% if approved %}
+              <ul class="matching_jobs">
+                {% for applied_job in approved %}
+                <li id="job_{{applied_job.id}}">
+                  <div class="looking-for">
+                    <div class="looking-hdng-block flex-block">
+                      <h2 class="flex1 looking_hdng">{{applied_job.job.job_name}}</h2>
+                      <span class="post_time">{{applied_job.job.created_at|current_duration}}
+                      </span>
+                    </div>
+                    <p class="txt">Hourly- {{applied_job.job.type_of_project}}</p>
+                    <p class="txt">Est Time: {{applied_job.job.duration}} Month</p>
+                  </div>
+                  <div class="skills-desc">
+                    <p class="txt">{{applied_job.job.description}}</p>
+                    <ul class="skills-tag-block">
+                      {% for skill in applied_job.job.tools_and_language.all%}
+                      <li class="skills_tag_job">{{skill}}</li>
+                      {% endfor %}
+                    </ul>
+                    <div class="skills-desc">
+                      <strong class="txt">Assigned To:</strong>
+                      <div class="profile-view d-flex align-items-center">
+                        <div class="userimg">
+                          {% if applied_job.user.avatar %}
+                          <img id="signup-image" src="{{applied_job.user.avatar}}" alt="user pic" />
+                          {% else %}
+                          <img id="signup-image" src="{% static 'images/avatar.png' %}" alt="user pic" />
+                          {% endif %}
+                        </div>
+                        <div class="about-user">
+                          <h4>{{applied_job.user.first_name}}
+                            {{applied_job.user.last_name}}
+                          </h4>
+                          <p>{{applied_job.user.job_seeker.professional_title}}</p>
+                          <p>{{applied_job.user.job_seeker.country.name}}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="location-block flex-block">
+                      <div class="flex1">
+                      </div>
+                      <div class="text-right button-message">
+                        <a href="#advanceModal" onclick=" return advance({{applied_job.id}})" class="btn bg-white-animate"
+                          style="max-width: 160px !important;" id="{{applied_job.id}}" data-toggle="modal" data-target="#advanceModal">Advance</a>
+                        <a class="btn bg-white-animate" href="{% url 'analyticsmaven:message' applied_job.job.company_name.user.uuid applied_job.user.uuid applied_job.job.uuid  %}">Message</a>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                {% endfor %}
+              </ul>
+              <div class="pagination_block">
+                <ul class="pagination">
+                  <li class="page-item">
+                    {% if approved.has_previous %}
+                    <a class="page-link" href="?page={{ approved.previous_page_number }}">
+                      <i class="fas fa-angle-double-left"></i>
+                    </a>
+                    {% endif %}
+                  </li>
+                  {% for num in approved.paginator.page_range %}
+                  {% if approved.number == num %}
+                  <li class="page-item  active">
+                    <a class="page-link" href="?page={{num}}">{{num}} </a>
+                  </li>
+                  {% else %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{num}}">{{num}} </a>
+                  </li>
+                  {% endif %} {% endfor %}
+                  <li class="page-item">
+                    {% if approved.has_next %}
+                    <a class="page-link" href="?page={{ approved.next_page_number }}">
+                      <i class="fas fa-angle-double-right"></i>
+                    </a>
+                    {% endif %}
+                  </li>
+                </ul>
+              </div>
+              {% else %}
+              <!-- Tab 1 Start -->
+              <div class="no-active-jobs">No Approved Jobs</div>
+              <!-- Tab 1 End -->
+              {% endif %}
+            </div>
+            <div class="tab-pane fade show" id="tab2" role="tabpanel" aria-labelledby="favourite-tab">
+              {% include 'filter.html' %}
+              {% if completed %}
+              <ul class="matching_jobs">
+                {% for completed_job in completed %}
+                <li id="job_{{completed_job.id}}">
+                  <div class="looking-for">
+                    <div class="looking-hdng-block flex-block">
+                      <h2 class="flex1 looking_hdng">
+                        {{completed_job.job.job_name}}</h2>
+                      <span class="post_time">
+                        {{completed_job.job.created_at|current_duration}}
+                      </span>
+                    </div>
+                    <p class="txt">Hourly-
+                      {{completed_job.job.type_of_project}}</p>
+                    <p class="txt">Est Time: {{completed_job.job.duration}}
+                      Month</p>
+                  </div>
+                  <div class="skills-desc">
+                    <p class="txt">{{completed_job.job.description}}</p>
+                    <ul class="skills-tag-block">
+                      {% for skill in completed_job.job.tools_and_language.all%}
+                      <li class="skills_tag_job">{{skill}}</li>
+                      {% endfor %}
+                    </ul>
+                    {% if completed_job.status == "Completed" %}
+                    <div class="skills-desc">
+                      <strong class="txt">Completed by:</strong>
+                      <div class="profile-view d-flex align-items-center">
+                        <div class="userimg">
+                          {% if completed_job.user.avatar %}
+                          <img id="signup-image" src="{{completed_job.user.avatar}}" alt="user pic" /> {% else %}
+                          <img id="signup-image" src="{% static 'images/avatar.png' %}" alt="user pic" /> {% endif %}
+                        </div>
+                        <div class="about-user">
+                          <h4>{{completed_job.user.first_name}}
+                            {{completed_job.user.last_name}}
+                          </h4>
+                          <p>
+                            {{completed_job.user.job_seeker.professional_title}}</p>
+                          <p>{{completed_job.user.job_seeker.country.name}}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="location-block flex-block">
+                      <div class="flex2 text-right button-message">
+                        <a class="btn bg-white-animate" href="{% url 'analyticsmaven:message' completed_job.job.company_name.user.uuid completed_job.user.uuid completed_job.job.uuid   %}">Message</a>
+                        <a href="#closedModal" onclick="return incomplete({{completed_job.id}})" class="btn bg-white-animate"
+                          style="max-width: 160px !important;" id="{{completed_job.id}}" data-toggle="modal"
+                          data-target="#closedModal">Mark as Closed</a>
+                        <a href="#pendingModal" onclick=" return incomplete({{completed_job.id}})" class="btn bg-white-animate"
+                          style="max-width: 160px !important;" id="{{completed_job.id}}" data-toggle="modal"
+                          data-target="#pendingModal">Mark
+                          as
+                          Incomplete</a>
+                      </div>
+                    </div>
+                    {% else %}
+                    {% for review in completed_job.applied_job_rating.all %}
+                    <div class="skills-desc">
+                      <strong class="txt">Completed by:</strong>
+                      <div class="profile-view d-flex align-items-center">
+                        <div class="userimg">
+                          {% if review.reviewee.avatar %}
+                          <img id="signup-image" src="{{review.reviewee.avatar}}" alt="user pic" /> {% else %}
+                          <img id="signup-image" src="{% static 'images/avatar.png' %}" alt="user pic" /> {% endif %}
+                        </div>
+                        <div class="about-user">
+                          <h4>{{review.reviewee.first_name|default:''}}
+                            {{review.reviewee.last_name|default:''}}
+                          </h4>
+                          <p>
+                            {{review.reviewee.job_seeker.professional_title}}</p>
+                          <p>{{review.reviewee.job_seeker.country.name}}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="location-block flex-block">
+                      <div class="flex2 text-right button-message">
+                        <ul class="show_rating_list d-inherit-block">
+                          {% for i in "12345" %}
+                          <li>
+                            {% if review.rate >= i %}
+                            <i class="rated fas fa-star"></i>
+                            {% else %}
+                            <i class="fas fa-star"></i>
+                            {% endif %}
+                          </li>
+                          {% endfor %}
+                        </ul>
+                        <div>
+                          {{completed_job.applied_job_rating.all.0.feedback}}</div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                  </div>
+                </li>
+                {% endfor %}
+              </ul>
+              <div class="pagination_block">
+                <ul class="pagination">
+                  <li class="page-item">
+                    {% if completed.has_previous %}
+                    <a class="page-link" href="?page={{ approved.previous_page_number }}">
+                      <i class="fas fa-angle-double-left"></i>
+                    </a>
+                    {% endif %}
+                  </li>
+                  {% for num in completed.paginator.page_range %}
+                  {% if completed.number == num %}
+                  <li class="page-item  active">
+                    <a class="page-link" href="?page={{num}}">{{num}} </a>
+                  </li>
+                  {% else %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{num}}">{{num}} </a>
+                  </li>
+                  {% endif %} {% endfor %}
+                  <li class="page-item">
+                    {% if completed.has_next %}
+                    <a class="page-link" href="?page={{ completed.next_page_number }}">
+                      <i class="fas fa-angle-double-right"></i>
+                    </a>
+                    {% endif %}
+                  </li>
+                </ul>
+              </div>
+              {% else %}
+              <!-- Tab 1 Start -->
+              <div class="no-active-jobs">No Completed Jobs</div>
+              <!-- Tab 1 End -->
+              {% endif %}
+            </div>
+          </div>
+          <!-- Right Content Box End -->
+        </div>
+      </div>
+    </div>
+    <!-- Sidebar-content-box End -->
+  </div>
+  <!-- container-1280 End -->
+  {% include 'refer.html' %}
+  <div class="modal fade global-modal contract-modal" id="pendingModal">
+    <div class="modal-dialog max-WT-600">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="modal_logo">
+            <img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+            <img class="hide_large" src="{% static 'images/logo-mob.png' %} " alt="Logo" />
+          </span>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body ">
+          <div class="modal_box_title"> Incomplete Job</div>
+          <div class="form-group">
+            <label for="textarea">Please mention your Incomplete Section</label>
+            <textarea rows="4" class="form-control" placeholder="Please mention your Incomplete Section..." id="textarea"
+              name="reason"></textarea>
+          </div>
+          <button type="button" class="btn btn-dark-gray mt10 pending-job" style="width: 100%">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade global-modal contract-modal" id="closedModal">
+    <div class="modal-dialog max-WT-600">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="modal_logo">
+            <img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+            <img class="hide_large" src="{% static 'images/logo-mob.png' %} " alt="Logo" />
+          </span>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body ">
+          <div class="modal_box_title">Review & Rate Employer</div>
+          <div class="form-group">
+            <h6 style="text-align: center">Thanks for Rating the Employee</h6>
+            <div>Rate</div>
+            <div class="flex2 star_flex">
+              <ul class="star_rate_list">
+                {% for i in "12345" %}
+                <li value='{{forloop.counter}}' class="select-star">
+                  <i class="fas fa-star"></i>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+            <div id="rate_error" style="color: red;margin-bottom: 10px"></div>
+            <label for="textarea">Please provide your valuable Feeback</label>
+            <textarea rows="4" class="form-control" placeholder="Feedback..." id="feedback" name="reason"></textarea>
+          </div>
+          <button type="button" class="btn btn-dark-gray mt10 complete-job" style="width: 100%">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade global-modal contract-modal" id="advanceModal">
+    <div class="modal-dialog max-WT-600">
+      <div class="modal-content">
+        <form class="step-form" method="POST" action="{% url 'analyticsmaven:advance-payment' %}">
+          {% csrf_token %}
+          <div class="modal-header">
+            <span class="modal_logo">
+              <img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+              <img class="hide_large" src="{% static 'images/logo-mob.png' %} " alt="Logo" />
+            </span>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body ">
+            <div class="modal_box_title">Advance Payment</div>
+            <div class="form-group">
+              <h6 style="text-align: center">Are you sure you wanna do Advance Payment?</h6>
+              <input type="hidden" name="job" id="advance_job">
+              <label for="textarea">Amount</label>
+              <input class="form-control" placeholder="Please enter your advance Payment..." id="advance" name="advance" />
+            </div>
+            <button type="submit" class="btn btn-dark-gray mt10 complete-job" style="width: 100%">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+<!-- main End -->
+<script>
+  rate = 0
+  $(".select-star").on('click', function () {
+    if ($(this).hasClass('rated')) {
+      $(this).removeClass("rated");
+      $(this).nextAll().removeClass("rated");
+      rate = parseInt($(this).val()) - 1
+      console.log('Rate' + rate)
+    } else {
+      $(this).prevAll().addClass("rated");
+      $(this).addClass("rated");
+      rate = parseInt($(this).val())
+      console.log('Rate' + rate)
+    }
+  })
+  $(".complete-job").click(function () {
+    if (!rate) {
+      $("#rate_error").text("Please rate the Employee/Freelancer")
+      return
+    } else {
+      $("#rate_error").text("")
+    }
+    $(".loaderdiv").show()
+    $.ajax({
+      url: '/job-closed/' + incomplete_job_id,
+      type: "POST",
+      dataType: 'json',
+      data: {
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        feedback: $("#feedback").val(),
+        rate: rate
+      },
+      success: function (success) {
+        $("#job_" + incomplete_job_id).remove()
+        $("#closedModal").modal('hide')
+        $(".loaderdiv").hide()
+        rate = 0
+      }
+    });
+  })
+  incomplete = function (id) {
+    incomplete_job_id = id
+  }
+  advance = function (id) {
+    $("#advance_job").val(id)
+    return true
+  }
+  $(".pending-job").click(function () {
+    $(".loaderdiv").show()
+    $.ajax({
+      url: '/job-pending/' + incomplete_job_id,
+      type: "POST",
+      dataType: 'json',
+      data: {
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        incomplete_reason: $("#textarea").val()
+      },
+      success: function (success) {
+        $("#job_" + incomplete_job_id).remove()
+        $("#pendingModal").modal('hide')
+        $(".loaderdiv").hide()
+      }
+    });
+  })
+  $(".revoke-job").click(function () {
+    $(".loaderdiv").show()
+    job_id = $(this).attr('id')
+    $.ajax({
+      url: '/job-declined/' + job_id,
+      type: "POST",
+      dataType: 'json',
+      data: {
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+      },
+      success: function (success) {
+        $("#job_" + job_id).remove()
+        $(".loaderdiv").hide()
+      }
+    });
+  })
+</script>{% if request.GET.tab %}
+<script>
+  $(document).ready(function () {
+    $('.nav-tabs a[href="#{{request.GET.tab}}"]').tab('show')
+  });
+</script> {% endif %} {% endblock %}

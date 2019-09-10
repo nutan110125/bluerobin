@@ -1,0 +1,219 @@
+{% extends 'dashboardheader.html' %} {% load static %} {% block content %}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+
+<main class="main-container">
+    <!-- ontainer-1280 Start -->
+    <div class="container-1280">
+        <!-- Sidebar-content-box Start -->
+        <div class="sidebar-content-box clearfix">
+            <!--Aside Start -->
+            {% include 'dashboard-aside.html' %}
+
+            <!--Aside End -->
+            <!-- aside-box End -->
+
+            <!-- Right Content Box-->
+            <div class="right_content_box mb60">
+                <!-- step block start -->
+                <div class="steps-block">
+                    <ul class="steps">
+                        <li class="active">
+                            <a href="{% url 'analyticsmaven:edit-job-post' job.uuid  %}">Step 1/4</a>
+                        </li>
+                        <li class="active">
+                            <a href="{% url 'analyticsmaven:job-post-step-2' job.uuid %}">Step 2/4</a>
+                        </li>
+                        <li class="active">
+                            <a href="{% url 'analyticsmaven:job-post-step-3' job.uuid %}">Step 3/4</a>
+                        </li>
+                        <li class="">
+                            <a>Step 4/4</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- step block end -->
+                <!-- first step block start -->
+                <div class="step_content_box">
+
+                    <form class="step-form employee-step-form" method="POST" action="{% url 'analyticsmaven:job-post-step-3' job.uuid  %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label>What type of project you have?</label>
+                            <div class="radio-box radio-box3">
+                                <label class="redio-design">
+                                    <input type="radio" name="type_of_project" value="One Time Project" {% ifequal job.type_of_project "One Time Project" %}
+                                        checked {% endifequal %} required>
+                                    <span></span>One time project
+                                </label>
+                                <label class="redio-design">
+                                    <input type="radio" name="type_of_project" value="On going Project" {% ifequal job.type_of_project "On going Project" %}
+                                        checked {% endifequal %}>
+                                    <span></span>On going project
+                                </label>
+                                <label class="redio-design">
+                                    <input type="radio" name="type_of_project" value="To be decided" {% ifequal job.type_of_project "To be decided" %} checked
+                                        {% endifequal %}>
+                                    <span></span>To be decided
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Preference of the language</label>
+                            <ul class="skills_full_box">
+                                {% for language in languages %} {% if language in job.language.all %}
+                                <li id='{{language.id}}' value='{{language.id}}' class="select-subSkill active">
+                                    <span class="skills_tag">
+                                        <input type="checkbox" name="language" id='language_{{language.id}}' value='{{language.id}}' />{{language}}
+                                        <script>
+                                            $("#language_{{language.id}}").attr("checked", "checked")
+                                        </script>
+                                    </span>
+                                </li>
+                                {% else %}
+                                <li id='{{language.id}}' value='{{language.id}}' class="select-subSkill">
+                                    <span class="skills_tag">
+                                        <input type="checkbox" name="language" value='{{language.id}}' />{{language}}</span>
+                                </li>
+                                {% endif %} {% endfor %}
+                                <li id='0' value='0' class="select-subSkill-language">
+                                    <span class="skills_tag">
+                                        <input type="checkbox" name="language" id="custom-language" placeholder='Please enter Skill' style="border: none;background: none;"
+                                        />
+                                        <strong id="language-text">Others</strong>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="form-group">
+                            <label>Preference location</label>
+                            <ul class="skills_full_box clearfix">
+                                {% for c in country %} {% if c in job.country.all %}
+                                <li class="skill_tag_country active">
+                                    <span class="skills_tag">
+                                        <input type="checkbox" name='country' value="{{c.id}}" checked='checked' />{{c.name}}</span>
+                                </li>
+                                {% else %}
+                                <li class="skill_tag_country">
+                                    <span class="skills_tag">
+                                        <input type="checkbox" name='country' value="{{c.id}}" />{{c.name}}</span>
+                                </li>{% endif %} {% endfor %}
+                                <li id='0' value='0' class="select-subSkill-country">
+                                    <span class="skills_tag">
+                                        <input type="checkbox" name="country" id="custom-country" placeholder='Please enter country' style="border: none;background: none;"
+                                        />
+                                        <strong id="country-text">Others</strong>
+                                    </span>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                        <div class="form-group form-btn text-center">
+                            <button type="submit" class="btn btn-green  max-WT-200">CONTINUE</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- first step block end -->
+            </div>
+            <!-- Right Content Box End -->
+        </div>
+        <!-- Sidebar-content-box End -->
+    </div>
+    <!-- container-1280 End -->
+    {% include 'refer.html' %} 
+</main>
+<!-- main End -->
+
+
+<script>
+    var validateskill = function () {
+        var language_checkboxs = document.getElementsByName("language");
+        var language_okay = false;
+        var l1 = language_checkboxs.length;
+        for (var i = 0; i < l1; i++) {
+            if (language_checkboxs[i].checked) {
+                language_okay = true;
+                break;
+            }
+        }
+        if (language_okay) return true;
+        else return false;
+
+
+    }
+    validateskill()
+</script>
+
+
+
+
+<script>
+    $(".select-subSkill").on('click', function () {
+        if ($(this).hasClass('active')) {
+            $(this).removeClass("active");
+        } else {
+            $(this).addClass("active");
+        }
+    });
+    $(".skill_tag_country").on('click', function () {
+        if ($(this).hasClass('active')) {
+            $(this).removeClass("active");
+        } else {
+            $(this).addClass("active");
+        }
+    });
+</script>
+
+
+<script>
+
+    $(".select-subSkill-country").on('click', function () {
+        if ($(this).hasClass('active')) {
+            $(this).removeClass("active");
+            return
+        } else {
+            $(this).addClass("active");
+            $(this).find("input[name=country]").attr('type', 'text')
+            $("#country-text").text("")
+        }
+
+    })
+    $("#custom-country").on('blur', function () {
+        if ($(this).val() && $(this).attr('type') == 'text') {
+            $("#country-text").text($(this).val())
+        } else {
+            $("#country-text").text("Others")
+        }
+        $(this).attr('type', 'checkbox')
+
+    })
+
+
+
+</script>
+
+<script>
+    $(".select-subSkill-language").on('click', function () {
+        if ($(this).hasClass('active')) {
+            $(this).removeClass("active");
+            return
+        } else {
+            $(this).addClass("active");
+            $(this).find("input[name=language]").attr('type', 'text')
+            $("#language-text").text("")
+        }
+
+    })
+    $("#custom-language").on('blur', function () {
+        if ($(this).val() && $(this).attr('type') == 'text') {
+            $("#language-text").text($(this).val())
+        } else {
+            $("#language-text").text("Others")
+        }
+        $(this).attr('type', 'checkbox')
+
+    })
+
+</script> {% endblock %}

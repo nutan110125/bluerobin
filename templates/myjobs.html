@@ -1,0 +1,569 @@
+{% extends 'dashboardheader.html' %} {% load static %} {% load filters %}{% block content %}
+<script src="{% static 'js/validate.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<main class="main-container">
+   <!-- ontainer-1280 Start -->
+   <div class="container-1280">
+      <!-- Sidebar-content-box Start -->
+      <div class="sidebar-content-box clearfix">
+         {% include 'dashboard-aside.html' %}
+         <!-- Right Content Box-->
+         <div class="right_content_box">
+            <div class="global_tabs">
+               <ul class="nav nav-tabs tabs4col" id="myTab" role="tablist">
+                  <!-- Active Jobs -->
+                  <li class="nav-item">
+                     <a class="nav-link active" id="active-tab" href="#tab1" data-toggle="tab" aria-controls="active" aria-selected="false">
+                        Active Jobs
+                     </a>
+                  </li>
+                  <!-- End -->
+                  <!-- Applied Job -->
+                  <li class="nav-item">
+                     <a class="nav-link" id="applied-tab" href="#tab2" role="tab" data-toggle="tab" aria-controls="applied" aria-selected="true">
+                        Applied Jobs
+                     </a>
+                  </li>
+                  <!-- End -->
+                  <!-- Pending Jobs -->
+                  <li class="nav-item">
+                     <a class="nav-link" id="pending-tab" href="#tab3" data-toggle="tab" role="tab" aria-controls="pending" aria-selected="false">
+                        Pending Jobs
+                     </a>
+                  </li>
+                  <!-- End -->
+                  <!-- Completed Jobs -->
+                  <li class="nav-item">
+                     <a class="nav-link" id="completed-tab" href="#tab4" data-toggle="tab" role="tab" aria-controls="completed" aria-selected="false">
+                        Completed Jobs
+                     </a>
+                  </li>
+                  <!-- End -->
+               </ul>
+               <!-- Tab Content Start -->
+               <div class="tab-content" id="myTabContent">
+                  <!-- Active Jobs -->
+                  <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="active-tab">
+                     {% include 'filter.html' %} {% if approved %}
+                     <ul class="matching_jobs">
+                        {% for applied_job in approved %}
+                        <li id="job_{{applied_job.id}}">
+                           <div class="looking-for">
+                              <div class="looking-hdng-block flex-block">
+                                 <h2 class="flex1 looking_hdng">{{applied_job.job.job_name}}</h2>
+                                 <span class="post_time">{{applied_job.job.created_at|current_duration}}
+                                    <a herf="javascript:void(0);">
+                                       {% if applied_job.job.id in fav %}
+                                       <i class="fas fa-heart fav-heart active" id='{{applied_job.job.id}}'></i>
+                                       {% else %}
+                                       <i class="far fa-heart fav-heart" id='{{applied_job.job.id}}'></i>
+                                       {% endif %}
+                                    </a>
+                                 </span>
+                              </div>
+                              <p class="txt">Hourly- {{applied_job.job.type_of_project}}</p>
+                              <p class="txt">Est Time: {{applied_job.job.duration}} Month</p>
+                           </div>
+                           <div class="skills-desc">
+                              <p class="txt">{{applied_job.job.description}}</p>
+                              <ul class="skills-tag-block">
+                                 {% for skill in applied_job.job.tools_and_language.all%}
+                                 <li class="skills_tag_job">{{skill}}</li>
+                                 {% endfor %}
+                              </ul>
+                              <ul class="client-ratings">
+                                 <li>
+                                    <strong>Client:</strong> {{applied_job.job.company_name}}
+                                 </li>
+                                 <li>
+                                    <strong>Ratings:</strong>
+                                    <span class="show_rating_list">
+                                       {% for i in "12345"%} {% if applied_job.job.company_name.rating >= i %}
+                                       <i class="fas fa-star rated"></i>
+                                       {% else %}
+                                       <i class="fas fa-star"></i>
+                                       {% endif %} {% endfor %}
+                                    </span>
+                                 </li>
+                              </ul>
+                              <div class="location-block flex-block">
+                                 <div class="flex1">
+                                    <div class=" ">
+                                       <img src="{% static 'images/location_icn.png' %}">{% for coun in applied_job.job.country.all %} {{coun}}{% if forloop.last %}{%else%},
+                                       {%endif %} {% endfor%}
+                                    </div>
+                                 </div>
+                                 <div class="flex2 text-right button-message">
+                                    <a class="btn bg-white-animate" href="{% url 'analyticsmaven:message' applied_job.job.company_name.user.uuid applied_job.user.uuid applied_job.job.uuid   %}">Message</a>
+                                    <button type="button" class="btn bg-white-animate complete-job" id='{{applied_job.id}}' style="max-width: 150px !important;">Mark as Completed</button>
+                                 </div>
+                              </div>
+                           </div>
+                        </li>
+                        {% endfor %}
+                     </ul>
+                     <div class="pagination_block">
+                        <ul class="pagination">
+                           <li class="page-item">
+                              {% if active_jobs.has_previous %}
+                              <a class="page-link" href="?page={{ active_jobs.previous_page_number }}">
+                                 <i class="fas fa-angle-double-left"></i>
+                              </a>
+                              {% endif %}
+                           </li>
+                           {% for num in active_jobs.paginator.page_range %} {% if active_jobs.number == num %}
+                           <li class="page-item  active">
+                              <a class="page-link" href="?page={{num}}">{{num}} </a>
+                           </li>
+                           {% else %}
+                           <li class="page-item">
+                              <a class="page-link" href="?page={{num}}">{{num}} </a>
+                           </li>
+                           {% endif %} {% endfor %}
+                           <li class="page-item">
+                              {% if active_jobs.has_next %}
+                              <a class="page-link" href="?page={{ active_jobs.next_page_number }}">
+                                 <i class="fas fa-angle-double-right"></i>
+                              </a>
+                              {% endif %}
+                           </li>
+                        </ul>
+                     </div>
+                     {% else %}
+                     <!-- Tab 1 Start -->
+                     <div class="no-active-jobs">No Active Jobs</div>
+                     <!-- Tab 1 End -->
+                     {% endif %}
+                  </div>
+                  <!-- End Active Job -->
+                  <!-- Applied Job -->
+                  <div class="tab-pane fade show" id="tab2" role="tabpanel" aria-labelledby="applied-tab">
+                     {% include 'filter.html' %} {% if applied %}
+                     <ul class="matching_jobs">
+                        {% for applied_job in applied %}
+                        <li>
+                           <div class="looking-for">
+                              <div class="looking-hdng-block flex-block">
+                                 <h2 class="flex1 looking_hdng">{{applied_job.job.job_name}}</h2>
+                                 <span class="post_time">{{applied_job.job.created_at|current_duration}}
+                                    <a herf="javascript:void(0);">
+                                       {% if applied_job.job.id in fav %}
+                                       <i class="fas fa-heart fav-heart active" id='{{applied_job.job.id}}'></i>
+                                       {% else %}
+                                       <i class="far fa-heart fav-heart" id='{{applied_job.job.id}}'></i>
+                                       {% endif %}
+                                    </a>
+                                 </span>
+                              </div>
+                              <p class="txt">Hourly- {{applied_job.job.type_of_project}}</p>
+                              <p class="txt">Est Time: {{applied_job.job.duration}} Month</p>
+                           </div>
+                           <div class="skills-desc">
+                              <p class="txt">{{applied_job.job.description}}</p>
+                              <ul class="skills-tag-block">
+                                 {% for skill in applied_job.job.tools_and_language.all%}
+                                 <li class="skills_tag_job">{{skill}}</li>
+                                 {% endfor %}
+                              </ul>
+                              <ul class="client-ratings">
+                                 <li>
+                                    <strong>Client:</strong> {{applied_job.job.company_name}}
+                                 </li>
+                                 <li>
+                                    <strong>Ratings:</strong>
+                                    <span class="show_rating_list">
+                                       {% for i in "12345"%} {% if applied_job.job.company_name.rating >= i %}
+                                       <i class="fas fa-star rated"></i>
+                                       {% else %}
+                                       <i class="fas fa-star"></i>
+                                       {% endif %} {% endfor %}
+                                    </span>
+                                 </li>
+                              </ul>
+                              <div class="location-block flex-block">
+                                 <div class="flex1">
+                                    <div class=" ">
+                                       <img src="{% static 'images/location_icn.png' %}"> {% for coun in applied_job.job.country.all %} {{coun}} {% if forloop.last%} {%else%},
+                                       {%endif %} {% endfor%}
+                                    </div>
+                                 </div>
+                                 <div class="text-right button-message">
+                                    <a class="btn bg-white-animate" href="{% url 'analyticsmaven:message' applied_job.job.company_name.user.uuid applied_job.user.uuid applied_job.job.uuid   %}">Message</a>
+                                 </div>
+                              </div>
+                           </div>
+                        </li>
+                        {% endfor %}
+                     </ul>
+                     <div class="pagination_block">
+                        <ul class="pagination">
+                           <li class="page-item">
+                              {% if active_jobs.has_previous %}
+                              <a class="page-link" href="?page={{ active_jobs.previous_page_number }}">
+                                 <i class="fas fa-angle-double-left"></i>
+                              </a>
+                              {% endif %}
+                           </li>
+                           {% for num in active_jobs.paginator.page_range %} {% if active_jobs.number == num %}
+                           <li class="page-item  active">
+                              <a class="page-link" href="?page={{num}}">{{num}} </a>
+                           </li>
+                           {% else %}
+                           <li class="page-item">
+                              <a class="page-link" href="?page={{num}}">{{num}} </a>
+                           </li>
+                           {% endif %} {% endfor %}
+                           <li class="page-item">
+                              {% if active_jobs.has_next %}
+                              <a class="page-link" href="?page={{ active_jobs.next_page_number }}">
+                                 <i class="fas fa-angle-double-right"></i>
+                              </a>
+                              {% endif %}
+                           </li>
+                        </ul>
+                     </div>
+                     {% else %}
+                     <!-- Tab 1 Start -->
+                     <div class="no-active-jobs">No Applied Jobs</div>
+                     <!-- Tab 1 End -->
+                     {% endif %}
+                  </div>
+                  <!-- End Applied Job -->
+                  <!-- Pending Job -->
+                  <div class="tab-pane fade show" id="tab3" role="tabpanel" aria-labelledby="pending-tab">
+                     {% include 'filter.html' %} {% if pending %}
+                     <ul class="matching_jobs">
+                        {% for applied_job in pending %}
+                        <li id="job_{{applied_job.id}}">
+                           <div class="looking-for">
+                              <div class="looking-hdng-block flex-block">
+                                 <h2 class="flex1 looking_hdng">{{applied_job.job.job_name}}</h2>
+                                 <span class="post_time">{{applied_job.job.created_at|current_duration}}
+                                    <a herf="javascript:void(0);">
+                                       {% if applied_job.job.id in fav %}
+                                       <i class="fas fa-heart fav-heart active" id='{{applied_job.job.id}}'></i>
+                                       {% else %}
+                                       <i class="far fa-heart fav-heart" id='{{applied_job.job.id}}'></i>
+                                       {% endif %}
+                                    </a>
+                                 </span>
+                              </div>
+                              <p class="txt">Hourly- {{applied_job.job.type_of_project}}</p>
+                              <p class="txt">Est Time: {{applied_job.job.duration}} Month</p>
+                           </div>
+                           <div class="skills-desc">
+                              <p class="txt">{{applied_job.job.description}}</p>
+                              <ul class="skills-tag-block">
+                                 {% for skill in applied_job.job.tools_and_language.all%}
+                                 <li class="skills_tag_job">{{skill}}</li>
+                                 {% endfor %}
+                              </ul>
+                              <ul class="client-ratings">
+                                 <li>
+                                    <strong>Client:</strong> {{applied_job.job.company_name}}
+                                 </li>
+                                 <li>
+                                    <strong>Ratings:</strong>
+                                    <span class="show_rating_list">
+                                       {% for i in "12345"%} {% if applied_job.job.company_name.rating >= i %}
+                                       <i class="fas fa-star rated"></i>
+                                       {% else %}
+                                       <i class="fas fa-star"></i>
+                                       {% endif %} {% endfor %}
+                                    </span>
+                                 </li>
+                              </ul>
+                              {% if applied_job.applied_job_incomplete.all %}
+                              <div class="skills-desc" style="margin-bottom: 10px">
+                                 <strong class="txt">Incompleted/Pending Reason</strong>
+                                 <ul style="list-style-type: circle;">
+                                    {% for reason in applied_job.applied_job_incomplete.all%}
+                                    <li>{{reason}}</li>
+                                    {% endfor %}
+                                 </ul>
+                              </div>
+                              {% endif %}
+                              <div class="location-block flex-block">
+                                 <div class="flex1">
+                                    <div class=" ">
+                                       <img src="{% static 'images/location_icn.png' %}">{% for coun in applied_job.job.country.all %} {{coun}}{% if forloop.last %}{%else%},
+                                       {%endif %} {% endfor%}
+                                    </div>
+                                 </div>
+                                 <div class="flex2 text-right button-message">
+                                    <a class="btn bg-white-animate" href="{% url 'analyticsmaven:message' applied_job.job.company_name.user.uuid applied_job.user.uuid applied_job.job.uuid   %}">Message</a>
+                                    <button type="button" class="btn bg-white-animate complete-job" id='{{applied_job.id}}' style="max-width: 150px !important;">Mark as Completed</button>
+                                 </div>
+                              </div>
+                           </div>
+                        </li>
+                        {% endfor %}
+                     </ul>
+                     <div class="pagination_block">
+                        <ul class="pagination">
+                           <li class="page-item">
+                              {% if active_jobs.has_previous %}
+                              <a class="page-link" href="?page={{ active_jobs.previous_page_number }}">
+                                 <i class="fas fa-angle-double-left"></i>
+                              </a>
+                              {% endif %}
+                           </li>
+                           {% for num in active_jobs.paginator.page_range %} {% if active_jobs.number == num %}
+                           <li class="page-item  active">
+                              <a class="page-link" href="?page={{num}}">{{num}} </a>
+                           </li>
+                           {% else %}
+                           <li class="page-item">
+                              <a class="page-link" href="?page={{num}}">{{num}} </a>
+                           </li>
+                           {% endif %} {% endfor %}
+                           <li class="page-item">
+                              {% if active_jobs.has_next %}
+                              <a class="page-link" href="?page={{ active_jobs.next_page_number }}">
+                                 <i class="fas fa-angle-double-right"></i>
+                              </a>
+                              {% endif %}
+                           </li>
+                        </ul>
+                     </div>
+                     {% else %}
+                     <!-- Tab 1 Start -->
+                     <div class="no-active-jobs">No Pending Jobs</div>
+                     <!-- Tab 1 End -->
+                     {% endif %}
+                  </div>
+                  <!-- End Pending Job -->
+                  <!-- Completed Job -->
+                  <div class="tab-pane fade show" id="tab4" role="tabpanel" aria-labelledby="completed-tab">
+                     {% include 'filter.html' %} {% if closed %}
+                     <ul class="matching_jobs jobcomplete ">
+                        {% for job_closed in closed %}
+                        <li id="job_{{job_closed.id}}">
+                           <div class="looking-for">
+                              <div class="looking-hdng-block flex-block ">
+                                 <h2 class="flex1 looking_hdng">{{job_closed.job.job_name}}</h2>
+                                 <span class="post_time">{{job_closed.job.created_at|current_duration}} {% if job_closed.job.id in fav %}
+                                    <i class="fas fa-heart fav-heart active" id='{{matching_job.id}}'></i>
+                                    {% else %}
+                                    <i class="far fa-heart fav-heart" id='{{matching_job.id}}'></i>
+                                    {% endif %}
+                                 </span>
+                              </div>
+                              <p class="txt ">Hourly - {{job_closed.job.type_of_project}}</p>
+                              <p class="txt ">Est Time: {{job_closed.job.duration}} Month</p>
+                           </div>
+                           <div class="skills-desc ">
+                              <p class="txt ">{{job_closed.job.description}}</p>
+                              <ul class="skills-tag-block ">
+                                 {% for skill in job_closed.job.tools_and_language.all%}
+                                 <li class="skills_tag_job ">{{skill}}</li>
+                                 {% endfor %}
+                                 <!-- <li class="skills_tag ">3D Designing</li>
+                           <li class="skills_tag ">Logo Designing</li> -->
+                              </ul>
+                              <ul class="client-ratings ">
+                                 <li>
+                                    <strong>Client:</strong> {{job_closed.job.company_name}}
+                                 </li>
+                                 <li>
+                                    <strong>Ratings:</strong>
+                                    <span class="show_rating_list">
+                                       {% for i in "12345"%} {% if job_closed.job.company_name.rating >= i %}
+                                       <i class="fas fa-star rated"></i>
+                                       {% else %}
+                                       <i class="fas fa-star"></i>
+                                       {% endif %} {% endfor %}
+                                    </span>
+                                 </li>
+                              </ul>
+                              {% if job_closed.feedback %}
+                              <div class="skills-desc">
+                                 <strong class="txt">Feedback:</strong>
+                                 <div>{{job_closed.feedback}}</div>
+                              </div>
+                              {% endif %}
+                              <div class="location-block flex-block">
+                                 <div class="flex1">
+                                    <div class=" ">
+                                       <img src="{% static 'images/location_icn.png' %}"> {% for coun in job_closed.job.country.all %} {{coun}} {% if forloop.last %} {%else%},
+                                       {% endif %} {% endfor%}
+                                    </div>
+                                 </div>
+                                 <div class="text-right button-message">
+                                    <a class="btn bg-white-animate" href="{% url 'analyticsmaven:message' job_closed.job.company_name.user.uuid job_closed.user.uuid job_closed.job.uuid   %}">Message</a>
+                                    <a class="btn bg-white-animate" onclick="return review({{job_closed.id}})" href="#reviewModal" data-toggle="modal" data-target="#reviewModal">Review & Rating</a>
+                                 </div>
+                              </div>
+                           </div>
+                        </li>
+                        {% endfor %}
+                     </ul>
+                     <div class="pagination_block">
+                        <ul class="pagination">
+                           <li class="page-item">
+                              {% if job_closed.has_previous %}
+                              <a class="page-link " href="?page={{ job_closed.previous_page_number }}">
+                                 <i class="fas fa-angle-double-left "></i>
+                              </a>
+                              {% endif %}
+                           </li>
+                           {% for num in job_closed.paginator.page_range %} {% if job_closed.number == num %}
+                           <li class="page-item active ">
+                              <a class="page-link " href="?page={{num}}">{{num}} </a>
+                           </li>
+                           {% else %}
+                           <li class="page-item ">
+                              <a class="page-link " href="?page={{num}}">{{num}} </a>
+                           </li>
+                           {% endif %} {% endfor %}
+                           <li class="page-item ">
+                              {% if job_closed.has_next %}
+                              <a class="page-link " href="?page={{ job_closed.next_page_number }}">
+                                 <i class="fas fa-angle-double-right"></i>
+                              </a>
+                              {% endif %}
+                           </li>
+                        </ul>
+                     </div>
+                     {% else %}
+                     <!-- Tab 4 Start -->
+                     <div class="no-active-jobs ">No Completed Jobs</div>
+                     <!-- Tab 4 End -->
+                     {% endif %}
+                  </div>
+                  <!-- End Completed Job -->
+               </div>
+               <!-- Right Content Box End -->
+            </div>
+         </div>
+      </div>
+      <!-- Sidebar-content-box End -->
+   </div>
+   <!-- container-1280 End -->
+   {% include 'refer.html' %} 
+</main>
+<!-- main End -->
+<div class="modal fade global-modal contract-modal" id="reviewModal">
+   <div class="modal-dialog max-WT-600">
+      <div class="modal-content">
+         <div class="modal-header">
+            <span class="modal_logo">
+               <img class="hide_small" src="{% static 'images/logo.png' %}" alt="Logo" />
+               <img class="hide_large" src="{% static 'images/logo-mob.png' %} " alt="Logo" />
+            </span>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+         </div>
+         <div class="modal-body ">
+            <div class="modal_box_title">Review & Rate Employee</div>
+            <div class="form-group">
+               <h6 style="text-align: center">Thanks for Rating the Employer</h6>
+               <div>Rate</div>
+               <div class="flex2 star_flex">
+                  <ul class="star_rate_list">
+                     {% for i in "12345" %}
+                     <li value='{{forloop.counter}}' class="select-star">
+                        <i class="fas fa-star"></i>
+                     </li>
+                     {% endfor %}
+                  </ul>
+               </div>
+               <div id="rate_error" style="color: red;margin-bottom: 10px"></div>
+               <label for="textarea">Please provide your valuable Feeback</label>
+               <textarea rows="4" class="form-control" placeholder="Feedback..." id="feedback" name="reason"></textarea>
+            </div>
+            <button type="button" class="btn btn-dark-gray mt10 review_company" style="width: 100%">Submit</button>
+         </div>
+      </div>
+   </div>
+</div>
+<script>
+   rate = 0
+   $(".select-star").on('click', function () {
+      if ($(this).hasClass('rated')) {
+         $(this).removeClass("rated");
+         $(this).nextAll().removeClass("rated");
+         rate = parseInt($(this).val()) - 1
+      } else {
+         $(this).prevAll().addClass("rated");
+         $(this).addClass("rated");
+         rate = parseInt($(this).val())
+      }
+   })
+   review = function (id) {
+      review_job_id = id
+      console.log("Review Job ID" + review_job_id)
+   }
+   $(".review_company").click(function () {
+      if (!rate) {
+         $("#rate_error").text("Please rate the Employee")
+         return
+      } else {
+         $("#rate_error").text("")
+      }
+      $(".loaderdiv").show()
+      $.ajax({
+         url: '/review-company/' + review_job_id,
+         type: "POST",
+         dataType: 'json',
+         data: {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            feedback: $("#feedback").val(),
+            rate: rate
+         },
+         success: function (success) {
+            $("#reviewModal").modal('hide')
+            $(".loaderdiv").hide()
+            rate = 0
+         }
+      });
+   })
+   $(".fav-heart").click(function () {
+      if ($(this).hasClass('active')) {
+         status = false
+         $(this).removeClass('active')
+         $(this).removeClass('fas')
+         $(this).addClass('far')
+      } else {
+         status = true
+         $(this).addClass('active')
+         $(this).removeClass('far')
+         $(this).addClass('fas')
+      }
+      $.ajax({
+         url: '/favourite-jobs',
+         type: "POST",
+         dataType: 'json',
+         data: {
+            id: $(this).attr('id'),
+            user: '{{request.user.id}}',
+            status: status,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+         },
+         success: function (success) {
+            console.log(success)
+         }
+      });
+   })
+
+   $(".complete-job").click(function () {
+      $(".loaderdiv").show()
+      job_id = $(this).attr('id')
+      $.ajax({
+         url: '/job-completed/' + job_id,
+         type: "POST",
+         dataType: 'json',
+         data: {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+         },
+         success: function (success) {
+            $("#job_" + job_id).remove()
+            $(".loaderdiv").hide()
+         }
+      });
+   })
+</script>{% if request.GET.tab %}
+<script>
+   $(document).ready(function () {
+      $('.nav-tabs a[href="#{{request.GET.tab}}"]').tab('show')
+   });
+</script> {% endif %} {% endblock %}

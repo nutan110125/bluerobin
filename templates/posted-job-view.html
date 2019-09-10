@@ -1,0 +1,210 @@
+{% extends 'dashboardheader.html' %} {% load static %} {% block content %}
+
+<main class="main-container">
+   <!-- ontainer-1280 Start -->
+   <div class="container-1280">
+      <!-- Sidebar-content-box Start -->
+      <div class="sidebar-content-box clearfix">
+         <!--Aside Start -->
+         <aside class="sidebar">
+            <span class="back_btn">
+               <i class="fas fa-chevron-left"></i>
+            </span>
+            {% include 'dashboard-aside.html' %}
+
+            <!-- aside-box End -->
+         </aside>
+         <!--Aside End -->
+         <!-- Right Content Box-->
+         <div class="right_content_box mb60">
+            <!-- global_tabs start -->
+            <div class="global_tabs">
+               <ul class="nav nav-tabs tabs3col" id="myTab" role="tablist">
+                  <li class="nav-item">
+                     <a class="nav-link" id="home-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="home" aria-selected="true">
+                        Job Applicants
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link   active" id="profile-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="profile" aria-selected="false">
+                        Posted Jobs
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="{% url 'analyticsmaven:job-post' %}">
+
+                        Post a Job
+                     </a>
+                  </li>
+               </ul>
+               <!-- Tab Content Start -->
+               <div class="tab-content" id="myTabContent">
+                  <!-- Tab 1 Start -->
+                  <div class="tab-pane fade" id="tab1" role="tabpanel" aria-labelledby="home-tab">
+                     <div class="row mt25">
+                        <!-- Col Start -->
+                        {% if job_seeker %}{% for seeker in job_seeker %}
+                        <div class="col-lg-4 col-md-6">
+                           <div class="matched_box">
+                              <span class="match_user_img">
+                                 {% if seeker.user.avatar %}
+                                 <img src="{{seeker.user.avatar}}" alt="Logo"> {% else %}
+                                 <img src="{% static 'images/user-img.png' %}" alt="Logo"> {% endif %}
+                              </span>
+                              <h2 class="match_user_name">{{seeker.user.first_name}} {{seeker.user.last_name}}</h2>
+                              <p class="experties">{{seeker.professional_title}}</p>
+                              <label class="skill_label">Tools/Skills:</label>
+                              <div style="max-height: 55px;min-height:55px;overflow: hidden;">
+                                 {% for tool in seeker.user.user_skill.all %} {% if tool.skill in seeker.user.job_seeker.tools_and_language.all%}
+                                 <div class="skills_rating_box">
+                                    <label>{{tool.skill.name}}</label>
+                                    <div class="skills_rating">
+                                       <ul class="show_rating_list">
+                                          {% for i in "12345" %}
+                                          <li>
+                                             {% if tool.rate >= i %}
+                                             <i class="rated fas fa-star"></i>
+                                             {% else %}
+                                             <i class="fas fa-star"></i>
+                                             {% endif %}
+                                          </li>
+                                          {% endfor %}
+                                       </ul>
+                                    </div>
+                                 </div>
+                                 {% endif %} {% endfor %}
+                              </div>
+                              <div class="matched_action_btn">
+                                 <a href="{% url 'analyticsmaven:view-jobseeker' seeker.user.uuid %}" class="btn btn-gray btn-block">View</a>
+                                 <a href="#" class="btn btn-green btn-block">Hire for Job</a>
+                              </div>
+                           </div>
+                        </div>
+                        {% endfor %} {% else %}
+                        <div class="no-active-jobs" style="width: 100%">No Job Applicants</div>
+                        {% endif %}
+                        <!-- Col End -->
+                        <!-- Col End -->
+                     </div>
+                     <div class="pagination_block mt0">
+                        <ul class="pagination">
+                           <li class="page-item">
+                              <a class="page-link" href="#">
+                                 <i class="fas fa-angle-double-left"></i>
+                              </a>
+                           </li>
+                           <li class="page-item  active">
+                              <a class="page-link" href="#">1</a>
+                           </li>
+                           <li class="page-item">
+                              <a class="page-link" href="#">2</a>
+                           </li>
+                           <li class="page-item">
+                              <a class="page-link" href="#">3</a>
+                           </li>
+                           <li class="page-item">
+                              <a class="page-link" href="#">4</a>
+                           </li>
+                           <li class="page-item">
+                              <a class="page-link" href="#">5</a>
+                           </li>
+                           <li class="page-item">
+                              <a class="page-link" href="#">
+                                 <i class="fas fa-angle-double-right"></i>
+                              </a>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+                  <!-- Tab 1 End -->
+                  <!-- Tab 2 Start -->
+                  <div class="tab-pane fade  show active" id="tab2" role="tabpanel" aria-labelledby="profile-tab">
+                     <div class="tab-block">
+                        <div class="profile-view-block">
+                           <div class="profile-view-body">
+                              <div class="row form-group">
+                                 <label class="custom-label col-sm-6 col-md-5 col-lg-4">Type of your company</label>
+                                 <div class="col-sm-6 col-md-7 col-lg-8 viewField">{% for i in job.company_name.industry.all%}{{i.name}}, {% endfor %}
+                                 </div>
+                              </div>
+                              <div class="row form-group">
+                                 <label class="custom-label col-sm-6 col-md-5 col-lg-4">Job Post Title</label>
+                                 <div class="col-sm-6 col-md-7 col-lg-8 viewField">{{job.job_name|capfirst}}</div>
+                              </div>
+                              <div class="row form-group">
+                                 <label class="custom-label col-sm-6 col-md-5 col-lg-4">Description of Job</label>
+                                 <div class="col-sm-6 col-md-7 col-lg-8 viewField">{{job.description|capfirst}}</div>
+                              </div>
+                              <div class="row form-group">
+                                 <label class="custom-label col-sm-6 col-md-5 col-lg-4">How much employee you need</label>
+                                 <div class="col-sm-6 col-md-7 col-lg-8 viewField">{{job.number_of_employees}}</div>
+                              </div>
+                              <div class="row form-group">
+                                 <label class="custom-label col-sm-6 col-md-5 col-lg-4">Skill set you want in employee</label>
+                                 <div class="col-lg-8">
+                                    <div class="viewField">
+                                       {% for skill in job.tools_and_language.all %}
+                                       <span>{{skill}}, </span>
+                                       {% endfor %}
+                                    </div>
+                                 </div>
+
+                              </div>
+                              <div class="row form-group">
+                                 <label class="custom-label col-sm-6 col-md-5 col-lg-4">What type of project you have</label>
+                                 <div class="col-sm-6 col-md-7 col-lg-8 viewField">{{job.type_of_project}}</div>
+                              </div>
+                              <div class="row form-group">
+                                 <label class="custom-label col-sm-6 col-md-5 col-lg-4">Preference of the language</label>
+                                 <div class="col-lg-8">
+                                    <div class="viewField">
+                                       {% for language in job.language.all %}
+                                       <span>{{language}}, </span>
+                                       {% endfor %}
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="row form-group">
+                                 <label class="custom-label col-sm-6 col-md-5 col-lg-4">Preference Location</label>
+                                 <div class="col-sm-6 col-md-7 col-lg-8 viewField">{% for c in job.country.all%}{{c.name}}, {% endfor %}</div>
+                              </div>
+                              <div class="row form-group">
+                                 <label class="custom-label col-sm-6 col-md-5 col-lg-4">Employee to be paid</label>
+                                 <div class="col-sm-6 col-md-7 col-lg-8 viewField"> {{job.payment}}</div>
+                              </div>
+                           </div>
+                           <div class="row form-group">
+                              <label class="custom-label col-sm-6 col-md-5 col-lg-4">Job Duration</label>
+                              <div class="col-sm-6 col-md-7 col-lg-8 viewField">{{job.duration}} Month</div>
+                           </div>
+                           <div class="row form-group">
+                              <label class="custom-label col-sm-6 col-md-5 col-lg-4">Salary to be paid</label>
+                              <div class="col-sm-6 col-md-7 col-lg-8 viewField">{{job.credit}}</div>
+                           </div>
+                        </div>
+                        <div class="profileAction text-center">
+                           <a href="{% url 'analyticsmaven:dashboard' %}" class="btn btn-gray max-WT-200 mr10">Back</a>
+
+                           <a href="{% url 'analyticsmaven:edit-job-post' job.uuid  %}" class="btn btn-green max-WT-200 mr10">Edit</a>
+                        </div>
+                     </div>
+                  </div>
+
+
+               </div>
+               <!-- Tab 2 End -->
+
+            </div>
+            <!-- Tab Content Start -->
+         </div>
+         <!-- global_tabs End -->
+      </div>
+      <!-- Right Content Box End -->
+   </div>
+   <!-- Sidebar-content-box End -->
+   </div>
+   <!-- container-1280 End -->
+   {% include 'refer.html' %} 
+</main>
+<!-- main End -->
+{% endblock %}

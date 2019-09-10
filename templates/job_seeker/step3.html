@@ -1,0 +1,191 @@
+{% extends 'dashboardheader.html' %} {% load static %} {% block content %}
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<main class="main-container">
+  <!-- ontainer-1280 Start -->
+  <div class="container-1280">
+    <!-- Sidebar-content-box Start -->
+    <div class="sidebar-content-box clearfix">
+      <!--Aside Start -->
+      <aside class="sidebar">
+        <span class="back_btn">
+          <i class="fas fa-chevron-left"></i>
+        </span>
+        <!-- aside-box Start -->
+        {% include 'asidebox.html' %}
+        <!-- aside-box End -->
+      </aside>
+      <!--Aside End -->
+      <!-- Right Content Box-->
+      <div class="right_content_box mb60">
+        <!-- step block start -->
+        <div class="steps-block">
+          <ul class="steps">
+            <li class="active">
+              <a href="{% url 'analyticsmaven:registration-details' user.uuid %}">Step 1/3</a>
+            </li>
+            <li class="active">
+              <a href="{% url 'analyticsmaven:user-skills' user.uuid %}">Step 2/3</a>
+            </li>
+            <li class="active">
+              <a href="{% url 'analyticsmaven:user-details' user.uuid %}">Step 3/3</a>
+            </li>
+
+          </ul>
+        </div>
+        <!-- step block end -->
+        <!-- first step block start -->
+        <div class="third-step">
+          <div class="complete-profile">
+            <h2 class="profile-heading text-center">What you have told us so far?</h2>
+            <div class="flex-block mt30">
+              <div class="flex1">
+                <p>
+                  <strong>Your preference are:</strong>
+                </p>
+                <div class="preference_box">
+                  <strong>Area</strong>
+                  <ul class="preference_list clearfix">
+                    {% for area in user.job_seeker.area.all %}
+                    <li>
+                      <span class="skills_tag">{{area}}</span>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                <div class="preference_box">
+                  <strong>Industry</strong>
+                  <ul class="preference_list clearfix">
+                    {% for industry in user.job_seeker.industry.all %}
+                    <li>
+                      <span class="skills_tag">{{industry}}</span>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                <div class="preference_box">
+                  <strong>Tools & Language</strong>
+                  <ul class="preference_list clearfix">
+                    {% for skill in user.job_seeker.tools_and_language.all %}
+                    <li>
+                      <span class="skills_tag">{{skill}}</span>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="about-you text-center">
+            <h2 class="profile-heading mb10">We want to know something more about you!</h2>
+            <p class="txt mb10">This will help in better job matching</p>
+            <h2 class="profile-heading rate-yourself">Rate yourself in terms of work!</h2>
+            <div class="language_rating">
+              {% for skill in user.user_skill.all %} 
+              {% if skill.skill in user.job_seeker.tools_and_language.all%}
+              <div class="flex-block align-center">
+                <div class="flex1 skill_p">
+                  <div class="skills_tag">{{skill.skill.name}}</div>
+                </div>
+                <div class="flex1 star_flex">
+                  <ul class="show_rating_list">
+                    {% for i in "12345" %} {% if skill.rate >= i %}
+                    <li id='{{skill.skill.id}}' value='{{forloop.counter}}' class="select-star rated">
+                      <i class="fas fa-star"></i>
+                    </li>
+                    {% else %}
+                    <li id='{{skill.skill.id}}' value='{{forloop.counter}}' class="select-star">
+                      <i class="fas fa-star"></i>
+                    </li> {% endif %}
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                <div class="flex1">
+                  <span class="skills_option" id="{{skill.skill.id}}_rate"></span>
+                </div>
+              </div>
+              {% endif %} {% endfor %}
+
+            </div>
+            <form class="step-form" method="POST" action="{% url 'analyticsmaven:user-details' user.uuid %}">
+              {% csrf_token %}
+              <div class=" form-group">
+                <label>Add a professional title that describes the work you do:</label>
+                <input type="text" class="form-control" placeholder="Example: 30 animation expert"
+                  name="professional_title" id="professional_title" required="required" maxlength="100" />
+              </div>
+              <div class="form-group">
+                <label>Write a professional overview</label>
+                <textarea rows="4" class="form-control" placeholder="Message..." name="overview" id="overview"
+                  maxlength="1000" required="required"></textarea>
+              </div>
+              <div class=" form-group">
+                <label>Paypal Email ID:</label>
+                <input type="text" class="form-control" placeholder="Example: paypal@paypal.com"
+                  name="paypal" id="paypal" maxlength="50" required/>
+                <a class="underline" style="float: right;" href="https://www.paypal.com/welcome/signup/#/email_one_password"
+                  target="_blank">Create Paypal account</a>
+              </div>
+              <div class="form-group">
+                <label class="checkbox-design">
+                  <input type="checkbox" name="option" required="required">
+                  <span></span>I accept the
+                  <a class="underline" href="{% url 'analyticsmaven:terms' %}">terms and conditions</a>
+                </label>
+              </div>
+              <div class="form-group form-btn mt30 text-center">
+                <button type="submit" class="btn btn-green max-WT-200">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- first step block end -->
+      </div>
+      <!-- Right Content Box End -->
+    </div>
+    <!-- Sidebar-content-box End -->
+  </div>
+  <!-- container-1280 End -->
+</main>
+<!-- main End -->
+<script>
+  $(".select-star").on('click', function () {
+    if ($(this).hasClass('rated')) {
+      $(this).removeClass("rated");
+      $(this).nextAll().removeClass("rated");
+    } else {
+      $(this).prevAll().addClass("rated");
+      $(this).addClass("rated");
+    }
+    if ($(this).val() == 1 || $(this).val() == 2) {
+      $("#" + $(this).attr('id') + "_rate").text('(Beginner)')
+    } else if ($(this).val() == 3) {
+      $("#" + $(this).attr('id') + "_rate").text('(Intermediate)')
+    } else {
+      $("#" + $(this).attr('id') + "_rate").text('(Professional)')
+    }
+    $.ajax({
+      url: '/user-skill-rate',
+      type: "POST",
+      dataType: 'json',
+      data: {
+        'user': '{{user.id}}',
+        'skill': $(this).attr('id'),
+        "rate": $(this).val(),
+        "csrfmiddlewaretoken": '{{ csrf_token }}'
+      },
+      success: function (success) {
+
+      }
+    });
+  });
+</script>{% if user.paypal_email %}
+<script>
+  $('#paypal').val('{{user.paypal_email}}')
+</script> {% endif %} {% if user.job_seeker.professional_title %}
+<script>
+  $('#professional_title').val('{{user.job_seeker.professional_title}}')
+</script> {% endif %} {% if user.job_seeker.overview %}
+<script>
+  $('#overview').val('{{user.job_seeker.overview|escapejs}}')
+</script> {% endif %} {% endblock %}

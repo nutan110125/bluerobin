@@ -1,0 +1,98 @@
+{% extends template_name %} {% load static %} {% block content %}
+
+<div class="InnertopBanner" style="background-image:url({% static 'images/faq-banner-bg.png' %});">
+  <div class="InnertopBanner-content d-flex align-items-center w-100 text-center">
+    <div class="w-100">
+      <div class="container">
+        <h1>Singularly fabulous work without boundaries</h1>
+        <p>Connecting 2 million+ professionals with remote and freelance jobs using artificial intelligence.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- main Start -->
+<main class="main-container">
+  <section class="static-content-section">
+    <div class="container">
+      <div class="sec_head mb20 clearfix">
+        <h3 class="f-left">FAQ</h3>
+        <div class="search_box search_box_green f-right">
+          <form action=''>
+            <div class="input-group">
+              <input type="text" name='tag' id='tag' class="form-control" placeholder="Search" />
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">
+                  <i class="fas fa-search"></i>
+                </span>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      {% if request.GET.tag %}
+      <script>
+        $("#tag").val('{{request.GET.tag}}')
+      </script> {% endif %}
+      <!-- Accordian Box Start -->
+      {% if question %}
+      <div id="accordion" class="global-accordian">
+        <!-- Card Start -->
+        {% for q in question %}
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <button class="btn btn-link" data-toggle="collapse" data-target="#{{q.id}}" aria-expanded="false" aria-controls="collapseOne">
+              {{q.question}}
+            </button>
+            <span class="qno">Q.{{forloop.counter}}</span>
+          </div>
+
+          <div id="{{q.id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body">
+              <h5 class="ans">Answer</h5>
+              {{q.answer}}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        <!-- Card End -->
+        <div class="pagination_block">
+            <ul class="pagination">
+              <li class="page-item">
+                {% if question.has_previous %}
+                <a class="page-link" href="?content={{content}}&page={{ question.previous_page_number }}">
+                  <i class="fas fa-angle-double-left"></i>
+                </a>
+                {% endif %}
+              </li>
+              {% for num in question.paginator.page_range %} {% if question.number == num %}
+              <li class="page-item  active">
+                <a class="page-link" href="?content={{content}}&page={{num}}">{{num}} </a>
+              </li>
+              {% else %}
+              <li class="page-item">
+                <a class="page-link" href="?content={{content}}&page={{num}}">{{num}} </a>
+              </li>
+              {% endif %} {% endfor %}
+              <li class="page-item">
+                {% if question.has_next %}
+                <a class="page-link" href="?content={{content}}&page={{ question.next_page_number }}">
+                  <i class="fas fa-angle-double-right"></i>
+                </a>
+                {% endif %}
+              </li>
+            </ul>
+          </div>
+      </div>
+      {% else %}
+      <div class="text-center" style="font-size:16px">No Result Found</div>
+      {% endif %}
+
+      <!-- Accordian Box End -->
+    </div>
+  </section>
+
+
+
+</main>
+<!-- main End -->
+ {% endblock %}
